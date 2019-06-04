@@ -1,0 +1,75 @@
+{% extends 'front/base.html.twig' %}
+
+{% block bodyClass %}page-default page-order{% endblock %}
+
+{% block body %}
+
+<div class="search-wrap">
+    <section class="search-section" style="background-image:url('{{ asset('img/icons/home-search-bg.jpg') }}')">
+        <div class="rellax search-icon"></div>
+        <div class="container">
+            <form class="search-block">
+                <h1 class="search-title" data-aos="fade-up" data-aos-delay="300">
+                    {{ 'form.order.title'|trans }}
+                </h1>
+            </form>
+        </div>
+    </section>
+</div>
+
+<div class="default-wrap search-main-wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-content">
+        <div class="rellax default-icon"></div>
+        <div class="default-content">
+          <!-- Order Info -->
+          {% include 'front/common/order_info_head.html.twig' %}
+          <!-- / -->
+
+          {% include 'front/common/nav_order.html.twig' %}
+
+          <!-- Summary -->
+          <h2 class="order-summary-title"> {{ 'form.order.menu.snippet_payment_confirm' | trans }} <br>{{ 'form.order.menu.snippet_payment_confirm2' | trans }}</h2>
+
+          <div class="order-summary-block">
+            {% include 'front/common/order_info_item.html.twig' %}
+            <a href="{{ path('homepage') }}" class="btn btn-secondary"> {{ 'form.order.menu.btn_return_home' | trans }} </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aside -->
+      <div class="col-md-4 col-aside">
+        <div class="default-aside">
+          <!-- Commitments -->
+          {% include 'front/common/aside_commitments.html.twig' %}
+          <!-- / -->
+
+          <!-- Payment -->
+          {% include 'front/common/aside_payments.html.twig' %}
+          <!-- / -->
+
+          <!-- Contact -->
+          {% include 'front/common/aside_contact.html.twig' %}
+          <!-- / -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block googleAnalytics %}
+
+    <!-- Event snippet for Google conversion -->
+    {% if app.request.query.get("PAYID") %}
+        {% if (app.request.attributes.get('_route') == 'order_callback') %}
+            {% if google_analytics_id and google_conversion_id %}
+                <script> gtag('event', 'conversion', { 'send_to': '{{ google_analytics_id }}/{{ google_conversion_id }}', 'transaction_id': '{{ app.request.query.get("PAYID") }}' }); </script>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
+{% endblock %}

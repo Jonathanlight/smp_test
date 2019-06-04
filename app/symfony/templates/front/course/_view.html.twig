@@ -1,0 +1,181 @@
+{% set remaining = course.quantity - course.confirmed %}
+<div class="search-block {% if remaining > 0 %} {% else %} search-complet-block{% endif %}">
+  <div class="search-content-all-block">
+    <div class="search-content-block">
+      <div class="search-place-block">
+        <div class="search-place-item">
+          <i class="icon-pin-alt"></i>
+          <div>
+            {{ getDistance(course, form.vars.value.latitude, form.vars.value.longitude) }} KM
+          </div>
+        </div>
+        <div class="search-place-item">
+          {% if remaining > 0 and remaining < 6 %}
+            <img src="{{ asset('img/icons/icon-user-purple.svg') }}" alt="PLUS DE POINTS" class="icon-users">
+            <div>
+                <div class="text-primary">{{ 'info.course.remaining_before'|trans }} <br> {{ remaining }} {{ 'info.course.remaining'|transchoice(remaining) }}</div>
+              <br></div>
+          {% else %}
+            <img src="{{ asset('img/icons/icon-user-green.svg') }}" alt="PLUS DE POINTS" class="icon-users">
+            <div>
+                <div class="text-secondary">{{ 'info.course.places'|trans }}</div>
+            <br></div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="search-address-date-block">
+        <div class="search-address-block">
+          <h3 class="search-address-title">{{ course.place.city }} {{ course.place.postalCode }}</h3>
+          <div class="search-address-text">
+            <div>{{ course.place.streetName|capitalize }}</div>
+          </div>
+          <a href="javascript:void(0)" class="link-detail">Plus d’informations</a>
+        </div>
+
+        <div class="search-date-block">
+          <div class="search-date-item">
+            <div class="day"> <strong> {{ course.startOn|localizeddate('none', 'none', 'fr_FR', null, "E") | capitalize }} </strong></div>
+            <div class="number"> <strong> {{ course.startOn|date('d') }} </strong> </div>
+            <div class="month"> <strong> {{ course.startOn|localizeddate('none', 'none', 'fr_FR', null, "MMMM") | capitalize }} </strong> </div>
+          </div>
+          <div class="search-date-item">
+            <div class="day"> <strong> {{ course.endOn|localizeddate('none', 'none', 'fr_FR', null, "E") | capitalize }} </strong> </div>
+            <div class="number"> <strong> {{ course.endOn|date('d') }} </strong> </div>
+            <div class="month"> <strong> {{ course.endOn|localizeddate('none', 'none', 'fr_FR', null, "MMMM") | capitalize }} </strong> </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="search-price-block">
+      <!-- Promo -->
+      {% if (course.place.department and course.amount == getMinPriceByDepartment(course.place.department)) %}
+        {% if course.quantity - course.confirmed != 0 %}
+          <div class="search-promo-text">{{ 'form.search.cheaper_price' | trans }} {{ course.place.postalCode|slice(0,2) }}</div>
+        {% endif %}
+      {% endif %}
+
+      {% if course.originalPrice and course.originalPrice is not same as(course.amount) and course.amount < course.originalPrice %}
+        <div class="search-promo-percentage">-{{ ((1 - (course.amount / course.originalPrice)) * 100)|round }}%</div>
+      {% endif %}
+      <!-- / Promo -->
+
+      <!-- Price -->
+      <div class="search-all-price">
+        <!--  Starting Price Promo -->
+        {% if course.originalPrice and course.originalPrice is not same as(course.amount) and course.amount < course.originalPrice %}
+          <div class="search-promo-starting-price">{{ course.originalPrice }} <sup>€</sup></div>
+        {% endif %}
+        <!--  Starting Price Promo -->
+        <div class="search-price"><div>{{ course.amount }} <sup>€</sup></div></div>
+      </div>
+      <div class="clearfix"></div>
+
+      <!-- Btn -->
+      {%  if remaining > 0 %}
+        <button type="button" class="btn btn-secondary" data-url-purchase="{{ path('api_course_purchase', { id: course.id }) }}">
+          Réserver
+        </button>
+      {% else %}
+        <span class="search-complet">Complet</span>
+      {% endif %}
+    </div>
+
+    <div class="search-detail-block">
+
+      <!-- Link Map -->
+      <a href="http://maps.google.fr/maps?f=q&hl=fr&q={{ course.place.latitude }},{{ course.place.longitude }}" class="link-map" target="_blank">
+        <div class="btn btn-secondary"><i class="zmdi zmdi-plus"></i><span class="sr-only">Voir la carte</span></div>
+      </a>
+
+      <div class="search-detail-info">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="search-detail-item">
+              <div class="search-detail-title">Adresse :</div>
+              <div class="search-detail-text">
+                {{ course.place.streetName|capitalize }}, {{ course.place.postalCode }} {{ course.place.city }}
+              </div>
+            </div>
+            <div class="search-detail-item">
+              <div class="search-detail-title">Horaires :</div>
+              <div class="search-detail-text">
+                <div>
+                  {{ course.startOn|localizeddate('none', 'none', 'fr_FR', null, "E") | capitalize }}
+                  {{ course.startOn|localizeddate('none', 'none', 'fr_FR', null, "d") }}
+                  {{ course.startOn|localizeddate('none', 'none', 'fr_FR', null, "MMMM") | capitalize }}
+                  {{ course.startOn|localizeddate('none', 'none', 'fr_FR', null, "r") }}
+                </div>
+                <div>
+                  de {{ course.startMorningStartAt|date('H') ~'h'~ course.startMorningEndAt|date('i') }}  à
+                  {{ course.startMorningEndAt|date('H') ~'h'~ course.startMorningEndAt|date('i') }}
+                  et {{ course.startAfternoonStartAt|date('H') ~'h'~ course.startAfternoonStartAt|date('i') }} à
+                  {{ course.startAfternoonEndAt|date('H') ~'h'~ course.startAfternoonEndAt|date('i') }}
+                </div>
+                <div>
+                  {{ course.endOn|localizeddate('none', 'none', 'fr_FR', null, "E") | capitalize }}
+                  {{ course.endOn|localizeddate('none', 'none', 'fr_FR', null, "d") }}
+                  {{ course.endOn|localizeddate('none', 'none', 'fr_FR', null, "MMMM") | capitalize }}
+                  {{ course.endOn|localizeddate('none', 'none', 'fr_FR', null, "r") }}
+                </div>
+                <div>
+                  de {{ course.endMorningStartAt|date('H') ~'h'~ course.endMorningStartAt|date('i') }}  à
+                  {{ course.endMorningEndAt|date('H') ~'h'~ course.endMorningEndAt|date('i') }}
+                  et {{ course.endAfternoonStartAt|date('H') ~'h'~ course.endAfternoonStartAt|date('i') }} à
+                  {{ course.endAfternoonEndAt|date('H') ~'h'~ course.endAfternoonEndAt|date('i') }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="search-detail-item">
+              <div class="search-detail-title">Agrément :</div>
+              <div class="search-detail-text">
+                {{ course.center.approvalNumber }}
+              </div>
+            </div>
+            <div class="search-detail-item">
+              <div class="search-detail-title">N° CSSR :</div>
+              <div class="search-detail-text">
+                {{ course.center.code }}
+              </div>
+            </div>
+            {% if course.place.equipments %}
+              <div class="search-detail-item">
+                <div class="search-detail-title">Equipements :</div>
+                <ul class="list-equipement list-inline">
+                  {% for equipment in course.place.equipments %}
+                    {% if equipment == constant('App\\Entity\\place::EQUIPMENT_ACCESS_DISABLED')%}
+                      <li class="list-inline-item"><i class="icon-handicap"></i><span>Accès handicapés</span></li>
+                    {% endif %}
+
+                    {% if equipment == constant('App\\Entity\\place::EQUIPMENT_ACCESS_TRANSPORT')%}
+                      <li class="list-inline-item"><i class="icon-bus"></i><span>Accès transport en commun</span></li>
+                    {% endif %}
+
+                    {% if equipment == constant('App\\Entity\\place::EQUIPMENT_PARKING')%}
+                      <li class="list-inline-item"><i class="icon-toll-parking"></i> <span>Parking</span></li>
+                    {% endif %}
+
+                    {% if equipment == constant('App\\Entity\\place::EQUIPMENT_PARKING_FREE')%}
+                      <li class="list-inline-item"><i class="icon-free-parking"></i><span>Parking gratuit</span></li>
+                    {% endif %}
+
+                    {% if equipment == constant('App\\Entity\\place::EQUIPMENT_RESTAURANT')%}
+                      <li class="list-inline-item"><i class="icon-restaurant"></i><span>Restaurant sur place</span></li>
+                    {% endif %}
+
+                    {% if equipment == constant('App\\Entity\\place::EQUIPMENT_RESTAURANT_NEARBY')%}
+                      <li class="list-inline-item"><i class="icon-restaurant-nearby"></i><span>Restaurant à proximité</span></li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

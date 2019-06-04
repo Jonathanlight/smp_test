@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .mentions { line-height: normal; box-sizing: border-box; padding: 0 10px; line-height: normal; color:black; margin-bottom: 30px;  }
+    .mentions.mentions-xs { font-size: 12px;}
+    .mentions.gris { line-height: normal; color:#ADADAD; text-align: center; }
+    .mentions.gris.small { font-size: 12px}
+
+    .banner { margin: 0 0 10px; }
+    .banner img { display: block; width: 100%; }
+    .page-number { text-align: right; color:#ADADAD; padding-right: 30px;}
+    .empty-space { margin-bottom: 5px;}
+  </style>
+  <script>
+    function subst() {
+      var vars={};
+      var x=document.location.search.substring(1).split('&');
+      for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+      var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+      for(var i in x) {
+        var y = document.getElementsByClassName(x[i]);
+        for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+      }
+    }
+  </script>
+</head>
+<body onload="subst()">
+  <div class="mentions gris small">
+    {{ center.name|capitalize }} - {{ center.shortAddress }} {{ center.postalCode }} {{ center.city }}<br />
+    {{ center.juridiqueForme }} au capital de {{ center.capital }} euros - N° de TVA intracommunautaire : N° {{ center.vatNumber }} <br />
+    SIRET : {{ center.siret }} Au RCS de {{ center.rcs }}  - Code NAF {{ center.apeCode }}
+    <div class="empty-space">&nbsp;</div>
+  </div>
+  {% if pager %}
+    <div class="page-number">Page <span class="page"></span>/<span class="topage"></span></div>
+  {% endif %}
+</body>
+</html>

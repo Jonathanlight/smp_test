@@ -1,0 +1,155 @@
+{% extends 'middle/base.html.twig' %}
+
+{% block body %}
+
+<div class="dashboard-wrap ">
+  <!-- Dashbord SMP  -->
+  {% if not is_granted('ROLE_CSSR') %}
+  <div class=" ">
+    <div class="middle-title-section">
+      <h1 class="middle-default-title"> Tableau de bord </h1>
+    </div>
+
+    <table class="table table-listing table-dashboard ">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Ce jour</th>
+          {% if is_granted('ROLE_SMP') %}
+            <th>J-1</th>
+            <th>M-1</th>
+            <th>M-2</th>
+            <th>N-1</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+      {% for statType in constant('\\App\\Entity\\Statistical::TYPES')  %}
+        <tr>
+          <td>
+              {{ ('stats.row.' ~ statType)|trans|raw }}
+          </td>
+          <td>{{ getStats(statType, null) }}</td>
+            {% if is_granted('ROLE_SMP') %}
+              <td>{{ getStats(statType, "-1days"|date('Y-m-d')) }}</td>
+              <td>{{ getStats(statType, "-1months"|date('Y-m-d')) }}</td>
+              <td>{{ getStats(statType, "-2months"|date('Y-m-d')) }}</td>
+              <td>{{ getStats(statType, "-1years"|date('Y-m-d')) }}</td>
+            {% endif %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <!-- Dashbord CSSR  -->
+  <div class="dashboard-section">
+    <div class="row">
+      <div class="col-lg-6">
+        <!-- Welcome -->
+        <div class="dashboard-block dashboard-welcome-block">
+          <h2 class="dashboard-welcome-title">
+              {{ 'info.dashboard.welcome'|trans }}
+            <strong>Mme/Mr {{ app.user.center.firstName }} {{ app.user.center.lastName }}</strong>
+          </h2>
+          <ul class="list-info-default list-xs list-unstyled">
+            <li>
+              <div class="info-label">Société : </div>
+              <div class="info-detail">{{ app.user.center.name }}</div>
+            </li>
+            <li>
+              <div class="info-label">Référence : </div>
+              <div class="info-detail">{{ app.user.center.code }}</div>
+            </li>
+          </ul>
+          <a href="{{ path('middle_center_edit', { id: app.user.center.id }) }}" class="link-dashboard">Modifier</a>
+        </div>
+
+        <!-- Prochaines sessions -->
+        {% if courses|length %}
+          <div class="dashboard-block dashboard-contact-info-block" id="course-list">
+            <div class="dashboard-title-block">
+              <h2 class="dashboard-title"> {{ 'info.dashboard.course'|trans }} </h2>
+              <a href="{{ path('middle_courses') }}" class="link-dashboard">Voir les sessions</a>
+            </div>
+            <ul class="list-course list-unstyled">
+              {% for course in courses %}
+                <li>
+                  <button type="button" class="btn btn-inscription {% if countRegistered(course, constant('\\App\\Entity\\Order::STATUS_REGISTERED')) > 0 %}pre-inscrit{% else %}no-pointer{% endif %}" data-url-register="{{ path('api_course_orders', {'id': course.id}) }}" data-course-id="{{ course.id }}">
+                    <div class="session-title">
+                      {{ course.place.address }}
+                    </div>
+                    <div class="session-date">
+                        {{ course.startOn|localizeddate('none', 'none', 'fr_FR', null, "cccc dd/MM/yyyy")|capitalize }}
+                    </div>
+                    <ul class="list-session-info list-inline">
+                      <li class="list-inline-item"><strong>Tarif :</strong> {{ course.amount }} €</li>
+                      <li class="list-inline-item">&nbsp;</li>
+                      <li class="list-inline-item"><strong>Pré-inscrit :</strong> {{ countRegistered(course, constant('\\App\\Entity\\Order::STATUS_REGISTERED')) }}</li>
+                      <li class="list-inline-item"><strong>Confirmés :</strong> {{ countConfirmed(course, constant('\\App\\Entity\\Order::STATUS_CONFIRMED')) }}</li>
+                    </ul>
+                    <div class="session-indicator-block">
+                      <img src="{{ asset('img/icons/middle/indicator-course.svg') }}" alt="PLUS DE POINTS" class="session-indicator-img">
+                      {% set registered = countRegistered(course, constant('\\App\\Entity\\Order::STATUS_REGISTERED')) %}
+                      {% if registered > 0 %}
+                        <div class="session-indicator">{{ registered }}</div>
+                      {% endif %}
+                    </div>
+                  </button>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="col-lg-6">
+        <!-- Contact -->
+        <div class="dashboard-block dashboard-contact-block">
+          <img src="{{ asset('img/icons/middle/icon-phone.svg') }}" alt="Contact">
+          <div class="dashboard-content">
+            <div>
+              Pour tout problème,<br> n'hésitez pas à nous contacter :
+            </div>
+            <strong>{{ getParameter('App\\Entity\\Parameter::CODE_PHONE') }}</strong>
+          </div>
+        </div>
+
+        <!-- Inscription -->
+        {% set registered = countAllRegistered(null, constant('\\App\\Entity\\Order::STATUS_REGISTERED'))%}
+        <div class="dashboard-block dashboard-inscription-block">
+          <img src="{{ asset('img/icons/middle/icon-people.svg') }}" alt="Inscription">
+          <div class="dashboard-number">{{ registered }}</div>
+          <div class="dashboard-text">
+              {{ 'dashboard.inscription'|transchoice(registered)|raw }}
+          </div>
+        </div>
+
+        <!-- Tarif -->
+        {% if app.user.center.tarif.type and ((app.user.center.tarif.type is same as(constant('App\\Entity\\Tarif::TYPE_DATE')) and (app.user.center.tarif.isDiscountDateActive)) or (app.user.center.tarif.type is same as(constant('App\\Entity\\Tarif::TYPE_COURSE')) and app.user.center.tarif.remainingCourse > 0)) %}
+          <div class="dashboard-block dashboard-tarif-block">
+            <img src="{{ asset('img/icons/middle/icon-dialog.svg') }}" alt="Tarif">
+            <div class="dashboard-tarif-content">
+              <div class="dashboard-tarif-text">Vous bénéficez actuellement d'un tarif de commission préférentiel :</div>
+              <ul class="list-tarif list-unstyled">
+                {% if app.user.center.tarif.type is same as(constant('App\\Entity\\Tarif::TYPE_DATE')) and app.user.center.tarif.isDiscountDateActive %}
+                  <li>Jusqu'au {{ app.user.center.tarif.endOn|localizeddate('none', 'none', 'fr_FR', null, "cccc dd/MM/yyyy") }} la commission pour tous les stages vendus est {{ app.user.center.tarif.commissionByDate }} €</li>
+                {% endif %}
+                {% if app.user.center.tarif.type is same as(constant('App\\Entity\\Tarif::TYPE_COURSE')) and app.user.center.tarif.remainingCourse > 0 %}
+                  <li>
+                    {{ 'dashboard.tarif.nextCourse'|transchoice(app.user.center.tarif.remainingCourse, {
+                      '%commission%': app.user.center.tarif.commissionByCourse,
+                      '%quantity%': app.user.center.tarif.remainingCourse
+                    }) }}
+                  </li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

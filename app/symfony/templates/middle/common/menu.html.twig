@@ -1,0 +1,145 @@
+<div class="aside-middle-wrap active">
+    <a href="javascript:void(0)" class="link-menu-middle d-none d-sm-none d-md-none d-lg-block">
+        <span class="menu-title">{{ 'menu.title'|trans }}</span>
+        <div class="menu-logo">
+            <span></span>
+        </div>
+    </a>
+    <ul class="middle-main-nav list-unstyled">
+        <li class="{% if app.request.attributes.get('_route') == 'dashboard' %}active{% endif %}">
+            <a href="{{ path('dashboard') }}" >
+                <div class="img img-expanded">
+                    <img src="{{ asset('img/icons/middle/icon-menu-00.svg') }}" alt="{{ 'menu.dashboard'|trans }}">
+                </div>
+                <div class="img img-default" data-toggle="tooltip" title="{{ 'menu.dashboard'|trans }}" data-placement="right">
+                    <img src="{{ asset('img/icons/middle/icon-menu-00.svg') }}" alt="{{ 'menu.dashboard'|trans }}">
+                </div>
+                <span>{{ 'menu.dashboard'|trans }}</span>
+            </a>
+        </li>
+
+            <li class="{% if 'course' in app.request.attributes.get('_route') and app.request.attributes.get('_route') is not same as('middle_course_create') %}active{% endif %}">
+                <a href="{{ path('middle_courses') }}" >
+                    <div class="img img-expanded">
+                        <img src="{{ asset('img/icons/middle/icon-menu-01.svg') }}" alt="{{ 'menu.listStage'|trans }}">
+                    </div>
+                    <div class="img img-default" data-toggle="tooltip" title="{{ 'menu.listStage'|trans }}" data-placement="right">
+                        <img src="{{ asset('img/icons/middle/icon-menu-01.svg') }}" alt="{{ 'menu.listStage'|trans }}">
+                    </div>
+                    <span>{{ 'menu.listStage'|trans }}</span>
+                </a>
+            </li>
+
+            <li class="{% if app.request.attributes.get('_route') == 'middle_course_create' %}active{% endif %}">
+                <a href="{{ path('middle_course_create') }}" >
+                    <div class="img img-expanded">
+                        <img src="{{ asset('img/icons/middle/icon-menu-02.svg') }}" alt="{{ 'menu.addStage'|trans }}">
+                    </div>
+                    <div class="img img-default" data-toggle="tooltip" title="{{ 'menu.addStage'|trans }}" data-placement="right">
+                        <img src="{{ asset('img/icons/middle/icon-menu-02.svg') }}" alt="{{ 'menu.addStage'|trans }}">
+                    </div>
+                    <span>{{ 'menu.addStage'|trans }}</span>
+                </a>
+            </li>
+
+        {% if is_granted(constant('\\App\\Security\\Voter\\CenterVoter::CENTER_EDIT')) %}
+            <li class="{% if app.request.attributes.get('_route') == 'middle_center_create' %}active{% endif %}">
+                <a href="{{ path('middle_center_create') }}" >
+                    <div class="img img-expanded">
+                        <img src="{{ asset('img/icons/middle/icon-menu-08.svg') }}" alt="{{ 'menu.createUser'|trans }}">
+                    </div>
+                    <div class="img img-default" data-toggle="tooltip" title="{{ 'menu.createUser'|trans }}" data-placement="right">
+                        <img src="{{ asset('img/icons/middle/icon-menu-08.svg') }}" alt="{{ 'menu.createUser'|trans }}">
+                    </div>
+                    <span>{{ 'menu.createUser'|trans }}</span>
+                </a>
+            </li>
+        {% endif %}
+
+        {% if is_granted(constant('\\App\\Security\\Voter\\OrderVoter::ORDER_LIST')) %}
+            <li class="{% if 'order' in app.request.attributes.get('_route') or 'trainee' in app.request.attributes.get('_route') %}active{% endif %}">
+                <a href="{{ path('middle_orders') }}">
+                    <div class="img img-expanded">
+                        <img src="{{ asset('img/icons/middle/icon-menu-03.svg') }}" alt="{{ 'menu.listStagiaire'|trans }}">
+                    </div>
+                    <div class="img img-default" data-toggle="tooltip" title="{{ 'menu.listStagiaire'|trans }}" data-placement="right">
+                        <img src="{{ asset('img/icons/middle/icon-menu-03.svg') }}" alt="{{ 'menu.listStagiaire'|trans }}">
+                    </div>
+                    <span>{{ 'menu.listStagiaire'|trans }}</span>
+                </a>
+            </li>
+        {% endif %}
+        {% if app.user and app.user.center %}
+            <li class="{% if app.request.attributes.get('_route') == 'middle_center_view' or app.request.attributes.get('_route') == 'middle_center_edit' %}active{% endif %}">
+                <a href="{{ path('middle_center_view', { id: app.user.center.id }) }}">
+                    <div class="img img-expanded">
+                        <img src="{{ asset('img/icons/middle/icon-menu-04.svg') }}" alt="{{ 'menu.profil'|trans }}">
+                    </div>
+                    <div class="img img-default" data-toggle="tooltip" title="{{ 'menu.profil'|trans }}" data-placement="right">
+                        <img src="{{ asset('img/icons/middle/icon-menu-04.svg') }}" alt="{{ 'menu.profil'|trans }}">
+                    </div>
+                    <span>{{ is_granted('ROLE_CSSR') ? 'menu.profil'|trans : 'menu.profilCSSR'|trans }}</span>
+                </a>
+            </li>
+        {% endif %}
+        <li class="{% if 'place' in app.request.attributes.get('_route') %}active{% endif %}">
+            <a href="{{ path('middle_places') }}" >
+                <div class="img img-expanded">
+                    <img src="{{ asset('img/icons/middle/icon-menu-05.svg') }}" alt="{{ 'menu.placeStage'|trans }}">
+                </div>
+                <div class="img img-default" data-toggle="tooltip" title="{{ 'menu.placeStage'|trans }}" data-placement="right">
+                    <img src="{{ asset('img/icons/middle/icon-menu-05.svg') }}" alt="{{ 'menu.placeStage'|trans }}">
+                </div>
+                <span>{{ 'menu.placeStage'|trans }}</span>
+            </a>
+        </li>
+        <li class="{% if 'animator' in app.request.attributes.get('_route') %}active{% endif %}">
+            <a href="{{ path('middle_animators') }}" >
+                <div class="img img-expanded">
+                    <img src="{{ asset('img/icons/middle/icon-menu-06.svg') }}" alt="{{ 'menu.animator'|trans }}">
+                </div>
+                <div class="img img-default" data-toggle="tooltip" title="{{ 'menu.animator'|trans }}" data-placement="right">
+                    <img src="{{ asset('img/icons/middle/icon-menu-06.svg') }}" alt="{{ 'menu.animator'|trans }}">
+                </div>
+                <span>{{ 'menu.animator'|trans }}</span>
+            </a>
+        </li>
+        <li class="{% if app.request.attributes.get('_route') == 'middle_payments' %}active{% endif %}">
+            <a href="{{ path('middle_payments') }}">
+                <div class="img img-expanded">
+                    <img src="{{ asset('img/icons/middle/icon-menu-07.svg') }}" alt="{{ 'menu.suivisPaiement'|trans }}">
+                </div>
+                <div class="img img-default" data-toggle="tooltip" title="{{ 'menu.suivisPaiement'|trans }}" data-placement="right">
+                    <img src="{{ asset('img/icons/middle/icon-menu-07.svg') }}" alt="PLUS DE POINTS">
+                </div>
+                <span>{{ 'menu.suivisPaiement'|trans }}</span>
+            </a>
+        </li>
+        {% if is_granted(constant('\\App\\Security\\Voter\\ReportingVoter::REPORTING_VIEW')) %}
+            <li class="{% if app.request.attributes.get('_route') == 'middle_reporting_list' %}active{% endif %}">
+                <a href="{{ path('middle_reporting_list') }}">
+                    <div class="img img-expanded">
+                        <img src="{{ asset('img/icons/middle/icon-menu-09.svg') }}" alt="{{ 'menu.export'|trans }}">
+                    </div>
+                    <div class="img img-default" data-toggle="tooltip" title="{{ 'menu.export'|trans }}" data-placement="right">
+                        <img src="{{ asset('img/icons/middle/icon-menu-09.svg') }}" alt="PLUS DE POINTS">
+                    </div>
+                    <span>{{ 'menu.export'|trans }}</span>
+                </a>
+            </li>
+        {% endif %}
+        {% if is_granted(constant('\\App\\Security\\Voter\\AccountingVoter::ACCOUNTING_VIEW')) %}
+        <li class="{% if app.request.attributes.get('_route') == 'middle_accounting_list' %}active{% endif %}">
+            <a href="{{ path('middle_accounting_list') }}">
+                <div class="img img-expanded">
+                    <img src="{{ asset('img/icons/middle/icon-menu-10.svg') }}" alt="{{ 'menu.accounting'|trans }}">
+                </div>
+                <div class="img img-default" data-toggle="tooltip" title="{{ 'menu.accounting'|trans }}" data-placement="right">
+                    <img src="{{ asset('img/icons/middle/icon-menu-10.svg') }}" alt="PLUS DE POINTS">
+                </div>
+                <span>{{ 'menu.accounting'|trans }}</span>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</div>

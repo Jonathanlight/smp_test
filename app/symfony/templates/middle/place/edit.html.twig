@@ -1,0 +1,45 @@
+{% extends 'middle/base.html.twig' %}
+
+{% block body %}
+    <div class=" ">
+        <div class="middle-title-section">
+            <h1 class="middle-default-title">{{ 'info.place.titleEdit'|trans }}</h1>
+        </div>
+
+        <div class="alert alert-success" id="messageFlash" role="alert" style="display: none;"></div>
+
+        {{ form_start(form) }}
+          <div class="add-stage-block">
+              <div class="row">
+                  <div class="col-4">
+                    <div class="form-group">
+                      {{ form_label(form.name) }}
+                      {{ form_widget(form.name, { 'attr': { 'placeholder': 'form.placeholder.name'|trans} }) }}
+                    </div>
+                  </div>
+
+                  <div class="col-4">
+                      {{ form_row(form.address) }}
+                  </div>
+
+                  {% if not is_granted('ROLE_CSSR') and app.user.center is null %}
+                      <div class="col-4">
+                          {{ form_row(form.center) }}
+                      </div>
+                  {% endif %}
+              </div>
+              <div class="row">
+                  <div class="col-12 col-align">
+                      {{ form_row(form.equipments) }}
+                  </div>
+              </div>
+          </div>
+          <div class="add-stage-action-block">
+              <a href="{{ path('middle_places') }}" class="btn btn-primary btn-back">
+                {{ 'form.action.back'|trans }}
+              </a>
+              {{ form_widget(form.submit) }}
+          </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

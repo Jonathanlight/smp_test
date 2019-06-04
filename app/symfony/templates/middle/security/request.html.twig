@@ -1,0 +1,30 @@
+{% extends 'middle/base.html.twig' %}
+
+{% block bodyClass %}page-authentification{% endblock %}
+
+{% block body %}
+
+<div class="authentification-wrap">
+
+    <div class="authentification-form" data-aos="fade-up" data-aos-delay="300">
+
+        <img src="{{ asset('img/plus_de_points.svg') }}" alt="PLUS DE POINTS" class="authentification-logo">
+
+        {% include('middle/common/flashMessage.html.twig') %}
+
+        <div class="authentification-text">
+            Un problème ? <br> Appelez-nous au <a href="tel:{{ getParameter(constant('App\\Entity\\Parameter::CODE_PHONE'))|replace({' ':''}) }}">{{ getParameter(constant('App\\Entity\\Parameter::CODE_PHONE')) }}</a>
+        </div>
+
+        {{ form_start(form, {'action': path('user_request'), 'method': 'POST'}, { attr: { class: 'form-mdp form-auth' } }) }}
+        <div class="form-group form-icon-mail">
+            {{ form_widget(form._username) }}
+        </div>
+
+        <div class="auth-actions">
+            {{ form_widget(form.submit, { 'attr': { 'class': 'btn btn-secondary'}}) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

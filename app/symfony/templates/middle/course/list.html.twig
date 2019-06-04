@@ -1,0 +1,125 @@
+{% extends 'middle/base.html.twig' %}
+
+{% block body %}
+    <div class="list-stage-wrap  ">
+        <div class="middle-title-section">
+            <h1 class="middle-default-title"> {{ 'info.stage.title'|trans }} </h1>
+        </div>
+
+        {{ form_start(form, { attr: { class: 'form-section' } }) }}
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                {{ form_row(form.startOn) }}
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                {{ form_row(form.endOn) }}
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-checkbox-top">
+                                {{ form_row(form.pastCourses) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    {{ form_row(form.submit, { 'attr': { 'class': 'btn btn-secondary btn-full'}}) }}
+                </div>
+            </div>
+        {{ form_end(form) }}
+
+        <p> {{ courses.getTotalItemCount }}
+        {{ 'list.results'|transchoice(courses|length) }}</p>
+
+        <div class="content-listing">
+            <table class="table table-listing" id="course-list">
+                <thead>
+                <tr>
+                    <th>{{ 'info.stage.table.enligne'|trans }}</th>
+                    <th>{{ knp_pagination_sortable(courses, ('info.stage.table.nCSSR'|trans), 'center.code') }}</th>
+                    <th>{{ knp_pagination_sortable(courses, ('info.stage.table.datedebut'|trans), 'startOn') }}</th>
+                    <th >{{ knp_pagination_sortable(courses, ('info.stage.table.lieu'|trans), 'place.city') }}</th>
+                    <th>{{ 'info.stage.table.psychologue'|trans }}</th>
+                    <th>{{ 'info.stage.table.bAFM_BAFCRI'|trans }}</th>
+                    <th style="width:105px">{{ knp_pagination_sortable(courses, ('info.stage.table.pre_inscrits'|trans), 'registered') }}</th>
+                    <th>{{ knp_pagination_sortable(courses, ('info.stage.table.confirmes'|trans), 'confirmed') }} </th>
+                    <th>{{ 'info.stage.table.mon_tarif'|trans }}</th>
+                    <th>{{ 'info.stage.table.leplusbas'|trans }}</th>
+                    <th><span class="sr-only">{{ 'form.action.actions'|trans }}</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% if courses|length %}
+                        {% for course in courses %}
+                            <tr>
+                                <td>
+                                    <div class="btn-switch" {% if not course.center.bic or not course.center.iban %} data-toggle="tooltip" data-placement="top" title="{{ 'info.stage.switch'|trans }}" {% endif %}  >
+                                        <input id="course-{{ course.id }}" type="checkbox" {% if course.enabled == 1 %} checked {% endif %} {% if not course.center.bic or not course.center.iban %} disabled {% endif %}  name="checkbox[checkbox][]" class="slider" data-url-enabled="{{ path('api_course_enable', {'id': course.id}) }}" data-url-disabled="{{ path('api_course_disable', {'id': course.id}) }}" value="{{ course.id }}">
+                                        <label for="course-{{ course.id }}"> </label>
+                                    </div>
+                                </td>
+                                <td>{{ course.center.code }}</td>
+                                <td>{{ course.startOn|date('d-m-Y') }}</td>
+                                <td>{{ course.place.addressWithStreetNumber }}</td>
+                                <td>{{ course.psychologist }}</td>
+                                <td>{{ course.former }}</td>
+                                <td>
+                                    {% if course.registered %}
+                                        <button type="button" class="btn btn-inscription pre-inscrit" data-course-id="{{ course.id }}" data-url-register="{{ path('api_course_orders', {'id': course.id}) }}">
+                                            {{ course.registered }}
+                                        </button>
+                                    {% else %}
+                                        <button type="button" class="btn btn-inscription pre-inscrit none">
+                                            0
+                                        </button>
+                                    {% endif %}
+                                </td>
+                                <td>{{ course.confirmed }}</td>
+                                <td>{{ course.amount }} €</td>
+                                <td class="pre-order" data-course-id="{{ course.id }}">{{ getMinPriceByDepartment(course.place.department) }} €</td>
+                                <td>
+                                    <ul class="list-action list-inline">
+                                        <li class="list-inline-item">
+                                            <a href="{{ path('middle_course', { 'id': course.id }) }}" data-toggle="tooltip" data-placement="top" title="{{ 'form.action.show'|trans }}">
+                                                <i class="icon-file"></i>
+                                                <span class="sr-only">{{ 'form.action.show'|trans }}</span>
+                                            </a>
+                                        </li>
+                                       {% if is_granted(constant('\\App\\Security\\Voter\\CourseVoter::COURSE_EDIT'), course) %}
+                                            <li class="list-inline-item">
+                                                <a href="{{ path('middle_course_edit', { 'id': course.id }) }}" data-toggle="tooltip" data-placement="top" title="{{ 'form.action.edit'|trans }}">
+                                                    <i class="icon-pen"></i>
+                                                    <span class="sr-only">{{ 'form.action.edit'|trans }}</span>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                        {% if is_granted(constant('\\App\\Security\\Voter\\CourseVoter::COURSE_DELETE'), course) %}
+                                            <li class="list-inline-item">
+                                                <a data-delete-url="{{ path('middle_course_delete', { 'id': course.id }) }}" data-toggle="tooltip" data-placement="top" title="{{ 'form.action.delete'|trans }}">
+                                                    <i class="icon-trash"></i>
+                                                    <span class="sr-only">{{ 'form.action.delete'|trans }}</span>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="11">{{ 'list.no.results'|trans }}</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+            <div class="navigation">
+              {{ knp_pagination_render(courses) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends 'middle/base.html.twig' %}
+
+{% block body %}
+<div class="list-stage-wrap  ">
+  <div class="middle-title-section">
+    <h1 class="middle-default-title"> {{ 'info.order.listStagiaire'|trans }} </h1>
+    <form class="head-action-block">
+      <ul class="head-list-action list-inline">
+        <li class="list-inline-item">
+          <div class="btn-group">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{ 'form.action.actions'|trans }}
+            </button>
+            <div class="dropdown-menu dropdown-menu-action">
+              <button type="button" class="dropdown-item" id="order-confirm">
+                {{ 'form.action.confirmed'|trans }}
+              </button>
+              <button type="button" class="dropdown-item" id="order-cancel">
+                {{ 'form.action.annulation'|trans }}
+              </button>
+              {% if not is_granted('ROLE_CSSR') %}
+                <button type="button" class="dropdown-item" id="order-wait">
+                    {{ 'form.action.waiting'|trans }}
+                </button>
+              {% endif %}
+            </div>
+          </div>
+        </li>
+      </ul>
+    </form>
+  </div>
+
+  {{ form_start(form, { attr: { class: 'form-section' } }) }}
+    <div class="row">
+      <div class="col-sm-10">
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="form-group">
+                {{ form_row(form.name) }}
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+                {{ form_row(form.reference) }}
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+                {{ form_row(form.status) }}
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+                {{ form_row(form.startOn) }}
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+                {{ form_row(form.endOn) }}
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-checkbox-top">
+                {{ form_row(form.pastCourses) }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        {{ form_row(form.submit, { 'attr': { 'class': 'btn btn-secondary btn-full'}}) }}
+      </div>
+    </div>
+  {{ form_end(form) }}
+
+
+  <p>{{ orders.getTotalItemCount }} {{ 'list.results'|transchoice(orders|length) }}</p>
+
+  <div>
+    <table class="table table-listing" id="order-list">
+      <thead>
+        <tr>
+          <th><span class="sr-only">{{ 'info.order.validation'|trans }}</span></th>
+          <th>{{ knp_pagination_sortable(orders, ('info.order.ref'|trans), 'reference') }}</th>
+          <th>{{ 'info.order.nom'|trans }}</th>
+          <th>{{ 'info.order.prenom'|trans }}</th>
+          <th>{{ knp_pagination_sortable(orders, ('info.order.dateStage'|trans), 'course.startOn') }}</th>
+          <th>{{ knp_pagination_sortable(orders, ('info.order.lieuStage'|trans), 'course.place.city') }}</th>
+          <th>{{ knp_pagination_sortable(orders, ('info.order.status'|trans), 'status') }}</th>
+          <th><span class="sr-only">{{ 'form.action.actions'|trans }}</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if orders|length %}
+          {% for order in orders %}
+            <tr>
+              <td>
+                {% if order.trainee.reference %}
+                  <div class="form-checkbox">
+                    <input type="checkbox" name="order[]" value="{{ order.id }}" id="order-{{ order.id }}">
+                    <label for="order-{{ order.id }}"><span class="icon"></span></label>
+                  </div>
+                {% endif %}
+              </td>
+              <td>{{ order.trainee.reference }}</td>
+              <td>{{ order.trainee.lastName }}</td>
+              <td>{{ order.trainee.firstName }}</td>
+              <td>{{ order.course.startOn | localizeddate('none', 'none', 'fr_FR', null, "cccc dd/MM/yyyy") | capitalize}}</td>
+              <td>{{ order.course.place.addressWithStreetNumber }}</td>
+              <td>{{ ('info.order.state.' ~ order.status)|trans }}</td>
+              <td>
+                <ul class="list-action list-inline">
+                  <li class="list-inline-item">
+                    <a href="{{ path('middle_order', { 'id': order.id }) }}" data-toggle="tooltip" data-placement="top" title="{{ 'form.action.show'|trans }}">
+                      <i class="icon-file"></i>
+                      <span class="sr-only">{{ 'form.action.show'|trans }}</span>
+                    </a>
+                  </li>
+                  {% if is_granted(constant('App\\Security\\Voter\\OrderVoter::ORDER_TRANSFER'), order) %}
+                    <li class="list-inline-item">
+                      <a href="javascript:void(0)" data-course-id="{{ order.course.id }}" data-url-transfer="{{ path('api_order_transfer', {'id': order.id }) }}" data-toggle="tooltip" data-placement="top" title="{{ 'form.action.transfert'|trans }}">
+                        <i class="icon-d-arrow"></i>
+                        <span class="sr-only">{{ 'form.action.transfert'|trans }}</span>
+                      </a>
+                    </li>
+                  {% endif %}
+                  {% if order.status != constant('App\\Entity\\Order::STATUS_REFUNDED') %}
+                      {% if is_granted(constant('App\\Security\\Voter\\OrderVoter::ORDER_REFUND'), order) %}
+                        <li class="list-inline-item">
+                          <a href="javascript:void(0)" data-url-order="{{ path('api_order_view', { 'id': order.id }) }}" data-url-refund="{{ path('api_order_refund', {'id': order.id }) }}" data-toggle="tooltip" data-placement="top" title="{{ 'form.action.refunded'|trans }}">
+                            <i class="icon-m-rem"></i>
+                            <span class="sr-only">{{ 'form.action.refunded'|trans }}</span>
+                          </a>
+                        </li>
+                      {% endif %}
+                  {% endif %}
+                </ul>
+              </td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="8">{{ 'list.no.results'|trans }}</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+    <div class="navigation">
+      {{ knp_pagination_render(orders) }}
+    </div>
+  </div>
+</div>
+{% endblock %}

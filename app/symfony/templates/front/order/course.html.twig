@@ -1,0 +1,146 @@
+{% extends 'front/base.html.twig' %}
+
+{% block bodyClass %}page-default page-order{% endblock %}
+
+{% block body %}
+
+<div class="search-wrap">
+    <section class="search-section" style="background-image:url('{{ asset('img/icons/home-search-bg.jpg') }}')">
+        <div class="rellax search-icon"></div>
+        <div class="container">
+            <form class="search-block">
+                <h1 class="search-title" data-aos="fade-up" data-aos-delay="300">
+                    {{ 'form.order.title'|trans }}
+                </h1>
+            </form>
+        </div>
+    </section>
+</div>
+
+<div class="default-wrap search-main-wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-content">
+        <div class="rellax default-icon"></div>
+        <div class="default-content">
+          <!-- Order Info -->
+          {% include 'front/common/order_info_head.html.twig' %}
+          {% include 'front/common/order_info_item.html.twig' %}
+          <!-- / -->
+
+            <!-- Nav Order -->
+            {% include 'front/common/nav_order.html.twig' %}
+            <!-- Form Order -->
+
+            {% if not form.vars.valid %}
+                <p class="alert alert-danger"> {{ 'form.submission.error'|trans }} </p>
+            {% endif %}
+
+          <!-- Form Order -->
+          {{ form_start(form) }}
+          <div class="form-order">
+              {{ form_widget(form.courseType) }}
+
+            <!-- Permis -->
+            <div class="form-order-permis">
+              <h3 class="form-order-title"><strong>02</strong> - {{ 'form.order.menu.course'|trans }}</h3>
+              <div class="form-order-text">{{ 'form.step2.snipet'|trans }}</div>
+                {{ form_widget(form.formatDriverLicense) }}
+
+                <div class="form-stages-permis row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for=""><strong>A</strong> - {{ form_label(form.deliveredAt) }} </label>
+                        {{ form_widget(form.deliveredAt, {'attr' : {'data-parent' : 1}}) }}
+                    </div>
+                    <div class="form-select-date">
+                      <label for=""><strong>B</strong> - {{ form_label(form.deliveredOn) }}</label>
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="from-group">
+                            <div class="form-date-group">
+                              {{ form_widget(form.deliveredOn, {'attr' : {'data-parent' : 2}}) }}
+                            </div>
+                            <br>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for=""><strong>C</strong> - {{ form_label(form.driverLicense) }}</label>
+                        {{ form_widget(form.driverLicense, {'attr' : {'data-parent' : 3}}) }}
+                    </div>
+                    <div class="form-select-date">
+                      <label for=""><strong>D</strong> - {{ form_label(form.obtainedOn) }}</label>
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="from-group">
+                            <div class="form-date-group">
+                              {{ form_widget(form.obtainedOn, {'attr' : {'data-parent' : 4} }) }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="row-old-format">
+                      <div class="img-permis-block">
+                        <div class="indicator-permis" data-child="1">A</div>
+                        <div class="indicator-permis" data-child="2">B</div>
+                        <div class="indicator-permis" data-child="3">C</div>
+                        <div class="indicator-permis" data-child="4">D</div>
+                        <img src="{{ asset('img/icons/img-id.svg') }}" alt="PLUS DE POINTS" class="img-permis">
+                      </div>
+                    </div>
+                    <div class="row-new-format">
+                      <div class="indicator-permis" data-child="1">A</div>
+                      <div class="indicator-permis" data-child="2">B</div>
+                      <div class="indicator-permis" data-child="3">C</div>
+                      <div class="indicator-permis" data-child="4">D</div>
+                      <img src="{{ asset('img/icons/img-new-permis-detail.svg') }}" alt="PLUS DE POINTS" class="img-permis">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row row-actions">
+                  <div class="col-sm-8">
+                    <div class="form-checkbox">
+                        {{ form_widget(form.sendDriver) }}
+                        <label class="" for="form_custom_checkboxTest">
+                          <span class="icon"></span>
+                          <span class="label-align">{{ form_label(form.sendDriver) }}</span>
+                        </label>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                      <button type="submit" class="btn btn-secondary btn-next-order" id="submit_step2"> {{ 'form.step2.submit'|trans }} </button>
+                  </div>
+                </div>
+            </div>
+          </div>
+          {{ form_end(form) }}
+        </div>
+      </div>
+
+      <!-- Aside -->
+      <div class="col-md-4 col-aside">
+        <div class="default-aside">
+          <!-- Commitments -->
+          {% include 'front/common/aside_commitments.html.twig' %}
+          <!-- / -->
+
+          <!-- Payment -->
+          {% include 'front/common/aside_payments.html.twig' %}
+          <!-- / -->
+
+          <!-- Contact -->
+          {% include 'front/common/aside_contact.html.twig' %}
+          <!-- / -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,104 @@
+<!-- Order Item  -->
+<div class="order-selected-block">
+  <div class="row">
+    <div class="col-sm-3 col-6">
+      <div class="order-info-block order-place-block">
+        <img src="{{ asset('img/icons/icon-localisation.svg') }}" alt="PLUS DE POINTS" class="order-icon"><br>
+          {{ order.course.place.addressWithoutStreetNumber }}
+      </div>
+      <div class="order-info-block order-price-block d-block d-sm-none">
+        {% if options is defined  %}
+            <div class="order-options-all">
+            {% for option in options %}
+              <div class="order-option-block">
+                <span class="order-option-label">{{ option.name }}</span>
+                <span class="order-option-price">{{ option.amount }} €</span>
+              </div>
+              {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="order-price-ttc-block">
+          <span class="order-p-ttc-label"><span>Total</span> TTC</span>
+          <span class="order-p-ttc-price">{{ order.course.amount }} €</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-6">
+      <div class="order-info-block order-height-block">
+        <img src="{{ asset('img/icons/icon-hours.svg') }}" alt="PLUS DE POINTS" class="order-icon">
+        <div class="order-hours-block">
+          <div class="order-date-block">
+            <div class="order-date">
+                <strong>
+                    {{ order.course.startOn|localizeddate('none', 'none', 'fr_FR', null, "E") }}
+                    {{ order.course.startOn|localizeddate('none', 'none', 'fr_FR', null, "d") }}
+                    {{ order.course.startOn|localizeddate('none', 'none', 'fr_FR', null, "MMM") | capitalize }}
+                    {{ order.course.startOn|localizeddate('none', 'none', 'fr_FR', null, "r") }}
+                </strong>
+            </div>
+            <div class="order-hours">
+              <div class="order-hour">{{ order.course.startMorningStartAt|date('H') ~'h'~ order.course.startMorningStartAt|date('i') }}</div>
+              <div class="order-hour">{{ order.course.startMorningEndAt|date('H') ~'h'~ order.course.startMorningEndAt|date('i') }}</div>
+            </div>
+            <div class="order-hours">
+              <div class="order-hour">{{ order.course.startAfternoonStartAt|date('H') ~'h'~ order.course.startAfternoonStartAt|date('i') }}</div>
+              <div class="order-hour">{{ order.course.startAfternoonEndAt|date('H') ~'h'~ order.course.startAfternoonEndAt|date('i') }}</div>
+            </div>
+          </div>
+          <div class="order-date-block">
+            <div class="order-date">
+                <strong>
+                    {{ order.course.endOn|localizeddate('none', 'none', 'fr_FR', null, "E") }}
+                    {{ order.course.endOn|localizeddate('none', 'none', 'fr_FR', null, "d") }}
+                    {{ order.course.endOn|localizeddate('none', 'none', 'fr_FR', null, "MMM") | capitalize }}
+                    {{ order.course.endOn|localizeddate('none', 'none', 'fr_FR', null, "r") }}
+                </strong>
+            </div>
+            <div class="order-hours">
+              <div class="order-hour">{{ order.course.endMorningStartAt|date('H') ~'h'~ order.course.endMorningStartAt|date('i') }} </div>
+              <div class="order-hour">{{ order.course.endMorningEndAt|date('H') ~'h'~ order.course.endMorningEndAt|date('i') }} </div>
+            </div>
+            <div class="order-hours">
+              <div class="order-hour">{{ order.course.endAfternoonStartAt|date('H') ~'h'~ order.course.endAfternoonStartAt|date('i') }}</div>
+              <div class="order-hour">{{ order.course.endAfternoonEndAt|date('H') ~'h'~ order.course.endAfternoonEndAt|date('i') }}</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-sm-3 col-6 d-none d-sm-block">
+      <div class="order-info-block order-price-block">
+
+          {% if order is defined  %}
+              <div class="order-options-all">
+                  <div class="order-option-block">
+                      <span class="order-option-label order-promo">Prix du stage</span>
+                      <span class="order-option-price">{{ order.course.amount|number_format(2)  }} €</span>
+                  </div>
+                {% for option in order.options|reverse %}
+                  <div class="order-option-block">
+                    <span class="order-option-label">{{ option.name }}</span>
+                    <span class="order-option-price">{{ option.amount|number_format(2) }} €</span>
+                  </div>
+                {% endfor %}
+                {% if order.coupon is not null %}
+                    <div class="order-option-block">
+                      <span class="order-option-label order-promo">Code promo</span>
+                      <span class="order-option-price">- {{ order.coupon.amount|number_format(2) }} €</span>
+                    </div>
+                {% endif %}
+              </div>
+          {% endif %}
+
+          <div class="order-price-ttc-block">
+            <span class="order-p-ttc-label"><span>Total</span> TTC</span>
+            <span class="order-p-ttc-price">
+                {{ order.amount|number_format(2) }} €
+            </span>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

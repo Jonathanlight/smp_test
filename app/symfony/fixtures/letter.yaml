@@ -1,0 +1,155 @@
+App\Entity\Letter:
+    reset_user:
+        content: |
+                    Bonjour,<br><br>
+
+                    Vous avez demandé la réinitialisation du mot de passe. <br>
+                    Veuillez cliquer sur le lien ci-dessous pour être connecté <br>
+                    à votre compte et redéfinir votre mot de passe. <br>
+                    %link% <br>
+                    Ce lien est temporaire ; il expirera au bout d'une heure. <br><br>
+
+                    Plus de Points
+        subject: 'PLUSDEPOINT | Réinitialisation de mot de passe'
+        code: <(App\Entity\Letter::MAIL_USER_RESET)>
+    confirme_commande:
+        content: |
+                     Votre référence stagiaire : %reference% <br><br>
+
+                     Bonjour,<br><br>
+
+                     Nous vous confirmons la bonne réception de votre paiement.<br><br>
+
+                     Votre demande d’inscription au stage commençant le %startOn% à %place% est bien parvenue au
+                     Centre %center%. <br><br>
+
+                     <strong>Dès la validation de votre inscription par le centre, vous recevrez par e-mail votre
+                     convocation vous permettant de vous présenter au stage de récupération de points.</strong> <br><br>
+
+                     Merci de bien vérifier vos courriers indésirables (dossier spam) de votre boîte
+                     de réception.<br><br>
+
+                     Toute l’équipe de plusdepoints.fr vous souhaite une excellente journée.<br><br>
+
+                     Plus de Points
+        subject: 'Confirmation de paiement'
+        code: <(App\Entity\Letter::MAIL_ORDER_PAID)>
+    enabled_course:
+        content: |
+                     Votre référence stagiaire : %reference% <br><br>
+
+                     Bonjour, <br><br>
+
+                     Votre stage a bien été confirmé par le Centre de Sensibilisation
+                     à la Sécurité Routière. <br><br>
+
+                     Vous trouverez en pièce jointe votre convocation que vous devrez
+                     présenter le premier jour du stage. <br><br>
+
+                     Pensez à bien être à l’heure pour le début du stage. Tout retard
+                     sera considéré comme une absence par l’organisateur. <br><br>
+
+                     Toute l’équipe de plusdepoints.fr vous souhaite une
+                     excellente journée. <br><br>
+
+                     Plus de Points
+        subject: 'Confirmation d’inscription au stage'
+        code: <(App\Entity\Letter::MAIL_ORDER_CONFIRMED)>
+    cancelled_course:
+        content: |
+                     Votre référence stagiaire : %reference% <br><br>
+
+                     Bonjour, <br><br>
+
+                     Votre demande d’inscription au stage commençant le %startOn% à %place% a été annulée par le
+                     Centre de %center% . <br><br>
+
+                     Vous pouvez choisir un autre stage au même prix sur notre site <br>
+
+                     www.plusdepoints.fr et nous faire part de votre choix soit par  <br>
+
+                     e-mail (%email%) soit par téléphone au <a href="tel:%mobile%">%mobile%</a> <br>
+
+                     afin que nous transférions votre dossier vers ce nouveau stage. <br><br>
+
+                     Toute l’équipe de plusdepoints.fr vous souhaite une excellente journée.<br><br>
+
+                     Plus de Points
+        subject: 'Annulation de votre demande d’inscription au stage'
+        code: <(App\Entity\Letter::MAIL_COURSE_CANCELLED)>
+    folder_transfert:
+        content: |
+                     Votre référence stagiaire : %reference% <br><br>
+
+                     Bonjour, <br><br>
+
+                     Votre transfert de stage a bien été pris en compte. <br><br>
+
+                     Votre nouvelle demande d’inscription au stage commençant
+                     le %startOn% à %place% est bien parvenue au
+                     Centre de %center% . <br><br>
+
+                     Dès validation de votre inscription par le centre, vous
+                     recevrez par e-mail votre convocation vous permettant de vous présenter au
+                     stage de récupération de points. <br><br>
+
+                     Merci de bien vérifier vos courriers indésirables (dossier spam)
+                     de votre boite de réception. <br><br>
+
+                     Toute l’équipe de plusdepoints.fr vous souhaite une excellente journée. <br><br>
+
+                     Plus de Points
+        subject: 'Transfert de votre demande d’inscription au stage'
+        code: <(App\Entity\Letter::MAIL_TRANSFER_CREATED)>
+    folder_wait:
+        content: |
+                     Bonjour, <br><br>
+
+                     Votre dossier de demande de stage de récupération de point a été mis en attente. <br><br>
+
+                     Vous disposez d’un délai de 1 an à compter de la date d’achat afin de nous
+                     communiquer votre choix pour un autre stage au même prix parmi les
+                     offres proposées sur notre site www.plusdepoints.fr. <br><br>
+                     Faites nous part de votre choix soit par e-mail (%email%) soit
+                     par téléphone au <a href="tel:%mobile%">%mobile%</a> afin que nous transférions votre dossier
+                     vers ce nouveau stage. <br><br>
+
+                     Toute l’équipe de plusdepoints.fr vous souhaite une excellente journée. <br><br>
+
+                     Plus de Points
+        subject: 'Mise en attente de votre dossier'
+        code: <(App\Entity\Letter::MAIL_ORDER_WAITING)>
+    folder_refunded:
+        content: |
+                     Votre référence stagiaire : %reference% <br><br>
+
+                     Bonjour, <br><br>
+
+                     Votre demande de remboursement a bien été enregistrée
+                     auprès de nos services ce jour. <br><br>
+
+                     La carte bancaire que vous avez utilisée pour l’achat
+                     de votre stage sera créditée dans les jours qui viennent. <br><br>
+
+                     Toute l’équipe de plusdepoints.fr vous souhaite une excellente journée. <br><br>
+
+                     Plus de Points
+        subject: 'Remboursement de votre demande de stage'
+        code: <(App\Entity\Letter::MAIL_ORDER_REFUNDED)>
+    rules_info_cssr:
+        content: |
+                     Votre référence CSSR : %refCSSR% <br><br>
+
+                     Bonjour, <br><br>
+
+                     Le paiement des stages échus s'effectue ce jour de nos services et vous verrez
+                     apparaître le montant sur votre compte dans les jours à venir. <br><br>
+
+                     Vous pouvez consulter le détail de ce virement et récupérer vos
+                     factures avec le lien suivant : %link% <br><br>
+
+                     Toute l’équipe de plusdepoints.fr vous souhaite une excellente journée. <br><br>
+
+                     Plus de Points
+        subject: 'Avis de paiement de vos stages'
+        code: <(App\Entity\Letter::MAIL_PAYMENT_RECEIVED)>

@@ -1,0 +1,9 @@
+App\Entity\Option:
+    option1:
+        name: 'Frais de dossier offert'
+        code: <(App\Entity\Option::CODE_APPLICATION_FEE)>
+        amount: <(App\Entity\Option::OPTION_AMOUNT_APPLICATION_FEE)>
+    option2:
+        name: 'Envoi postal'
+        code: <(App\Entity\Option::CODE_SEND_LETTER)>
+        amount: <(App\Entity\Option::OPTION_AMOUNT_SEND_LETTER)>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="65px" height="34px" viewBox="0 0 65 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>Page 1</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="0 34.0586847 65.0133559 34.0586847 65.0133559 0.000447457627 0 0.000447457627"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Homepage---PlusDePoint@2x" transform="translate(-1137.000000, -623.000000)">
+            <g id="Page-1" transform="translate(1137.000000, 623.000000)">
+                <polygon id="Stroke-1" stroke="#22232B" stroke-width="1.6" points="44.6521322 33.1637695 0.895250847 33.1637695 0.895250847 5.59590508 44.6521322 5.59590508 58.6776915 19.3798373"></polygon>
+                <path d="M48.8101322,19.4052305 C48.8101322,19.4052305 48.0226068,-1.26171864 58.6776915,1.07960339 C71.5499288,3.90865424 57.6619627,16.8603153 56.7759966,17.5102475" id="Stroke-3" stroke="#22232B" stroke-width="1.6"></path>
+                <path d="M51.1299763,19.3799492 C51.1299763,20.6686271 50.0851627,21.7134407 48.7964847,21.7134407 C47.5089254,21.7134407 46.4641119,20.6686271 46.4641119,19.3799492 C46.4641119,18.0912712 47.5089254,17.0464576 48.7964847,17.0464576 C50.0851627,17.0464576 51.1299763,18.0912712 51.1299763,19.3799492" id="Fill-5" fill="#22232B"></path>
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="Clip-8"></g>
+                <polygon id="Fill-7" fill="#17E0AB" mask="url(#mask-2)" points="7.33047458 26.602922 38.2352542 26.602922 38.2352542 12.0325831 7.33047458 12.0325831"></polygon>
+                <polygon id="Stroke-9" stroke="#22232B" stroke-width="1.6" mask="url(#mask-2)" points="7.33047458 26.602922 38.2352542 26.602922 38.2352542 12.0325831 7.33047458 12.0325831"></polygon>
+                <polygon id="Fill-10" fill="#22232B" mask="url(#mask-2)" points="10.9101356 17.9188881 30.4897627 17.9188881 30.4897627 15.122278 10.9101356 15.122278"></polygon>
+                <polygon id="Fill-11" fill="#22232B" mask="url(#mask-2)" points="10.9090169 23.5121085 20.9835254 23.5121085 20.9835254 20.7154983 10.9090169 20.7154983"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,6 @@
+App\Entity\Article:
+    article_{1..3}:
+        title: <fr_FR:word()>
+        description: <fr_FR:paragraph(15)>
+        url: '#'
+        date: '<dateTime()>'

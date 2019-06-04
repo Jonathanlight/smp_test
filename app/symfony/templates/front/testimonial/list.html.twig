@@ -1,0 +1,66 @@
+{% extends 'front/base.html.twig' %}
+
+{% set page = constant('App\\Entity\\Page::CODE_TESTIMONIAL')|getPage %}
+{% block title %} {{ page.title }} {% endblock %}
+{% block description %} {{ page.description }} {% endblock %}
+
+{% block bodyClass %}page-default page-cms{% endblock %}
+
+{% block body %}
+<div class="search-wrap">
+  <section class="search-section" style="background-image:url('{{ asset('img/icons/home-search-bg.jpg') }}')">
+    <div class="rellax search-icon"></div>
+    <div class="container">
+      <form class="search-block">
+        <h1 class="search-title" data-aos="fade-up" data-aos-delay="300">{{ 'info.testimonial.title'|trans }}</h1>
+      </form>
+    </div>
+  </section>
+</div>
+<div class="default-wrap cms-wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-content">
+        <div class="default-content">
+          <h2 class="faq-title">{{ 'info.testimonial.title'|trans }}</h2>
+            {% for testimonial in testimonials %}
+              <div class="testimonials-block testimonial-page-block">
+                <div class="testimonials-id">
+                    {% if testimonial.civility == constant('App\\Entity\\Trainee::GENDER_MALE') %}
+                        <div class="testimonials-img" style="background-image:url('{{ asset('img/icons/man.svg') }}')"></div>
+                    {% elseif testimonial.civility == constant('App\\Entity\\Trainee::GENDER_FEMALE') %}
+                        <div class="testimonials-img" style="background-image:url('{{ asset('img/icons/woman.svg') }}')"></div>
+                    {% endif %}
+                  <div class="testimonials-id-content">
+                    <h3 class="testimonials-name">{{ testimonial.firstName }}</h3>
+                    <div class="testimonials-place">{{ testimonial.description }}</div>
+                  </div>
+                </div>
+                <div class="testimonials-text">{{ testimonial.content|striptags|raw }}</div>
+              </div>
+            {% endfor %}
+        </div>
+      </div>
+
+      <!-- Aside -->
+      <div class="col-md-4 col-aside">
+        <div class="default-aside">
+
+          <!-- Engagement -->
+          {% include 'front/common/aside_commitments.html.twig' %}
+          <!-- / -->
+
+          <!-- Payment -->
+
+          {% include 'front/common/aside_payments.html.twig' %}
+          <!-- / -->
+
+          <!-- Contact -->
+          {% include 'front/common/aside_contact.html.twig' %}
+          <!-- / -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

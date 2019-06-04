@@ -1,0 +1,74 @@
+{% extends 'middle/base.html.twig' %}
+
+{% block body %}
+<div class="list-stage-wrap  ">
+    <div class="middle-title-section">
+        <h1 class="middle-default-title"> {{ 'info.animator.listAnimator'|trans }}</h1>
+        <div class="head-action-block">
+          <ul class="head-list-action list-inline">
+            <li class="list-inline-item">
+              <a class="btn btn-secondary" href="{{ path('middle_animator_create') }}">{{ 'info.animator.creat'|trans }}</a>
+            </li>
+          </ul>
+        </div>
+    </div>
+
+    <p> {{ animators.getTotalItemCount }}
+    {{ 'list.results'|transchoice(animators|length) }}</p>
+
+    {{ form_start(form) }} {{ form_end(form) }}
+
+    <div class="content-listing">
+        <table class="table table-listing">
+            <thead>
+                <tr>
+                    <th>{{ knp_pagination_sortable(animators, ('info.animator.lastname'|trans), 'lastName') }}</th>
+                    <th>{{ knp_pagination_sortable(animators, ('info.animator.firstname'|trans), 'firstName') }}</th>
+                    <th>{{ 'info.animator.phoneNumber'|trans }}</th>
+                    <th>{{ knp_pagination_sortable(animators, ('info.animator.diplome'|trans), 'degree') }}</th>
+                    <th colspan="2"><span class="sr-only">{{ 'form.action.actions'|trans }}</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if animators|length %}
+                    {% for animator in animators %}
+                        <tr>
+                            <td>{{ animator.lastName }}</td>
+                            <td>{{ animator.firstName }}</td>
+                            <td>{{ animator.mobile ? animator.mobile : animator.phone }}</td>
+                            <td>{{ ('info.stage.' ~ animator.degree)|trans }}</td>
+                            <td>
+                                <ul class="list-action list-inline">
+                                    {% if is_granted(constant('\\App\\Security\\Voter\\AnimatorVoter::ANIMATOR_EDIT')) %}
+                                        <li class="list-inline-item">
+                                            <a href="{{ path('middle_animator_edit', { 'id': animator.id }) }}" data-toggle="tooltip" data-placement="top" title="Editer">
+                                                <i class="icon-pen"></i>
+                                                <span class="sr-only">{{ 'form.action.edit'|trans }}</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if is_granted(constant('\\App\\Security\\Voter\\AnimatorVoter::ANIMATOR_DELETE')) %}
+                                        <li class="list-inline-item">
+                                            <a data-delete-url="{{ path('animator_delete', { 'id': animator.id }) }}" data-toggle="tooltip" data-placement="top" title="Supprimer">
+                                                <i class="icon-trash"></i>
+                                                <span class="sr-only">{{ 'form.action.delete'|trans }}</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5">{{ 'list.no.results'|trans }}</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        <div class="navigation">
+            {{ knp_pagination_render(animators) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

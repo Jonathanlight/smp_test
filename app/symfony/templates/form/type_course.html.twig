@@ -1,0 +1,134 @@
+{% block _order_courseType_widget %}
+    {% spaceless %}
+        <div class="form-order-stage">
+            <h3 class="form-order-title"> <strong>02</strong> - Mon stage </h3>
+            <div class="form-order-stage-content">
+
+                {% if expanded %}
+                    {% for child in form %}
+                        {% if loop.index == 1 %}
+                            <div class="form-radio">
+                                {% if (form.vars.value == constant('App\\Entity\\Trainee::TYPE_VOLUNTARY')) %}
+                                    {% set checked = 'checked'  %}
+                                {% else %}
+                                    {% set checked = ''  %}
+                                {% endif %}
+
+                                {{ form_widget(child, {'id' : 'form_radio_stage_1',  'attr' : {'class' : 'tunel_reservation', 'checked' :  checked }} ) }}
+                                <label for="form_radio_stage_1">
+                                    <span class="icon"></span>
+                                    <span class="label-align">
+                                        <div class="label-number">01 /</div>
+                                        <div class="label-text"> {{ 'form.step2.course_type1'|trans }} </div>
+                                    </span>
+                                </label>
+                                <div class="form-radio-content">
+                                    <div class="form-point">
+                                        <div class="form-point-first">{{ 'form.step2.snipet2'|trans }}</div>
+                                        <div class="form-select-arrow">
+                                            <div>
+                                                {{ form_widget(form.parent.driverPoint) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-point-second">{{ 'form.step2.snipet3'|trans }}</div>
+                                    </div>
+                                    <div class="form-checkbox">
+                                        {{ form_widget(form.parent.driverPointUnknown) }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% elseif loop.index == 2 %}
+                            <div class="form-radio">
+                                {% if (form.vars.value == constant('App\\Entity\\Trainee::TYPE_REQUIRED')) %}
+                                    {% set checked = 'checked'  %}
+                                {% else %}
+                                    {% set checked = ''  %}
+                                {% endif %}
+
+                                {{ form_widget(child, {'id' : 'form_radio_stage_2', 'attr' : {'class' : 'tunel_reservation', 'checked' :  checked } }) }}
+
+                                <label for="form_radio_stage_2">
+                                    <span class="icon"></span>
+                                    <span class="label-align">
+                                        <div class="label-number">02 /</div>
+                                        <div class="label-text">{{ 'form.step2.course_type2'|trans }}</div>
+                                    </span>
+                                </label>
+                                <div class="form-radio-content form-48N">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                {{ form_row(form.parent.placeInfraction) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-5 col-6">
+                                            <div class="form-group">
+                                                {{ form_row(form.parent.datePlaceInfraction) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4 col-6">
+                                            <div class="form-group">
+                                                {{ form_row(form.parent.hourPlaceInfraction) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% elseif loop.index == 3 %}
+                            <div class="form-radio">
+                                {% if (form.vars.value == constant('App\\Entity\\Trainee::TYPE_JUDICIAL')) %}
+                                    {% set checked = 'checked'  %}
+                                {% else %}
+                                    {% set checked = ''  %}
+                                {% endif %}
+
+                                {{ form_widget(child, {'id' : 'form_radio_stage_3', 'attr' : {'class' : 'tunel_reservation', 'checked' :  checked } }) }}
+                                <label for="form_radio_stage_3">
+                                    <span class="icon"></span>
+                                    <span class="label-align">
+                                      <div class="label-number">03 /</div>
+                                      <div class="label-text">{{ 'form.step2.course_type3'|trans }}</div>
+                                    </span>
+                                </label>
+                                <div class="form-radio-content">
+                                    <div class="alert alert-primary">
+                                        {{ 'form.step2.snipet4'|trans }} <br>
+                                        {{ 'form.step2.snipet5'|trans }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% elseif loop.index == 4 %}
+                            <div class="form-radio">
+                                {% if (form.vars.value == constant('App\\Entity\\Trainee::TYPE_SENTENCE')) %}
+                                    {% set checked = 'checked'  %}
+                                {% else %}
+                                    {% set checked = ''  %}
+                                {% endif %}
+
+                                {{ form_widget(child, {'id' : 'form_radio_stage_4', 'attr' : {'class' : 'tunel_reservation', 'checked' :  checked} }) }}
+                                <label for="form_radio_stage_4">
+                                    <span class="icon"></span>
+                                    <span class="label-align">
+                                      <div class="label-number">04 /</div>
+                                      <div class="label-text">{{ 'form.step2.course_type4'|trans }} </div>
+                                    </span>
+                                </label>
+                                <div class="form-radio-content">
+                                    <div class="alert alert-primary">
+                                        {{ 'form.step2.snipet6'|trans }} <br>
+                                        {{ 'form.step2.snipet5'|trans }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {{ block('choice_widget') }}
+                {% endif %}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock %}

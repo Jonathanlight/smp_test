@@ -1,0 +1,55 @@
+{% extends 'front/base.html.twig' %}
+
+{% block title %} {{ page.title }} {% endblock %}
+{% block description %} {{ page.description }} {% endblock %}
+
+{% block bodyClass %}page-default page-cms{% endblock %}
+
+{% block body %}
+<div class="search-wrap">
+  <section class="search-section" style="background-image:url('{{ asset('img/icons/home-search-bg.jpg') }}')">
+    <div class="rellax search-icon"></div>
+    <div class="container">
+      <form class="search-block">
+        <h1 class="search-title" data-aos="fade-up" data-aos-delay="300"> {{ page.title }}</h1>
+      </form>
+    </div>
+  </section>
+</div>
+<div class="default-wrap cms-wrap">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-8 col-content">
+      {% for block in page.blocks %}
+          <div class="default-content">
+            <h2 class="faq-title"> {{ block.title }} </h2>
+            <div class="list-faq">
+              {{ block.content|raw }}
+            </div>
+          </div>
+      {% endfor %}
+      </div>
+
+      <!-- Aside -->
+      <div class="col-md-4 col-aside">
+        <div class="default-aside">
+
+          <!-- Engagement -->
+          {% include 'front/common/aside_commitments.html.twig' %}
+          <!-- / -->
+
+          <!-- Payment -->
+
+          {% include 'front/common/aside_payments.html.twig' %}
+          <!-- / -->
+
+          <!-- Contact -->
+          {% include 'front/common/aside_contact.html.twig' %}
+          <!-- / -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

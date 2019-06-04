@@ -1,0 +1,19 @@
+App\Entity\Center:
+    center:
+        code: 'centre'
+        firstName: <firstName()>
+        lastName: <lastName()>
+        email: <email()>
+        mobile: <fr_FR:phoneNumber()>
+        phone: <fr_FR:phoneNumber()>
+        name: <fr_FR:word()>
+        city: <fr_FR:city()>
+        address: <fr_FR:address()>
+        country: <fr_FR:country()>
+        department: <fr_FR:departmentName()>
+        latitude: <latitude()>
+        longitude: <longitude()>
+        postal_code: <fr_FR:postcode()>
+        region: <fr_FR:region()>
+        street_name: <fr_FR:streetName()>
+        street_number: <numberBetween(1,100)>

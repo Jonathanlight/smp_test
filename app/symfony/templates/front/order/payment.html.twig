@@ -1,0 +1,146 @@
+{% extends 'front/base.html.twig' %}
+
+{% block bodyClass %}page-default page-order{% endblock %}
+
+{% block body %}
+    {% include('middle/common/flashMessage.html.twig') %}
+
+<div class="search-wrap">
+    <section class="search-section" style="background-image:url('{{ asset('img/icons/home-search-bg.jpg') }}')">
+        <div class="rellax search-icon"></div>
+        <div class="container">
+            <form class="search-block">
+                <h1 class="search-title" data-aos="fade-up" data-aos-delay="300">
+                    {{ 'form.order.title'|trans }}
+                </h1>
+            </form>
+        </div>
+    </section>
+</div>
+
+    <div class="default-wrap search-main-wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-content">
+                    <div class="rellax default-icon"></div>
+                    <div class="default-content">
+                        <!-- Order Info -->
+                        {% include 'front/common/order_info_head.html.twig' %}
+                        {% include 'front/common/order_info_item.html.twig' %}
+                        <!-- / -->
+
+                        <!-- Nav Order -->
+                        {% include 'front/common/nav_order.html.twig' %}
+                        <!-- Form Order -->
+
+                        <div class="order-payment-section">
+
+                            {% include('middle/common/flashMessage.html.twig') %}
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    {{ form_start(formCodePromo)}}
+                                        <div class="order-payment-block order-code-block" >
+                                            <h3 class="order-payment-title order-payment-code-title ">Code Promotionnel</h3>
+                                            <div class="order-payment-promo">
+                                                <div class="form-group">
+                                                    <label for="">{{ 'form.step3.snipet_code_promo'|trans }}</label>
+
+                                                    {{ form_widget(formCodePromo.codePromo, {'class':'form-control' }) }}
+                                                </div>
+                                                <button type="submit" class="btn btn-secondary">OK</button>
+                                            </div>
+                                            {% if (error is not empty) and (formCodePromo.codePromo.vars.value is not empty) %}
+                                                <div class="alert alert-danger">
+                                                    {{ 'form.step3.codeNotValide'|trans }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    {{ form_end(formCodePromo) }}
+                                </div>
+                                <div class="col-sm-6">
+                                    {{ form_start(form, {'action': ogone_url, 'name': 'form1', 'attr' : {'id' : 'form1'} }) }}
+                                    <div class="order-payment-block">
+                                        <div class="order-payment-title-box">
+                                            <div class="order-payment-title">Prix total</div>
+                                            <div class="order-payment-price">{{ order.amount }} €</div>
+                                        </div>
+
+                                        {% if (order.course.amount is defined) %}
+                                            <div class="order-options-all">
+                                                <div class="order-option-block">
+                                                    <span class="order-option-label order-promo">Prix du stage</span>
+                                                    <span class="order-option-price">{{ order.course.amount|number_format(2)  }} €</span>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+
+                                        {% if order.options is not empty %}
+                                            <div class="order-options-all">
+                                                {% for option in order.options %}
+                                                    {% if option.code == constant('App\\Entity\\Option::CODE_SEND_LETTER') %}
+                                                        <div class="order-option-block">
+                                                            <span class="order-option-label">{{ option.name }}</span>
+                                                            <span class="order-option-price">{{ option.amount|number_format(2) }} €</span>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+
+                                        <div class="order-options-all">
+                                            <div class="order-option-block">
+                                                <span class="order-option-label">{{ 'form.step3.shipping'|trans }}</span>
+                                                <span class="order-option-price order-promo order-old-price">{{ 'form.step3.price'|trans }}<div class="tag-pourcentage">{{ 'form.step3.soldes'|trans }}</div></span>
+                                                <div class="clearfix"></div>
+                                                <span class="order-option-price order-promo">{{ constant('App\\Entity\\Option::OPTION_AMOUNT_APPLICATION_FEE') }} €</span>
+                                            </div>
+                                        </div>
+
+                                        {% if (order.coupon.id is defined) and (order.coupon.id is not null) %}
+                                            <div class="order-options-all">
+                                                <div class="order-option-block">
+                                                    <span class="order-option-label order-promo">Code promo</span>
+                                                    <span class="order-option-price">- {{ order.coupon.amount|number_format(2) }} €</span>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+
+                                        <div class="form-group">
+                                          <div class="form-checkbox">
+                                            <input type="checkbox" id="order_promo" value="1">
+                                            <label for="order_promo"><span class="icon"></span>
+                                              <span class="label-align label-left-align">{{ 'form.step3.cgv'|trans }}<a href="/" data-toggle="modal" data-target="#orderCgv">{{ 'form.step3.cgv2'|trans }}</a></span></label>
+                                          </div>
+                                        </div>
+
+                                        {{ form_row(form.submit, {'attr' : {'class' : 'btn btn-secondary btn-next-order'}}) }}
+                                    </div>
+
+                                    {{ form_end(form) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aside -->
+                <div class="col-md-4 col-aside">
+                    <div class="default-aside">
+                        <!-- Commitments -->
+                        {% include 'front/common/aside_commitments.html.twig' %}
+                        <!-- / -->
+
+                        <!-- Payment -->
+                        {% include 'front/common/aside_payments.html.twig' %}
+                        <!-- / -->
+
+                        <!-- Contact -->
+                        {% include 'front/common/aside_contact.html.twig' %}
+                        <!-- / -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

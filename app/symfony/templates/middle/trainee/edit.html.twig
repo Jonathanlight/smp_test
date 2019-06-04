@@ -1,0 +1,156 @@
+{% extends 'middle/base.html.twig' %}
+
+{% block body %}
+    <div class=" ">
+        <div class="middle-title-section">
+            <h1 class="middle-default-title"> {{ trainee < 1 ? 'info.order.addStagiaire'|trans : 'form.action.edit'|trans }} </h1>
+        </div>
+
+
+        {{ form_start(form) }}
+          <div class="add-stage-block">
+              <h3 class="middle-default-alt-title">{{ 'info.order.coordonnee'|trans }}</h3>
+              <div class="row">
+                  <div class="col-sm-4">
+                      <div class="form-group">
+                          {{ form_label(form.firstName) }}
+                          {{ form_errors(form.firstName) }}
+                          {{ form_widget(form.firstName) }}
+                      </div>
+                  </div>
+                  <div class="col-sm-4">
+                      <div class="form-group">
+                          {{ form_label(form.lastName) }}
+                          {{ form_errors(form.lastName) }}
+                          {{ form_widget(form.lastName) }}
+                      </div>
+                  </div>
+                  <div class="col-sm-4">
+                      <div class="form-group">
+                          {{ form_label(form.email) }}
+                          {{ form_errors(form.email) }}
+                          {{ form_widget(form.email) }}
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-4">
+                      <div class="form-group">
+                          {{ form_label(form.phone) }}
+                          {{ form_errors(form.phone) }}
+                          {{ form_widget(form.phone) }}
+                      </div>
+                  </div>
+                  <div class="col-sm-4">
+                      <div class="form-group">
+                          {{ form_label(form.placeBirth) }}
+                          {{ form_errors(form.placeBirth) }}
+                          {{ form_widget(form.placeBirth) }}
+                      </div>
+                  </div>
+                  <div class="col-sm-4">
+                      <div class="form-group">
+                          {{ form_label(form.dateBirth) }}
+                          {{ form_errors(form.dateBirth) }}
+                          {{ form_widget(form.dateBirth) }}
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-4">
+                      <div class="form-group">
+                          {{ form_label(form.address) }}
+                          {{ form_errors(form.address) }}
+                          {{ form_widget(form.address) }}
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+        <div class="add-stage-block">
+            <h3 class="middle-default-alt-title">{{ 'info.order.permis'|trans }}</h3>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {{ form_label(form.courseType) }}
+                        {{ form_errors(form.courseType) }}
+                        {{ form_widget(form.courseType) }}
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {{ form_label(form.driverLicense) }}
+                        {{ form_errors(form.driverLicense) }}
+                        {{ form_widget(form.driverLicense) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {{ form_label(form.deliveredAt) }}
+                        {{ form_errors(form.deliveredAt) }}
+                        {{ form_widget(form.deliveredAt) }}
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {{ form_label(form.deliveredOn) }}
+                        {{ form_errors(form.deliveredOn) }}
+                        {{ form_widget(form.deliveredOn) }}
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {{ form_label(form.obtainedOn) }}
+                        {{ form_errors(form.obtainedOn) }}
+                        {{ form_widget(form.obtainedOn) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="add-stage-block" id="infraction" style="display: none;">
+            <h3 class="middle-default-alt-title">Infraction</h3>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {{ form_label(form.placeInfraction) }}
+                        {{ form_errors(form.placeInfraction) }}
+                        {{ form_widget(form.placeInfraction) }}
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {{ form_label(form.datePlaceInfraction) }}
+                        {{ form_errors(form.datePlaceInfraction) }}
+                        {{ form_widget(form.datePlaceInfraction) }}
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {{ form_label(form.hourPlaceInfraction) }}
+                        {{ form_errors(form.hourPlaceInfraction) }}
+                        {{ form_widget(form.hourPlaceInfraction) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if is_granted('ROLE_SMP') or is_granted('ROLE_CONSULTANT') %}
+        <div class="add-stage-block" id="infraction">
+            <div class="row">
+                <div class="col-sm-8">
+                  <h3 class="middle-default-alt-title">{{ form_label(form.comment) }}</h3>
+                    {{ form_widget(form.comment) }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="add-stage-action-block">
+            {{ form_widget(form.submit) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

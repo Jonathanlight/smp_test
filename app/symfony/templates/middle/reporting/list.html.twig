@@ -1,0 +1,47 @@
+{% extends 'middle/base.html.twig' %}
+
+{% block body %}
+    <div class=" ">
+        <div class="middle-title-section">
+            <h1 class="middle-default-title">{{ 'info.export.title'|trans }}</h1>
+        </div>
+
+        {{ form_start(form, { attr: { class: 'form-section' } }) }}
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            {{ form_row(form.startOn) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            {{ form_row(form.endOn) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+
+        <div class="detail-default-block detail-reporting-block">
+            {% if is_granted(constant('\\App\\Security\\Voter\\ReportingVoter::REPORTING_ORDER')) %}
+                <div class="reporting-block">
+                    <div class="reporting-title">{{ 'info.reporting.course'|trans }}</div>
+                    <button type="button" data-reporting-url="{{ path('middle_reporting_order') }}" class="btn btn-secondary">
+                        {{ 'info.payment.download'|trans }}
+                    </button>
+                </div>
+            {% endif %}
+            {% if is_granted(constant('\\App\\Security\\Voter\\ReportingVoter::REPORTING_CENTER')) %}
+                <div class="reporting-block">
+                    <div class="reporting-title">{{ 'info.reporting.cssr'|trans }}</div>
+                    <button type="button" data-reporting-url="{{ path('middle_reporting_center', {'id' : app.user.center.id }) }}" class="btn btn-secondary">
+                        {{ 'info.payment.download'|trans }}
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

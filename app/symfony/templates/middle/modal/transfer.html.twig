@@ -1,0 +1,44 @@
+<!-- Modal -->
+<div class="modal fade" id="modal-transfer" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitleTransferredInscriptionLabel"><span>Transférer</span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="zmdi zmdi-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="transfer-no-center" class="alert alert-info" style="display: none;">
+          Aucun centre ne dispose d'un stage au même prix.
+        </div>
+        <div id="transfer-no-place" class="alert alert-info" style="display: none;">
+          Aucun autre stage disponible.
+        </div>
+        <form id="transfer-form">
+          {% if not is_granted('ROLE_CSSR') %}
+            <div class="form-group">
+              <label for="">Avec (CSSR) :</label>
+              <div class="form-select form-select-modal">
+                <select id="transfer-center" data-url="{{ path('api_center_lists') }}" class="form-control">
+                </select>
+              </div>
+            </div>
+          {% endif %}
+          <div class="form-group">
+            <label class="control-label required" for="">Transférer sur :</label>
+            <div class="form-select">
+              <select id="transfer-place" class="form-control">
+              </select>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button type="submit" class="btn btn-secondary btn-sm" id="modal-order-transfer" {% if not is_granted('ROLE_CSSR') %}disabled{% endif %}>
+              Confirmer
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

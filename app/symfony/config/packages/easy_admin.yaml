@@ -1,0 +1,383 @@
+easy_admin:
+    site_name: 'Plusdepoints'
+    translation_domain: 'admin'
+    formats:
+        datetime: 'd/m/Y à H\hi e'
+        date: 'd/m/Y'
+        time: 'H\hi e'
+    show:
+        actions: ['-delete']
+    edit:
+        actions: ['-delete']
+    user:
+        display_name: true
+        display_avatar: false
+        name_property_path: 'username'
+    design:
+        brand_color: '#6A6EE6'
+        menu:
+          - label: 'admin.menu.core'
+            icon: 'cogs'
+            children:
+              - Parameter
+          - label: 'admin.menu.cms'
+            icon: 'sticky-note'
+            children:
+              - Page
+              - Article
+              - Snippet
+              - Block
+              - Faq
+              - Letter
+              - Condition
+              - Testimonial
+          - label: 'admin.menu.shop'
+            icon: 'shopping-cart'
+            children:
+              - Coupon
+          - label: 'admin.menu.community'
+            icon: 'users'
+            children:
+              - User
+          - label: 'admin.menu.app'
+            icon: 'desktop'
+            children:
+              - Center
+              - Course
+              - Submission
+        assets:
+            favicon: 'img/favicons/favicon.ico'
+            js:
+              - 'js/middle/main.min.js'
+              - 'https://maps.googleapis.com/maps/api/js?key=%env(API_GOOGLE_KEY)%&libraries=places&callback=loadGoogleApi'
+    entities:
+        Parameter:
+            class: App\Entity\Parameter
+            disabled_actions: ['new']
+            label: 'Paramètres'
+            list:
+                title: 'Paramètres'
+                fields:
+                  - id
+                  - code
+                  - { property: 'value', label: 'Valeur' }
+            form:
+                title: 'Paramètre (#%%entity_id%%)'
+                fields:
+                  - { property: 'value', label: 'Valeur' }
+
+        Page:
+            class: App\Entity\Page
+            disabled_actions: ['new', 'delete']
+            label: 'Pages'
+            list:
+                title: 'Pages'
+                fields:
+                  - id
+                  - code
+                  - { property: 'title', label: 'Titre' }
+            form:
+                title: 'Page (#%%entity_id%%)'
+                fields:
+                  - { property: 'title', label: 'Titre' }
+                  - description
+                  - { property: 'image', type: 'vich_image' }
+
+        Article:
+            class: App\Entity\Article
+            label: 'Articles'
+            list:
+                title: 'Articles'
+                fields:
+                  - id
+                  - { property: 'title', label: 'Titre' }
+                  - { property: 'url', label: 'Lien' }
+            form:
+                title: 'Article (#%%entity_id%%)'
+                fields:
+                  - { property: 'title', label: 'Titre' }
+                  - description
+                  - date
+                  - { property: 'url', label: 'Lien' }
+                  - { property: 'image', type: 'vich_image' }
+            new:
+                title: 'Nouvel article'
+
+        Snippet:
+            class: App\Entity\Snippet
+            label: 'Fragments'
+            disabled_actions: ['new', 'delete']
+            list:
+                title: 'Fragments'
+                fields:
+                  - id
+                  - code
+                  - { property: 'title', label: 'Titre' }
+                  - { property: 'url', label: 'Lien' }
+            form:
+                title: 'Fragment (#%%entity_id%%)'
+                fields:
+                  - { property: 'title', label: 'Titre' }
+                  - { property: 'content', label: 'Contenu', type: 'fos_ckeditor' }
+                  - { property: 'url', label: 'Lien' }
+
+        Block:
+            class: App\Entity\Block
+            label: 'Blocs'
+            form:
+                title: 'Bloc (#%%entity_id%%)'
+                fields:
+                  - { property: 'title', label: 'Titre' }
+                  - { property: 'content', label: 'Contenu', type: 'fos_ckeditor' }
+                  - page
+            list:
+                title: 'Blocs'
+                fields:
+                  - id
+                  - { property: 'title', label: 'Titre' }
+                  - page
+            new:
+                title: 'Nouveau bloc'
+
+        Faq:
+            class: App\Entity\Faq
+            label: 'FAQ'
+            form:
+                title: 'Q&R (#%%entity_id%%)'
+                fields:
+                  - question
+                  - { property: 'answer', label: 'Réponse', type: 'fos_ckeditor' }
+            list:
+                title: 'FAQ'
+                fields:
+                  - id
+                  - question
+            new:
+                title: 'Nouvelle Q&R'
+
+        Letter:
+            class: App\Entity\Letter
+            disabled_actions: ['new', 'delete']
+            label: 'Courriers'
+            form:
+                title: 'Courrier (#%%entity_id%%)'
+                fields:
+                  - { property: 'subject', label: 'Objet' }
+                  - { property: 'content', label: 'Contenu', type: 'fos_ckeditor' }
+            list:
+                title: 'Courriers'
+                fields:
+                  - id
+                  - code
+                  - { property: 'subject', label: 'Objet' }
+
+        Condition:
+            class: App\Entity\Condition
+            controller: App\Controller\Admin\ConditionController
+            disabled_actions: ['delete']
+            label: 'Conditions'
+            form:
+                title: 'Condition (#%%entity_id%%)'
+                fields:
+                  - { property: 'title', label: 'Titre' }
+                  - { property: 'content', label: 'Contenu', type: 'fos_ckeditor' } 
+                  - { property: 'enabled', label: 'Actif' }
+            list:
+                title: 'Conditions'
+                fields:
+                  - id
+                  - { property: 'title', label: 'Titre' }
+                  - { property: 'publishedAt', label: 'Publié le' }
+                  - { property: 'enabled', label: 'Actif', type: 'boolean' }
+            new:
+                title: 'Nouvelle condition'
+
+        Testimonial:
+            class: App\Entity\Testimonial
+            label: 'Témoignages'
+            form:
+                title: 'Témoignage (#%%entity_id%%)'
+                fields:
+                  - { property: 'civility', label: 'Civilité', type: 'choice', type_options: { choices: { 'Monsieur': 'male', 'Madame': 'female' } } }
+                  - { property: 'firstName', label: 'Prénom' }
+                  - description
+                  - { property: 'content', label: 'Contenu', type: 'fos_ckeditor' }
+            list:
+                title: 'Témoignages'
+                actions: ['show', 'edit']
+                fields:
+                  - id
+                  - { property: 'firstName', label: 'Prénom' }
+                  - description
+            show:
+                title: 'Témoignage (#%%entity_id%%)'
+                fields:
+                  - { property: 'firstName', label: 'Prénom' }
+                  - description
+                  - { property: 'content', label: 'Contenu', type: 'fos_ckeditor' }
+            new:
+                title: 'Nouveau témoignage'
+
+        Coupon:
+            class: App\Entity\Coupon
+            label: 'Coupons'
+            disabled_actions: ['delete']
+            list:
+                title: 'Coupons'
+                fields:
+                  - id
+                  - code
+                  - { property: 'startAt', label: 'Début', type: 'date'}
+                  - { property: 'endAt', label: 'Fin', type: 'date'}
+                  - { property: 'enabled', label: 'Actif' }
+            form:
+                title: 'Coupon (#%%entity_id%%)'
+                fields:
+                  - code
+                  - { property: 'amount', label: 'Montant', type: 'number', type_options: { attr: { min: 0, max: 4.95, step: 0.01 } } }
+                  - { property: 'startAt', label: 'Début', type: 'date' }
+                  - { property: 'endAt', label: 'Fin', type: 'date' }
+                  - { property: 'enabled', label: 'Actif' }
+            new:
+                title: 'Nouveau coupon'
+
+        User:
+            class: App\Entity\User
+            label: 'Utilisateurs'
+            controller: App\Controller\Admin\UserController
+            form:
+                title: 'Utilisateur (#%%entity_id%%)'
+                fields:
+                  - { property: 'username', label: 'Adresse e-mail' }
+                  - { property: 'plainPassword', label: 'Mot de passe', type: 'password' }
+                  - { property: 'role', label: 'Rôle', type: 'choice', type_options: { choices: { 'Admin SMP': 'ROLE_SMP', 'CSSR': 'ROLE_CSSR', 'Consultant': 'ROLE_CONSULTANT' } } }
+                  - { property: 'center', label: 'Centre' }
+            list:
+                title: 'Utilisateurs'
+                fields:
+                  - id
+                  - { property: 'username', label: 'Adresse e-mail' }
+                  - { property: 'role', label: 'Rôle' }
+                  - { property: 'enabled', label: 'Actif' }
+            new:
+                title: 'Nouvel utilisateur'
+
+        Center:
+            class: App\Entity\Center
+            label: 'Centres'
+            controller: App\Controller\Admin\CenterController
+            form:
+                title: 'Centre (#%%entity_id%%)'
+                fields:
+                  - { type: 'section', label: 'Coordoonées' }
+                  - { property: 'juridiqueForme', label: 'Forme juridique' }
+                  - { property: 'name', label: 'Raison sociale' }
+                  - { property: 'apeCode', label: 'Code APE' }
+                  - { property: 'approvalNumber', label: 'N° agrément' }
+                  - { property: 'prefecture', label: 'Délivré par la préfecture' }
+                  - { property: 'rcs', label: 'Ville du RCS' }
+                  - { property: 'siret', label: 'SIRET' }
+                  - { property: 'vatNumber', label: 'N° TVA intracommunautaire' }
+                  - { property: 'capital', label: 'Capital' }
+                  - { property: 'address', label: 'Adresse', type_options: { attr: { class: 'autocomplete'}}}
+                  - { property: 'city', label: 'Ville', type: 'hidden', type_options: { attr: { class: 'locality'}}}
+                  - { property: 'country', label: 'Pays', type: 'hidden', type_options: { attr: { class: 'country'}}}
+                  - { property: 'department', label: 'Département', type: 'hidden', type_options: { attr: { class: 'administrative_area_level_2'}}}
+                  - { property: 'postalCode', label: 'Code postal', type: 'hidden', type_options: { attr: { class: 'postal_code'}}}
+                  - { property: 'longitude', label: 'Longitude', type: 'hidden', type_options: { attr: { class: 'longitude'}}}
+                  - { property: 'latitude', label: 'Latitude', type: 'hidden', type_options: { attr: { class: 'latitude'}}}
+                  - { property: 'region', label: 'Région', type: 'hidden', type_options: { attr: { class: 'administrative_area_level_1'}}}
+                  - { property: 'streetName', label: 'Voie', type: 'hidden', type_options: { attr: { class: 'route'}}}
+                  - { property: 'streetNumber', label: 'N° de voie', type: 'hidden', type_options: { attr: { class: 'street_number'}}}
+                  - { type: 'section', label: 'Contact' }
+                  - { property: 'lastName', label: 'Nom' }
+                  - { property: 'firstName', label: 'Prénom' }
+                  - { property: 'phone', label: 'Téléphone' }
+                  - { property: 'mobile', label: 'Portable' }
+                  - { property: 'fax', label: 'Fax' }
+                  - { property: 'email', label: 'Adresse e-mail' }
+                  - { type: 'section', label: 'Coordonnées bancaires' }
+                  - { property: 'bankOwner', label: 'Titulaire du compte' }
+                  - { property: 'bankName', label: 'Banque' }
+                  - { property: 'iban', label: 'IBAN' }
+                  - { property: 'bic', label: 'Code BIC' }
+            list:
+                title: 'Centres'
+                fields:
+                  - id
+                  - code
+                  - { property: 'name', label: 'Raison sociale' }
+
+        Course:
+            class: App\Entity\Course
+            controller: App\Controller\Admin\CourseController
+            label: 'Stages'
+            list:
+                title: 'Stages'
+                actions: ['show', '-edit']
+                fields:
+                  - id
+                  - { property: 'center', label: 'Centre' }
+                  - { property: 'place', label: 'Lieu' }
+                  - { property: 'startOn', label: 'Date début' }
+                  - { property: 'registered', label: 'Pré-inscrits' }
+                  - { property: 'confirmed', label: 'Confirmés' }
+                  - { property: 'enabled', label: 'Actif' }
+            show:
+                title: 'Stage (#%%entity_id%%)'
+                fields:
+                  - id
+                  - { property: 'center', label: 'Centre' }
+                  - { property: 'place', label: 'Lieu' }
+                  - { property: 'psychologist', label: 'Psychologue' }
+                  - { property: 'former', label: 'BAFM/BAFCRI' }
+                  - { property: 'amount', label: 'Prix de vente' }
+                  - { property: 'quantity', label: 'Nombre de places proposées' }
+                  - { property: 'registered', label: 'Pré-inscrits' }
+                  - { property: 'confirmed', label: 'Confirmés' }
+                  - { property: 'startOn', label: 'Date de début' }
+                  - { property: 'endOn', label: 'Date de fin' }
+            form:
+                title: 'Stage (#%%entity_id%%)'
+                fields:
+                  - { type: 'section', label: 'Informations' }
+                  - { property: 'place', label: 'Lieu' }
+                  - { property: 'psychologist', label: 'Psychologue' }
+                  - { property: 'former', label: 'BAFM/BAFCRI' }
+                  - { property: 'amount', label: 'Prix de vente' }
+                  - { property: 'quantity', label: 'Nombre de places proposées' }
+                  - { property: 'special', label: 'Stage spécifique' }
+                  - { property: 'enabled', label: 'Actif' }
+                  - { type: 'section', label: 'Date et horaire' }
+                  - { property: 'startOn', label: 'Date de début' }
+                  - { property: 'startMorningStartAt', label: 'Matin de' }
+                  - { property: 'startMorningEndAt', label: 'A' }
+                  - { property: 'startAfternoonStartAt', label: 'Après-midi de' }
+                  - { property: 'startAfternoonEndAt', label: 'A' }
+                  - { property: 'endOn', label: 'Date de fin' }
+                  - { property: 'endMorningStartAt', label: 'Matin de' }
+                  - { property: 'endMorningEndAt', label: 'A' }
+                  - { property: 'endAfternoonStartAt', label: 'Après-midi de' }
+                  - { property: 'endAfternoonEndAt', label: 'A' }
+            new:
+                title: 'Nouveau stage'
+
+        Submission:
+            class: App\Entity\Submission
+            label: 'Formulaires'
+            actions: ['show']
+            disabled_actions: ['new', 'edit']
+            show:
+                title: 'Formulaire (#%%entity_id%%)'
+                fields:
+                    - { property: 'lastName', label: 'Nom' }
+                    - { property: 'firstName', label: 'Prénom' }
+                    - { property: 'email', label: 'Adresse e-mail' }
+                    - message
+            list:
+                title: 'Formulaires'
+                actions: ['show', 'edit']
+                fields:
+                    - { property: 'lastName', label: 'Nom' }
+                    - { property: 'firstName', label: 'Prénom' }
+                    - { property: 'email', label: 'Adresse e-mail' }

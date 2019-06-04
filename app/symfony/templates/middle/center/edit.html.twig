@@ -1,0 +1,240 @@
+{% extends 'middle/base.html.twig' %}
+
+{% block body %}
+<div class=" ">
+    <div class="middle-title-section">
+        <h1 class="middle-default-title">{{ 'info.center.edit'|trans }} </h1>
+    </div>
+
+    {{ form_start(form) }}
+    {% if center.id %}
+        <div class="row">
+            <div class="col-sm-7">
+                <!-- Coordonnees  -->
+                <div class="detail-default-block">
+                    <h3 class="detail-default-title">{{ 'info.default.coordonneeCenter'|trans }} </h3>
+                    <ul class="list-info-default list-xl list-unstyled list-edit">
+                        <li>
+                            <div class="info-label">{{ form_label(form.name) }} :</div>
+                            <div class="info-detail">{{ form_widget(form.name) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.name) }}</div>
+                        </li>
+                        <li>
+                            <div class="info-label">{{ form_label(form.address) }} :</div>
+                            <div class="info-detail">{{ form_widget(form.address) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.address) }}</div>
+                        </li>
+                        <li>
+                            <div class="info-label">{{ form_label(form.approvalNumber) }} :</div>
+                            <div class="info-detail">{{ form_widget(form.approvalNumber) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.approvalNumber) }}</div>
+                        </li>
+                        <li>
+                            <div class="info-label">{{ form_label(form.prefecture) }} :</div>
+                            <div class="info-detail">{{ form_widget(form.prefecture) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.prefecture) }}</div>
+                        </li>
+                        <li>
+                            <div class="info-label">{{ form_label(form.siret) }} :</div>
+                            <div class="info-detail">{{ form_widget(form.siret) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.siret) }}</div>
+                        </li>
+                        <li>
+                            <div class="info-label">{{ form_label(form.rcs) }} :</div>
+                            <div class="info-detail">{{ form_widget(form.rcs) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.rcs) }}</div>
+                        </li>
+                        <li>
+                            <div class="info-label">{{ form_label(form.vatNumber) }} :</div>
+                            <div class="info-detail">{{ form_widget(form.vatNumber) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.vatNumber) }}</div>
+                        </li>
+                        <li>
+                            <div class="info-label">{{ form_label(form.apeCode) }}  :</div>
+                            <div class="info-detail">{{ form_widget(form.apeCode) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.apeCode) }}</div>
+                        </li>
+                        <li>
+                            <div class="info-label">{{ form_label(form.capital) }} :</div>
+                            <div class="info-detail">{{ form_widget(form.capital) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.capital) }}</div>
+                        </li>
+                        <li>
+                            <div class="info-label">{{ form_label(form.juridiqueForme) }}  :</div>
+                            <div class="info-detail">{{ form_widget(form.juridiqueForme) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.juridiqueForme) }}</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Coordonnées bancaires -->
+                <div class="detail-default-block">
+                    <h3 class="detail-default-title">{{ 'info.default.coordonneeBancaire'|trans }}</h3>
+                    <ul class="list-info-default list-lg list-unstyled list-edit">
+                        <li>
+                            <div class="info-label">{{ form_label(form.bankOwner) }} :</div>
+                            <div class="info-detail">{{ form_widget(form.bankOwner) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.bankOwner) }}</div>
+                        </li>
+                        <li>
+                            <div class="info-label">{{ form_label(form.bankName) }} :</div>
+                            <div class="info-detail">{{ form_widget(form.bankName) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.bankName) }}</div>
+                        </li>
+                        <li>
+                            <div class="info-label">{{ form_label(form.iban) }} :</div>
+                            <div class="info-detail info-break">{{ form_widget(form.iban) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.iban) }}</div>
+                        </li>
+                        <li>
+                            <div class="info-label">{{ form_label(form.bic) }} :</div>
+                            <div class="info-detail info-break">{{ form_widget(form.bic) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.bic) }}</div>
+                        </li>
+                    </ul>
+                </div>
+
+                {% if not is_granted(constant('\\App\\Entity\\User::ROLE_CSSR')) %}
+                    <div class="detail-default-block">
+                        <h3 class="detail-default-title">{{ 'info.default.tarifApplique'|trans }} </h3>
+                        <ul class="list-info-default list-xl list-info-inline-default list-unstyled list-laptop list-edit">
+                            <li class="form-text-euro">
+                                <div class="info-label">{{ 'info.default.commissionParStage'|trans }} : </div>
+                                <div class="info-detail"> {{ form_widget(form.tarif.commission, {'attr': {'class': 'col-4'}}) }} </div>
+                            </li>
+                            <li>
+                                <div class="form-radio-inline">
+                                    {{ form_row(form.tarif.type) }}
+                                </div>
+                            </li>
+                            <li class="form-text-euro" id="tarif-type-course" {% if center.tarif.type is not same as(constant('App\\Entity\\Tarif::TYPE_COURSE')) %}style="display: none;"{% endif %}>
+                                <div class="info-label">{{ 'info.default.commissionReduite'|trans }} :</div>
+                                <div class="info-detail">
+                                    <div class="info-price"> {{ form_widget(form.tarif.commissionByCourse, {'attr': {'class': 'col-4'}} ) }} </div>
+                                    <div class="info-word">{{ 'info.default.pour'|trans }}</div>
+                                    <div class="info-text info-text-stages"> {{ form_widget(form.tarif.totalCourse, {'attr': {'class': 'col-4'}} ) }}</div>
+                                    <div class="info-word">{{ 'info.default.stage'|trans }}</div>
+                                </div>
+                            </li>
+                            <li class="form-text-euro" id="tarif-type-date" {% if center.tarif.type is not same as(constant('App\\Entity\\Tarif::TYPE_DATE')) %}style="display: none;"{% endif %}>
+                                <div class="info-label">{{ 'info.default.commissionReduite'|trans }} :</div>
+                                <div class="info-detail">
+                                    <div class="info-price"> {{ form_widget(form.tarif.commissionByDate, {'attr': {'class': 'col-4'}} ) }} </div>
+                                    <div class="info-word">{{ 'info.default.du'|trans }}</div>
+                                    <div class="info-text">
+                                      <div class="info-text-date">
+                                        <div class="col-date">
+                                          {{ form_widget(form.tarif.startOn) }}
+                                        </div>
+                                        <div class="col-date-text">
+                                          <strong>{{ 'info.default.au'|trans }}</strong>
+                                        </div>
+                                        <div class="col-date">
+                                          {{ form_widget(form.tarif.endOn) }}
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="col-sm-5">
+                <!-- User -->
+                <div class="detail-default-block">
+                    <h3 class="detail-default-title">{{ 'info.center.users'|trans }}</h3>
+                    <ul class="list-info-default list-lg list-unstyled list-edit">
+                        {% for user in form.users %}
+                            <li>
+                                <div class="info-label">{{ form_label(user.username) }} :</div>
+                                <div class="info-detail">{{ form_widget(user.username) }}</div>
+                                <div class="info-detail info-error">{{ form_errors(user.username) }}</div>
+                            </li>
+                            <li>
+                                <div class="info-label">{{ form_label(user.plainPassword) }} :</div>
+                                <div class="info-detail">{{ form_widget(user.plainPassword) }}</div>
+                                <div class="info-detail info-error">{{ form_errors(user.plainPassword) }}</div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div class="detail-default-block">
+                    <h3 class="detail-default-title">{{ 'info.default.contact'|trans }}</h3>
+                    <ul class="list-info-default list-lg list-unstyled list-edit">
+                        <li>
+                            <div class="info-label">{{ form_label(form.lastName) }} :</div>
+                            <div class="info-detail">{{ form_widget(form.lastName) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.lastName) }}</div>
+                        </li>
+                        <li>
+                            <div class="info-label">{{ form_label(form.firstName) }} : </div>
+                            <div class="info-detail">{{ form_widget(form.firstName) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.firstName) }}</div>
+                        </li>
+                        <li>
+                            <div class="info-label">{{ form_label(form.phone) }} :</div>
+                            <div class="info-detail">{{ form_widget(form.phone) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.phone) }}</div>
+                        </li>
+                        <li>
+                            <div class="info-label">{{ form_label(form.mobile) }} :</div>
+                            <div class="info-detail">{{ form_widget(form.mobile) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.mobile) }}</div>
+                        </li>
+                        <li>
+                            <div class="info-label">{{ form_label(form.fax) }} :</div>
+                            <div class="info-detail">{{ form_widget(form.fax) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.fax) }}</div>
+                        </li>
+                        <li>
+                            <div class="info-label">{{ form_label(form.email) }} :</div>
+                            <div class="info-detail">{{ form_widget(form.email) }}</div>
+                            <div class="info-detail info-error">{{ form_errors(form.email) }}</div>
+                        </li>
+                    </ul>
+                </div>
+
+                {% if is_granted('ROLE_SMP') or is_granted('ROLE_CONSULTANT') %}
+                    <!-- Commentaires -->
+                    <div class="detail-default-block detail-default-comment-block">
+                        <h3 class="detail-default-title">{{ 'info.center.comment'|trans }}</h3>
+                        <div class="detail-comment-text">{{ form_widget(form.comment) }}</div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="add-stage-action-block">
+          {% if is_granted(constant('\\App\\Security\\Voter\\CenterVoter::CENTER_VIEW')) %}
+              <a href="{{ path('middle_center_view', { id: center.id }) }}" class="btn btn-primary btn-back">
+                {{ 'form.action.cancel'|trans }}
+              </a>
+          {% endif %}
+          {{ form_widget(form.submit) }}
+        </div>
+    {% else %}
+      <div class="add-stage-block">
+        <div class="row">
+          <div class="col-sm-6">
+            {{ form_row(form.name) }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            {{ form_row(form.address) }}
+          </div>
+        </div>
+        {{ form_row(form.users) }}
+      </div>
+      <div class="add-stage-action-block">
+        {{ form_row(form.submit) }}
+      </div>
+    {% endif %}
+
+    {{ form_end(form) }}
+</div>
+{% endblock %}

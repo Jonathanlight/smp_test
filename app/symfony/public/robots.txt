@@ -1,0 +1,5 @@
+User-Agent: *
+Disallow: /contact
+Disallow: /search*
+
+Sitemap: https://www.plusdepoints.fr/sitemap.xml

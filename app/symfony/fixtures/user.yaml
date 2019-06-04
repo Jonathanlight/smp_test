@@ -1,0 +1,16 @@
+App\Entity\User:
+    smp:
+        username: 'smp@kernix.com'
+        password: 'kernix'
+        role: 'ROLE_SMP'
+        center: '@center'
+    cssr:
+        username: 'cssr@kernix.com'
+        password: 'kernix'
+        role: 'ROLE_CSSR'
+        center: '@center'
+    consultant:
+        username: 'consultant@kernix.com'
+        password: 'kernix'
+        role: 'ROLE_CONSULTANT'
+        center: '@center'

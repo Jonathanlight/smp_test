@@ -1,0 +1,39 @@
+{% extends 'pdf.html.twig' %}
+
+{% block body %}
+  <page>
+    <br style="clear:both;" />
+    <div class="purple">
+      <h1>Feuille d'émargement</h1>
+    </div>
+    <div class="content">
+      <table border="0" cellpadding="0" cellspacing="0" class="emargement">
+        <tbody>
+        <tr>
+          <td style="width:35%;" colspan="2">&nbsp;</td>
+          <td style="width:15%; color:white; background: #6B6BED;" colspan="2">{{ course.startOn|localizeddate('none', 'none', 'fr_FR', null, "cccc dd/MM/yyyy") | capitalize }}</td>
+          <td style="width:15%; color:white; background: #6B6BED;" colspan="2">{{ course.endOn|localizeddate('none', 'none', 'fr_FR', null, "cccc dd/MM/yyyy") | capitalize }}</td>
+        </tr>
+        <tr>
+          <td style="width:35%; color:white; background: #6B6BED;">Nom</td>
+          <td style="width:35%; color:white; background: #6B6BED;">Prénom</td>
+          <td style="width:15%; color:white; background: #6B6BED;">Matin J1</td>
+          <td style="width:15%; color:white; background: #6B6BED;">Après-midi J1</td>
+          <td style="width:15%; color:white; background: #6B6BED;">Matin J2</td>
+          <td style="width:15%; color:white; background: #6B6BED;">Après-midi J2</td>
+        </tr>
+        {% for order in course.confirmedOrders %}
+          <tr>
+            <td style="width:35%;">{{ order.trainee.lastName }}</td>
+            <td style="width:35%;">{{ order.trainee.firstName }}</td>
+            <td style="width:15%;">&nbsp;</td>
+            <td style="width:15%;">&nbsp;</td>
+            <td style="width:15%;">&nbsp;</td>
+            <td style="width:15%;">&nbsp;</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </page>
+{% endblock %}

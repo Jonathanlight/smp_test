@@ -1,0 +1,34 @@
+validator:
+    default:
+        invalid: 'Cette valeur n''est pas valide.'
+    trainee:
+        dateBirth: 'La date saisie est invalide.'
+        email: 'Merci de renseigner votre adresse e-mail afin de recevoir la convocation.'
+        mustMatch: 'Les deux adresses e-mail ne sont pas identiques.'
+    submission:
+        email: 'Votre email n''est pas valide'
+        message: 'Le message doit faire au moins 10 caractères'
+        captcha: 'Vous devez cocher la case "Je ne suis pas un robot"'
+        mention_legale: 'Veuillez accepter les mentions légales'
+        step2:
+            cgv_error: 'Veuillez accepter les conditions générales de vente'
+    animator:
+        mobile: 'Le numéro de portable doit être obligatoire.'
+    place:
+        address: 'L''adresse saisie est invalide.'
+    center:
+        address: 'L''adresse saisie est invalide.'
+        ape: 'Le champ doit comporter 5 caractères et les espaces ne sont pas autorisés.'
+        bic: 'Cette valeur n''est pas valide. Le code bic doit comporter 8 ou 11 caractères et les espaces ne sont pas autorisés.'
+        iban: 'Le champ doit comporter 27 caractères et les espaces ne sont pas autorisés.'
+    coupon:
+        amount: 'Le montant du coupon ne peut être supérieur à 4,95€'
+        amountUnderZero: 'Le montant du coupon ne peut être négatif'
+    user:
+        password: 'Le mot de passe doit contenir 8 caractères ou plus dont une majuscule, un chiffre et un caractère spécial.'
+    course:
+       startOn: 'La date de début ne peut pas être antérieure à la date du jour'
+       endOn: 'La date de fin ne peut pas être antérieure à la date de début'
+    tarif:
+       startOn: 'La date de début ne peut pas être antérieure à la date du jour'
+       endOn: 'La date de fin ne peut pas être antérieure à la date de début'

@@ -1,0 +1,23 @@
+<div class="aside-block">
+  <h3 class="aside-b-title">{{ 'info.aside_contact.problem'|trans }}</h3>
+  <ul class="list-aside-contact list-unstyled">
+    <li>
+      <div class="contact-info-img">
+        <img src="{{ asset('img/icons/icon-phone.svg') }}" alt="PLUS DE POINTS">
+      </div>
+      <div class="contact-info">
+        <div class="contact-info-title">{{ 'info.aside_contact.call'|trans }}</div>
+        <div class="contact-info-text"><a href="tel:{{ getParameter(constant('App\\Entity\\Parameter::CODE_PHONE'))|replace({' ':''}) }}">{{ getParameter(constant('App\\Entity\\Parameter::CODE_PHONE')) }}</a></div>
+      </div>
+    </li>
+    <li>
+      <div class="contact-info-img">
+        <img src="{{ asset('img/icons/icon-mail.svg') }}" alt="PLUS DE POINTS">
+      </div>
+      <div class="contact-info">
+        <div class="contact-info-title"> {{ 'info.aside_contact.write'|trans }} </div>
+        <div class="contact-info-text"><a href="mailto:{{ getParameter(constant('App\\Entity\\Parameter::CODE_EMAIL'))|replace({' ':''}) }}">{{ getParameter(constant('App\\Entity\\Parameter::CODE_EMAIL')) }}</a></div>
+      </div>
+    </li>
+  </ul>
+</div>

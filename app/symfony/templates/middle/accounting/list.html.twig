@@ -1,0 +1,35 @@
+{% extends 'middle/base.html.twig' %}
+
+{% block body %}
+    <div class=" ">
+        <div class="middle-title-section">
+            <h1 class="middle-default-title">{{ 'info.accounting.title'|trans }}</h1>
+        </div>
+        <div class="detail-default-block detail-reporting-block">
+            {% if is_granted(constant('\\App\\Security\\Voter\\AccountingVoter::ACCOUNTING_FEE')) %}
+                <div class="reporting-block">
+                    <div class="reporting-title">{{ 'info.accounting.invoice_trainee'|trans }} </div>
+                    <a href="{{ path('middle_accounting_fee', { 'id': (app.user.center.id is defined) ? app.user.center.id : 0 }) }}" class="btn btn-secondary">
+                      {{ 'info.payment.download'|trans }}
+                    </a>
+                </div>
+            {% endif %}
+            {% if is_granted(constant('\\App\\Security\\Voter\\AccountingVoter::ACCOUNTING_REFUND')) %}
+                <div class="reporting-block">
+                    <div class="reporting-title">{{ 'info.accounting.refund_trainee'|trans }}</div>
+                    <a href="{{ path('middle_accounting_refund', { 'id': (app.user.center.id is defined) ? app.user.center.id : 0 }) }}" class="btn btn-secondary">
+                        {{ 'info.payment.download'|trans }}
+                    </a>
+                </div>
+            {% endif %}
+            {% if is_granted(constant('\\App\\Security\\Voter\\AccountingVoter::ACCOUNTING_BANKING')) %}
+                <div class="reporting-block">
+                    <div class="reporting-title">{{ 'info.accounting.export_banc'|trans }}</div>
+                    <a href="{{ path('middle_accounting_banking', { 'id': (app.user.center.id is defined) ? app.user.center.id : 0 }) }}" class="btn btn-secondary">
+                        {{ 'info.payment.download'|trans }}
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

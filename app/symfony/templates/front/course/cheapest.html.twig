@@ -1,0 +1,33 @@
+{% if courses is not empty %}
+    <div class="container">
+        <h2 class="proposition-title">
+            <span>
+              Meilleurs prix à proximité
+
+                <div id="infoposition"></div>
+
+              <div class="rellax proposition-icon"></div>
+            </span>
+        </h2>
+
+        {% set tabImg = range(1,6)|shuffle %}
+        <div class="owl-carousel carousel-proposition">
+            {% for course in courses %}
+                <div class="item">
+                    <a href="{{ path('course_search', { address:course.place.city ~ ', ' ~ course.place.country, city:course.place.city, department:course.place.department, latitude:course.place.latitude, longitude:course.place.longitude}) }}" class="proposition-block">
+                        <div class="proposition-img" style="background-image:url('{{ asset('img/slide/'~tabImg[loop.index0]~'.jpg') }}')" ></div>
+                        <div class="proposition-content">
+                            <h3 class="proposition-content-title">{{ course.place.city }}</h3>
+                            <div class="proposition-price">{{ course.amount }} €</div>
+                        </div>
+                        <div class="proposition-date">
+                            Du {{ course.startOn.date|date('d-m-Y') }}
+                            au {{ course.endOn.date|date('d-m-Y')}}
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endif %}

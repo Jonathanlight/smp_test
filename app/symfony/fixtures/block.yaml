@@ -1,0 +1,37 @@
+App\Entity\Block:
+    block1:
+        page: '@page1'
+        title: 'Qui sommes-nous'
+        content: <fr_FR:paragraph(100)>
+    block2:
+        page: '@page2'
+        title: 'Stage récupération de point'
+        content: <fr_FR:paragraph(100)>
+    block3:
+        page: '@page3'
+        title: 'Infraction et législation'
+        content: <fr_FR:paragraph(100)>
+    block4:
+        page: '@page4'
+        title: 'Mentions légales'
+        content: <fr_FR:paragraph(100)>
+    block5:
+        page: '@page5'
+        title: 'Condition general d''utilisation'
+        content: <fr_FR:paragraph(100)>
+    block6:
+        page: '@page6'
+        title: 'Condition général de vente'
+        content: <fr_FR:paragraph(100)>
+    block7:
+        page: '@page7'
+        title: 'Comment récupérer des points'
+        content: <fr_FR:paragraph(100)>
+    block8:
+        page: '@page8'
+        title: 'Dans quel cas effetuer un stage'
+        content: <fr_FR:paragraph(100)>
+    block9:
+        page: '@page9'
+        title: 'Le déroulement d''un stage'
+        content: <fr_FR:paragraph(100)>

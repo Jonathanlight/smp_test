@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <script type="text/javascript" src="{{ asset('/vendor/tarteaucitronjs/tarteaucitron.js') }}"></script>
+
+    <script type="text/javascript">
+         var tarteaucitronForceLanguage = 'fr';
+         tarteaucitron.init({
+            "privacyUrl": "", /* Privacy policy url */
+
+            "hashtag": "#tarteaucitron", /* Open the panel with this hashtag */
+            "cookieName": "tartaucitron", /* Cookie name */
+
+            "orientation": "bottom", /* Banner position (top - bottom) */
+            "showAlertSmall": true, /* Show the small banner on bottom right */
+            "cookieslist": true, /* Show the cookie list */
+
+            "adblocker": false, /* Show a Warning if an adblocker is detected */
+            "AcceptAllCta" : true, /* Show the accept all button when highPrivacy on */
+            "highPrivacy": true, /* Disable auto consent */
+            "handleBrowserDNTRequest": false, /* If Do Not Track == 1, disallow all */
+
+            "removeCredit": true, /* Remove credit link */
+            "moreInfoLink": true, /* Show more info link */
+            "useExternalCss": false /* If false, the tarteaucitron.css file will be loaded */
+
+            //"cookieDomain": ".my-multisite-domaine.fr" /* Shared cookie for subdomain website */
+        });
+
+        {% if google_analytics_id %}
+            tarteaucitron.user.gtagUa = '{{ google_analytics_id }}';
+            tarteaucitron.user.gtagMore = function () { /* add here your optionnal gtag() */ };
+            (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
+        {% endif %}
+
+        (tarteaucitron.job = tarteaucitron.job || []).push('microsoftcampaignanalytics');
+    </script>
+
+    <meta charset="UTF-8">
+    <title>{% block title %}Plus de points{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="{% block description %}Plus de points{% endblock %}">
+    <meta name="google-site-verification" content="7F6YXDPknF5ayZN5I9IS_QEQXyARI1bI8bDPHQFTdsU">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ asset('vendor/material-design-iconic-font/dist/css/material-design-iconic-font.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/front/main.min.css') }}">
+
+    <!-- Fonts -->	
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('img/favicons/apple-touch-icon-57x57.png') }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('img/favicons/apple-touch-icon-60x60.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('img/favicons/apple-touch-icon-72x72.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('img/favicons/apple-touch-icon-76x76.png') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('img/favicons/apple-touch-icon-114x114.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('img/favicons/apple-touch-icon-120x120.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('img/favicons/apple-touch-icon-144x144.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('img/favicons/apple-touch-icon-152x152.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/favicons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/favicons/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('img/favicons/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ asset('img/favicons/safari-pinned-tab.svg') }}" color="#6B6BED">
+    <link rel="shortcut icon" href="{{ asset('img/favicons/favicon.ico') }}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{{ asset('img/favicons/mstile-144x144.png') }}">
+    <meta name="msapplication-config" content="{{ asset('img/favicons/browserconfig.xml') }}">
+    <meta name="theme-color" content="#ffffff">
+
+    {% block googleAnalytics %} {% endblock %}
+
+    {% block stylesheets %}{% endblock %}
+</head>
+<body class="{% block bodyClass %}{% endblock %}">
+  <a href="javascript:void(0)" class="btn-menu btn-overflow"></a>
+
+  <div class="header-nav-mobile">
+
+    <img class="header-icon-car" src="{{ asset('img/icons/icon-menu-mobile.svg') }}" alt="PLUS DE POINTS">
+
+    <!-- Nav Mobile -->
+    {% set page_stage_recup_point = constant('App\\Entity\\Page::CODE_COURSE')|getPage %}
+    {% set page_infraction_legislation = constant('App\\Entity\\Page::CODE_LEGISLATION')|getPage %}
+    {% set page_qui_sommes_nous = constant('App\\Entity\\Page::CODE_ABOUT')|getPage %}
+
+    <ul class="nav-mobile list-unstyled">
+      <li class="active">
+        <a href="/"><span>{{ 'menu.home'|trans }}</span></a>
+      </li>
+        {% for menu in getMenu(constant('App\\Entity\\Tree::CODE_HEADER')).nodes %}
+            <li>
+                <a href="{{ path('page', {'slug': menu.page.slug }) }}"><span>{{ menu.title }}</span></a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Number -->
+    <div class="num-mobile-block">
+      <div class="num-text">Vous avez une question ?</div>
+      <div class="num-number"><a href="tel:{{ getParameter(constant('App\\Entity\\Parameter::CODE_PHONE'))|replace({' ':''}) }}">{{ getParameter(constant('App\\Entity\\Parameter::CODE_PHONE')) }}</a></div>
+    </div>
+  </div>
+
+  <div class="main-wrap">
+    <header class="header-wrap">
+      <section class="contact-header-section">
+        <div class="container">
+          <div class="contact-block">Vous avez une question ? <strong><a href="tel:{{ getParameter(constant('App\\Entity\\Parameter::CODE_PHONE'))|replace({' ':''}) }}">{{ getParameter(constant('App\\Entity\\Parameter::CODE_PHONE')) }}</a></strong></div>
+        </div>
+      </section>
+
+      <!-- Menu -->
+      <section class="header-menu-section">
+        <div class="container">
+          <!-- Logo -->
+          <a href="/" class="header-logo"><img src="{{ asset('img/plus_de_points.svg') }}" alt="PLUS DE POINTS"></a>
+
+          <div class="aggregation-block ag-xs-block">
+            <img src="{{ asset('img/icons/icon-france.svg') }}" alt="PLUS DE POINTS">
+          </div>
+
+          <!-- Btn Mobile -->
+          <a href="javascript:void(0)" class="btn-menu btn-menu-mobile"><span class="burger"></span></a>
+
+          <!-- Nav -->
+          <ul class="header-nav list-inline">
+              {% for menu in getMenu(constant('App\\Entity\\Tree::CODE_HEADER')).nodes %}
+                <li class="list-inline-item">
+                    <a href="{{ path('page', {'slug': menu.page.slug }) }}"><span>{{ menu.title }}</span></a>
+                </li>
+              {% endfor %}
+
+            <!-- <li class="list-inline-item">
+                <a href="#"><i class="icon-search"></i><span class="sr-only">Faire une recherche</span></a>
+            </li> -->
+            <li class="list-inline-item d-none d-sm-inline-block">
+              <div class="aggregation-block">
+                <img src="{{ asset('img/icons/icon-france.svg') }}" alt="PLUS DE POINTS">
+                <div>Tous les stages proposés sont agréés par la préfecture</div>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+      </section>
+    </header>
+
+    <!-- Main -->
+    {% block body %}{% endblock %}
+
+    <!-- Footer -->
+    <footer class="footer-wrap">
+      <a href="javascript:void(0)" class="btn btn-secondary btn-top"><i class="zmdi zmdi-long-arrow-up"></i> <span class="sr-only">Retour en haut de page</span></a>
+      <!-- Menu -->
+      <section class="menu-section">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h3 class="footer-title">Plan de site</h3>
+              {% set page_legal_notice = constant('App\\Entity\\Page::CODE_LEGAL_NOTICE')|getPage %}
+              {% set page_cgv = constant('App\\Entity\\Page::CODE_CGV')|getPage %}
+              {% set page_cgu = constant('App\\Entity\\Page::CODE_CGU')|getPage %}
+              <ul class="footer-nav list-inline">
+                  {% for menu in getMenu(constant('App\\Entity\\Tree::CODE_FOOTER')).nodes %}
+                      <li class="list-inline-item"><a href="{{ path('page', {'slug': menu.page.slug }) }}">{{ menu.title }}</a></li>
+                  {% endfor %}
+                  <li class="list-inline-item"><a href="{{ path('faq') }}">{{ 'info.footer.menu.faq'|trans }}</a></li>
+                  <li class="list-inline-item"><a href="{{ path('contact') }}">{{ 'info.footer.menu.contact'|trans }}</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Copyright -->
+      <section class="copyright-section">
+        <div class="container">
+          <div class="copyright-block">
+            © Copyright Plus de points {{ "now"|date("Y") }}. Tous droits réservés
+          </div>
+          <div class="k-block">
+            Site réalisé par <a href="https://www.kernix.com/" target="_blank"><i class="icon-kernix"></i><span class="sr-only">Kernix</span></a>
+          </div>
+        </div>
+      </section>
+    </footer>
+  </div>
+
+  <!-- Legale mention  -->
+  {% include 'front/common/modal_legale_mention.html.twig' %}
+
+  <!-- Legale mention  -->
+  {% include 'front/common/order_cgv.html.twig' %}
+
+  <!--  -->
+  {% if canSendLetter is defined and canSendLetter %}
+    {% include 'front/modal/sendLetter.html.twig' %}
+  {% endif %}
+
+  <script src="{{ asset('js/front/main.min.js') }}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key={{ api_google_key }}&libraries=places&callback=loadGoogleApi" async defer></script>
+
+  {% block javascripts %}{% endblock %}
+  {% if bing_analytics_id %}
+    <script>
+      (function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"{{ bing_analytics_id }}"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");
+    </script>
+  {% endif %}
+
+</body>
+</html>

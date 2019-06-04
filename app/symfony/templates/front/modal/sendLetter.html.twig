@@ -1,0 +1,27 @@
+<!-- Modal -->
+<div class="modal fade" id="modal-send-letter" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Envoi postal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="zmdi zmdi-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="no-email">Vous n'avez pas enregistré d'email. Vous allez recevoir la convocation par courrier (+{{ getOption(constant('App\\Entity\\Option::CODE_SEND_LETTER'))|number_format(2) }} €).</p>
+        <form>
+          <input type="hidden" id="send-letter" value="" />
+          <div class="modal-postal-actions">
+            <button type="button" class="btn btn-secondary-outline btn-sm" data-dismiss="modal">
+              Annuler
+            </button>
+            <button type="submit" class="btn btn-secondary btn-sm" id="modal-send-letter-confirm">
+              Confirmer
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

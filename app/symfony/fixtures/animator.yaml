@@ -1,0 +1,15 @@
+App\Entity\Animator:
+    former:
+        degree: <(App\Entity\Animator::DEGREE_BAFM_BAFCRI)>
+        email: <email()>
+        firstName: <firstName()>
+        lastName: <lastName()>
+        mobile: <fr_FR:phoneNumber()>
+        phone: <fr_FR:phoneNumber()>
+    psychologist:
+        degree: <(App\Entity\Animator::DEGREE_PSYCHOLOGIST)>
+        email: <email()>
+        firstName: <firstName()>
+        lastName: <lastName()>
+        mobile: <fr_FR:phoneNumber()>
+        phone: <fr_FR:phoneNumber()>

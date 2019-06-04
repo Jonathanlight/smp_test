@@ -1,0 +1,21 @@
+{{ form_start(form, { attr: { action: path('api_order_refund', { id: order.id }) }}) }}
+  <div class="row">
+    <div class="col-12">
+      <p><u>{{ 'info.modal.rembouser_stagiaire'|trans }} </u>: {{ order.trainee }}</p>
+      <p>{{ 'info.modal.montant_stage'|trans }} : {{ order.amountWithoutOptions }} €</p>
+      <p>{{ 'info.modal.montant_frais'|trans }} : {{ order.fee }} €</p>
+      <p>{{ 'info.modal.send_letter'|trans }} : {{ order.letter }} €</p>
+      <p>{{ 'info.modal.order_paid'|trans }} : {{ order.paidAt|date('Y.m.d') }}</p>
+      <p>{{ 'info.modal.jour_stage'|trans }} : {{ order.course.startOn|date('Y.m.d') }}</p>
+      {{ form_row(form.refundedAmount) }}
+      {{ form_row(form.reason) }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="modal-actions">
+        {{ form_row(form.submit, { attr: { id: 'modal-order-refund', class: 'btn-secondary btn-sm' } }) }}
+      </div>
+    </div>
+  </div>
+{{ form_end(form) }}

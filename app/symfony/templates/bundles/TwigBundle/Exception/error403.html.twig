@@ -1,0 +1,9 @@
+{% extends "middle/base.html.twig" %}
+
+{% block bodyClass %}page-error{% endblock %}
+
+{% block body %}
+  <div class="alert alert-danger">
+    {{ 'message.flash.cssr'|trans }}
+  </div>
+{% endblock %}

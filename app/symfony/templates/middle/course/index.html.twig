@@ -1,0 +1,78 @@
+{% extends 'middle/base.html.twig' %}
+
+{% block body %}
+    <div class="detail-stage-wrap  ">
+        <div class="middle-title-section">
+            <h1 class="middle-default-title">{{ 'info.stage.titleDetail'|trans }}</h1>
+            <div class="head-action-block">
+                <ul class="list-middle-link list-inline">
+                    <li class="list-inline-item"><a href="{{ path('middle_course_emargement', { 'id': course.id }) }}" target="_blank">{{ 'info.stage.feuilleEmargement'|trans }}</a></li>
+                    <li class="list-inline-item"><a href="{{ path('middle_order_attestation', { 'id': course.id }) }}" target="_blank">{{ 'info.stage.editAttestation'|trans }}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="detail-stage-block">
+                        <ul class="list-info-default list-unstyled">
+                            <li>
+                                <div class="info-label">{{ 'info.stage.table.firstDay'|trans }} :</div>
+                                <div class="info-detail">{{ course.startOn|date('d/m/Y') }}</div>
+                            </li>
+                            <li>
+                                <div class="info-label">{{ 'info.stage.table.lieu'|trans }} :</div>
+                                <div class="info-detail">{{ course.place.address }}</div>
+                            </li>
+                            <li>
+                                <div class="info-label">{{ 'info.stage.table.psychologue'|trans }} :</div>
+                                <div class="info-detail">{{ course.psychologist }}</div>
+                            </li>
+                            <li>
+                                <div class="info-label">{{ 'info.stage.table.bAFM_BAFCRI'|trans }} :</div>
+                                <div class="info-detail">{{ course.former }}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="participants-block">
+                        {% if course.confirmedOrders|length %}
+                            <div class="participants-title-block">
+                                <h3 class="participants-title">{{ 'info.stage.listParticipant'|trans }}:</h3>
+                                {% if is_granted(constant('\\App\\Security\\Voter\\CourseVoter::COURSE_REGISTER'), course) %}
+                                    <a href="{{ path('middle_course_register', { id: course.id }) }}" class="btn btn-secondary btn-sm">{{ 'info.stage.addStagiaire'|trans }}</a>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                          <div class="participants-title-block">
+                              <h3 class="participants-title">{{ 'info.stage.listParticipantEmpty'|trans }}</h3>
+                          </div>
+                        {% endif %}
+
+                        <div class="list-participants row">
+                          {% for order in course.confirmedOrders %}
+                              <div class="col col-6">
+                                  <a href="{{ path('middle_order', {'id': order.id}) }}" class="participants-item">
+                                      <div class="participants-name">{{ order.trainee.firstName }}</div>
+                                  </a>
+                              </div>
+                          {% endfor %}
+                        </div>
+                    </div>
+                    <br>
+                    {% if is_granted('ROLE_SMP') or is_granted('ROLE_CONSULTANT') %}
+                        <div class="participants-comment-block">
+                            {{ form_start(form) }}
+                                <div class="form-group">
+                                    <label class="middle-default-alt-title">Commentaire :</label>
+                                    <div class="detail-comment-text">{{ form_widget(form.comment) }}</div>
+                                </div>
+                            {{ form_end(form) }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

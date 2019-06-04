@@ -1,0 +1,4 @@
+App\Entity\Admin:
+    admin:
+        username: 'admin'
+        password: 'kernix'

@@ -1,0 +1,64 @@
+{% extends 'middle/base.html.twig' %}
+
+{% block body %}
+  <div class=" ">
+    <div class="middle-title-section">
+      <h1 class="middle-default-title">{{ 'info.payment.list'|trans }}</h1>
+    </div>
+    <div class="detail-default-block">
+        {{ form_start(form) }} {{ form_end(form) }}
+
+      <ul class="list-payment list-unstyled">
+        {% for key, payment in payments %}
+          <li class="list-payment-item-n1">
+            <h3 class="recap-payment-title">{{ 'payment.recap'|trans }}</h3>
+            <ul class="list-unstyled">
+              {% for key, month in payment %}
+                <li class="list-payment-item-n2">
+                  <h4 class="recap-payment-subtitle">{{ key|capitalize }}</h4>
+                  <table class="table table-listing">
+                    <thead>
+                      <tr>
+                        <th>{{ 'info.payment.dateTreatment'|trans }}
+                        <th>{{ 'info.payment.recap'|trans }}</th>
+                        <th>{{ 'info.payment.amountCourse'|trans }}</th>                        
+                        <th>{{ 'info.payment.status'|trans }}</th>
+                        <th>{{ 'info.payment.invoice'|trans }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in month %}
+                        <tr>
+                          <td>{{ i.generatedAt|date('d/m/Y') }}</td>
+                          <td>
+                            <i class="zmdi zmdi-collection-text"></i>
+                            <a href="{{ path('middle_payment_recapitulatif', {'id': i.id }) }}" target="_blank">
+                              Récapitulatif
+                            </a>
+                          </td>
+                          <td>{{ i.amount|number_format(2) }}€</td>
+                          <td>Réglé</td>
+                          <td>
+                            <i class="zmdi zmdi-collection-pdf"></i>
+                            <a href="{{ path('middle_payment_invoice', {'id': i.id }) }}" target="_blank">
+                              Facture
+                            </a>
+                          </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="navigation">
+          {{ knp_pagination_render(payments) }}
+    </div>
+
+  </div>
+{% endblock %}

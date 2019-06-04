@@ -1,0 +1,250 @@
+{% extends 'front/base.html.twig' %}
+
+{% set page = constant('App\\Entity\\Page::CODE_HOME')|getPage %}
+{% block title %} {{ page.title }} {% endblock %}
+{% block description %} {{ page.description }} {% endblock %}
+
+{% block bodyClass %}page-home{% endblock %}
+
+{% block body %}
+
+<!-- Search -->
+<div class="search-wrap">
+    <section class="search-section" style="background-image:url('{{ asset('img/icons/home-search-bg.jpg') }}')">
+        <div class="rellax search-icon"></div>
+        <div class="container">
+            {{ form_start(form, {'action' : path('course_search'), 'attr' : {'class' : 'search-block'} }) }}
+                <h1 class="search-title" data-aos="fade-up" data-aos-delay="300">Trouvez des stages de <span>récupération de points</span>, et récupérez vos points !</h1>
+                <div class="form-group" data-aos="fade-up" data-aos-delay="600">
+                    <button type="button" class="btn btn-localisation geoloc" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Trouver ma position">
+                        <i class="icon-pin"></i>
+                        <span class="sr-only">Trouver ma localisation</span>
+                    </button>
+                {{ form_widget(form.address, {'attr' : {'class' : 'autocomplete'}}) }}
+                <button type="submit" class="btn btn-primary">
+                    <i class="icon-search"></i>
+                    <span class="search-text">Rechercher</span>
+                </button>
+            {{ form_end(form) }}
+        </div>
+
+        </div>
+        <a href="javascript:void(0)" class="btn btn-white btn-next d-block d-sm-none">
+            <i class="zmdi zmdi-long-arrow-down"></i>
+        </a>
+    </section>
+</div>
+
+<div class="home-wrap">
+  <!-- Info -->
+
+  <section class="home-info-section">
+    <div class="rellax info-icon"></div>
+    <a href="javascript:void(0)" class="btn btn-white btn-next d-none d-sm-block">
+      <i class="zmdi zmdi-long-arrow-down"></i>
+    </a>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-3">
+          {% set snippet = constant('App\\Entity\\Snippet::CODE_COURSE_PROXIMITY')|getSnippet %}
+          <div class="info-block" data-aos="fade-up" data-aos-delay="100">
+            <div style="background-image:url('{{ asset('img/icons/home/icon_1.svg') }}')" class="info-img"></div>
+            <h3 class="info-title">{{ snippet.title }}</h3>
+            <div class="info-text">{{ snippet.content|raw }}</div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          {% set snippet = constant('App\\Entity\\Snippet::CODE_SECURE_PAYMENT')|getSnippet %}
+          <div class="info-block" data-aos="fade-up" data-aos-delay="200">
+            <div style="background-image:url('{{ asset('img/icons/home/icon_2.svg') }}')" class="info-img"></div>
+            <h3 class="info-title">{{ snippet.title }}</h3>
+            <div class="info-text">{{ snippet.content|raw }}</div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          {% set snippet = constant('App\\Entity\\Snippet::CODE_CENTER_APPROVED')|getSnippet %}
+          <div class="info-block" data-aos="fade-up" data-aos-delay="300">
+            <div style="background-image:url('{{ asset('img/icons/home/icon_3.svg') }}')" class="info-img"></div>
+            <h3 class="info-title">{{ snippet.title }}</h3>
+            <div class="info-text">{{ snippet.content|raw }}</div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          {% set snippet = constant('App\\Entity\\Snippet::CODE_BEST_PRICE')|getSnippet %}
+          <div class="info-block" data-aos="fade-up" data-aos-delay="400">
+            <div style="background-image:url('{{ asset('img/icons/home/icon_4.svg') }}')" class="info-img"></div>
+            <h3 class="info-title">{{ snippet.title }}</h3>
+            <div class="info-text">{{ snippet.content|raw }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service -->
+  <section class="service-section">
+    <div class="rellax service-icon"></div>
+    <div class="rellax service-title-icon"></div>
+    <div class="container">
+      <h2 class="service-title">{{ 'info.home.offer_service'|trans }}</h2>
+      <div class="row">
+          {% set pages =
+                {
+                    0: constant('App\\Entity\\Page::CODE_GET_POINT'),
+                    1: constant('App\\Entity\\Page::CODE_WHEN_COURSE'),
+                    2: constant('App\\Entity\\Page::CODE_FLOW_COURSE')
+                }
+          %}
+
+          {% for page in pages %}
+              {% set contentPage = page|getPage %}
+                {% set slug = contentPage.slug %}
+
+              {% for block in contentPage.blocks %}
+                  <div class="col-md-4">
+                    <a href="{{ path('page', {'slug': slug }) }}" class="service-block" data-aos="fade-up" data-aos-delay="{{ loop.index * 2}}00">
+                      <h3 class="service-content-title"> {{ block.title }} </h3>
+                      <div class="service-text">
+                         {{block.content|truncate(140)|raw }}
+                      </div>
+                      <div class="btn btn-secondary btn-full">
+                          {{ 'message.general.learn_more'|trans }}
+                      </div>
+                    </a>
+                  </div>
+              {% endfor %}
+          {% endfor %}
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Presentation -->
+  <section class="presentation-section">
+    <div class="container">
+      <div class="rellax presentation-icon"></div>
+      <div class="row">
+          <div class="col-sm-6">
+            <div class="presentation-block" >
+                {% set page = constant('App\\Entity\\Page::CODE_ABOUT')|getPage %}
+              <h2 class="presentation-title" data-aos="fade-left" data-aos-delay="300">{{ page.title }}</h2>
+              <div class="presentation-text" data-aos="fade-left" data-aos-delay="500">
+                {% for block in page.blocks %}
+                  {% if loop.index == 1 %}
+                    {{ block.content|truncate(350)|raw }}
+                  {% endif %}
+                {% endfor %}
+              </div>
+              <a href="{{ path('page', {'slug': page.slug }) }}" class="btn btn-secondary" data-aos="fade-left" data-aos-delay="700"> {{ 'message.general.learn_more'|trans }} </a>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="presentation-img" data-aos="fade-up" data-aos-delay="600" style="background-image:url({{ vich_uploader_asset(page, 'image') }})">
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Proposition -->
+  <section class="proposition-section cheaper-courses" data-url="{{ path('api_courses') }}">
+
+    
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials-section">
+    <div class="rellax testimonials-icon"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="owl-carousel carousel-testimonials">
+            {% for testimonial in testimonials %}
+              <div class="item">
+                <div class="testimonials-block">
+                  <div class="testimonials-id">
+                      {% if testimonial.civility == 'male' %}
+                          <div class="testimonials-img" style="background-image:url('{{ asset('img/icons/man.svg') }}')"></div>
+                      {% elseif testimonial.civility == 'female' %}
+                          <div class="testimonials-img" style="background-image:url('{{ asset('img/icons/woman.svg') }}')"></div>
+                      {% endif %}
+                    <div class="testimonials-id-content">
+                      <h3 class="testimonials-name">{{ testimonial.firstName }}</h3>
+                      <div class="testimonials-place">{{ testimonial.description }}</div>
+                    </div>
+                  </div>
+                  <div class="testimonials-text">{{ testimonial.content|truncate(200)|raw }}</div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="testimonials-all-block">
+            {% set snippet = constant('App\\Entity\\Snippet::CODE_TEMOIGNAGE')|getSnippet %}
+            <h2 class="testimonials-all-title" data-aos="fade-left" data-aos-delay="300">{{ snippet.title }}</h2>
+            <div class="testimonials-all-text" data-aos="fade-left" data-aos-delay="500">{{ snippet.content|truncate(400)|raw }}</div>
+            <a href="{{ snippet.url }}" class="btn btn-secondary" data-aos="fade-left" data-aos-delay="700">{{ 'message.general.discover'|trans }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Internships -->
+  <section class="internships-section">
+    <div class="internships-icon"></div>
+    <div class="container">
+      <h2 class="internships-title">Nos stages de récupération partout en france</h2>
+      <div class="internships-content">
+        <a class="col-internships" href="{{ path('course_search', { address: 'Marseille, France', city: 'Marseille', department: 'Bouches-du-Rhône', latitude: 43.296482, longitude: 5.369779999999992 }) }}">
+          <div class="internships-block" data-aos="flip-right" data-aos-delay="200" style="background-image:url('{{ asset('img/city/1.jpeg') }}')">
+            <div class="internships-tag">Marseille</div>
+          </div>
+        </a>
+        <a class="col-internships" href="{{ path('course_search', { address: 'Toulouse, France', city: 'Toulouse', department: 'Haute-Garonne', latitude: 43.604652, longitude: 1.4442090000000007 }) }}">
+          <div class="internships-block" data-aos="flip-right" data-aos-delay="400" style="background-image:url('{{ asset('img/city/2.jpeg') }}')">
+            <div class="internships-tag">Toulouse</div>
+          </div>
+        </a>
+        <a class="col-internships" href="{{ path('course_search', { address: 'Nantes, France', city: 'Nantes', department: 'Loire-Atlantique', latitude: 47.218371, longitude: -1.553621000000021 }) }}">
+          <div class="internships-block" data-aos="flip-right" data-aos-delay="600" style="background-image:url('{{ asset('img/city/3.jpeg') }}')">
+            <div class="internships-tag">Nantes</div>
+          </div>
+        </a>
+        <a class="col-internships" href="{{ path('course_search', { address: 'Paris, France', city: 'Paris', department: 'Paris', latitude: 48.85661400000001, longitude: 2.3522219000000177, }) }}">
+          <div class="internships-block" data-aos="flip-right" data-aos-delay="800" style="background-image:url('{{ asset('img/city/4.jpeg') }}')">
+            <div class="internships-tag">Paris</div>
+          </div>
+        </a>      
+      </div>
+    </div>
+  </section>
+
+  <!-- News -->
+  <section class="news-section">
+    <div class="rellax news-icon"></div>
+    <div class="container">
+      <h2 class="news-title"> {{ 'info.article.title'|trans }}</h2>
+      <div class="row">
+          {% for article in getArticles() %}
+              <div class="col-sm-6 col-md-4">
+                  <a href="{{ article.url }}" target="_blank" class="news-block" data-aos="fade-up" data-aos-delay="{{ loop.index * 1}}00">
+                      <div class="news-img-content">
+                          <div class="news-img"  style="background-image:url({{ vich_uploader_asset(article, 'image') }})"> </div>
+                      </div>
+                      <div class="news-content">
+                          <div class="news-date">{{ article.date|date('d/m/Y') }}</div>
+                          <h3 class="news-content-title">{{ article.title }}</h3>
+                          <div class="news-text">{{ article.description|truncate(250) }}</div>
+                          <div class="btn btn-secondary">{{ 'message.general.read_more'|trans }} </div>
+                      </div>
+                  </a>
+              </div>
+          {% endfor %}
+      </div>
+    </div>
+  </section>
+</div>
+
+{% endblock %}

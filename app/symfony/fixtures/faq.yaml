@@ -1,0 +1,4 @@
+App\Entity\Faq:
+    faq{1..6}:
+        question: <fr_FR:sentence()>
+        answer: <fr_FR:paragraph()>

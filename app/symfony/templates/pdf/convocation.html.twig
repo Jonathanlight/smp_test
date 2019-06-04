@@ -1,0 +1,85 @@
+{% extends 'pdf.html.twig' %}
+
+{% block body %}
+  <page>
+    <header>
+        <address contenteditable>
+            <p>{{ order.trainee.lastName }} {{ order.trainee.firstName }}</p>
+            <p>{{ order.trainee.shortAddress }}</p>
+            <p>{{ order.trainee.postalCode }} {{ order.trainee.city }}</p>
+        </address>
+
+        <div class="double">
+          <div class="left">
+            <br />
+            Numéro stagiaire : {{ order.trainee.reference }}
+          </div>
+          <div class="right">
+            <span>Contact :</span>
+              {{ order.course.center.name|capitalize }} <br/>
+              {{ order.course.center.phone }} / {{ order.course.center.mobile }}
+          </div>
+        </div>
+        <div class="purple">
+          <h1>Convocation</h1>
+        </div>
+    </header>
+    <div class="content">
+      <div class="purple-round">
+          {% if order.trainee.courseType is same as(constant('App\\Entity\\Trainee::TYPE_REQUIRED')) %}
+            <p>Stage obligatoire des permis probatoires : <b>(cas n°2)</b></p>
+          {% else %}
+            <p>Stage volontaire de récupération de points : <b>(cas n°1)</b></p>
+          {% endif %}
+          <p>
+          <b><u>Date :</u></b>
+            {{ order.course.startOn|localizeddate('none', 'none', 'fr_FR', null, "cccc dd/MM/yyyy") | capitalize }}<br />
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; De  {{ order.course.startMorningStartAt|date("H:i") }} à {{ order.course.startMorningEndAt|date("H:i") }} et de {{ order.course.startAfternoonStartAt|date("H:i") }} à {{ order.course.startAfternoonEndAt|date("H:i") }}
+          <br /><br />
+            {{ order.course.endOn|localizeddate('none', 'none', 'fr_FR', null, "cccc dd/MM/yyyy") | capitalize }}<br />
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; De  {{ order.course.endMorningStartAt|date("H:i") }} à {{ order.course.endMorningEndAt|date("H:i") }} et de {{ order.course.endAfternoonStartAt|date("H:i") }} à {{ order.course.endAfternoonEndAt|date("H:i") }}
+          <br />
+        </p>
+        <p>
+          <b><u>Lieu :</u></b>
+          {{ order.course.place.name|capitalize }}<br />
+          {{ order.course.place.shortAddress|capitalize }}, {{ order.course.place.postalCode }} {{ order.course.place.city|capitalize }}
+        </p>
+        <p class="note">
+          Ce stage est dispensé par le CSSR {{ order.course.center.name|capitalize }} agréé par la préfecture sous le n°{{ order.course.center.approvalNumber }}
+        </p>
+      </div>
+      <div class="purple-round purple-round-mb">
+        <h2>IMPORTANT</h2>
+        <p class="red">
+          Pour que votre stage soit validé par la préfecture vous devez vous présenter le 1<sup>er</sup> jour avec :
+        </p>
+        <ul>
+          <li>-&nbsp; &nbsp; &nbsp; Votre permis de conduire</li>
+          <li>-&nbsp; &nbsp; &nbsp; Une copie recto-verso de votre permis de conduire<br />
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <i>(En cas de suspension du permis, la copie du récépissé de rétention)</i>
+          </li>
+          {% if constant('\\App\\Entity\\Trainee::TYPE_REQUIRED') == order.trainee.courseType %}
+            <li>Une copie recto-verso de la lettre 48 N</li>
+          {% endif %}
+          <li>-&nbsp; &nbsp; &nbsp; Votre pièce d'identité</li>
+          <li>-&nbsp; &nbsp; &nbsp; Une enveloppe timbrée et libellée à votre adresse</li>
+        </ul>
+      </div>
+      <p class="mentions mentions-xs">
+        <br /><br />
+        {% if order.trainee.courseType is same as(constant('App\\Entity\\Trainee::TYPE_REQUIRED')) %}
+          Lors de votre inscription au stage, vous vous êtes assuré qu'il vous restait entre 1 et 3 points sur votre
+          permis de conduire afin de pouvoir récupérer 4 points (dans la limite des 6 points que compte votre permis de conduire probatoire).
+        {% else %}
+          Lors de votre inscription au stage, vous vous êtes assuré qu'il vous restait entre 1 et 11 points sur votre
+          permis de conduire afin de pouvoir récupérer 4 points (dans la limite des 12 points que compte le permis de conduire).
+          Vous avez également confirmé ne pas avoir effectué de stage volontaire de récupération de points durant les 12 derniers mois.
+        {% endif %}
+        <br /><br />
+        Le CSSR {{ order.course.center.name|capitalize }}  est en droit d'annuler le stage s'il y a moins de 6 stagiaires inscrits comme l'impose la préfecture.<br />
+        Dans ce cas, le CSSR vous tiendra informé dans les temps de cette annulation.
+      </p>
+    </div>
+  </page>
+{% endblock %}

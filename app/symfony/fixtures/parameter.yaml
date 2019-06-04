@@ -1,0 +1,10 @@
+App\Entity\Parameter:
+    parameter1:
+        code: <(App\Entity\Parameter::CODE_EMAIL)>
+        value: 'info@plusdepoints.fr'
+    parameter2:
+        code: <(App\Entity\Parameter::CODE_PHONE)>
+        value: '01 42 80 02 67'
+    parameter3:
+        code: <(App\Entity\Parameter::CODE_COMMISSION)>
+        value: 30

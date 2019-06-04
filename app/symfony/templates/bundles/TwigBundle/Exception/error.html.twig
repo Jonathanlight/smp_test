@@ -1,0 +1,20 @@
+{% extends "front/base.html.twig" %}
+
+{% block bodyClass %}page-error{% endblock %}
+
+{% block body %}
+  <div class="error-wrap">
+    <div class="container">
+      <div class="error-block">
+        <div class="error-content">
+          <img class="error-img" data-aos="fade-up" data-aos-delay="200" src="{{ asset('img/icons/img-404.svg') }}" alt="PLUS DE POINTS">
+          <h1 class="error-title" data-aos="fade-up" data-aos-delay="400" data-aos-offset="0">Oops !</h1>
+          <p class="error-text" data-aos="fade-up" data-aos-delay="600" data-aos-offset="0">Désolé, nous n’avons pas trouvé la page recherché</p>
+          <div class="error-emo-img" data-aos="fade-up" data-aos-delay="700" data-aos-offset="0">
+            <img src="{{ asset('img/icons/img-emo-404.svg') }}" alt="PLUS DE POINTS">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

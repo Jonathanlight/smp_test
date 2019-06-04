@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Accès CSSR{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="PLUS DE POINTS">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="{{ asset('vendor/material-design-iconic-font/dist/css/material-design-iconic-font.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/middle/middle.min.css') }}">
+
+  <!-- Fonts -->	
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('img/favicons/apple-touch-icon-57x57.png') }}">
+  <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('img/favicons/apple-touch-icon-60x60.png') }}">
+  <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('img/favicons/apple-touch-icon-72x72.png') }}">
+  <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('img/favicons/apple-touch-icon-76x76.png') }}">
+  <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('img/favicons/apple-touch-icon-114x114.png') }}">
+  <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('img/favicons/apple-touch-icon-120x120.png') }}">
+  <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('img/favicons/apple-touch-icon-144x144.png') }}">
+  <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('img/favicons/apple-touch-icon-152x152.png') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/favicons/favicon-32x32.png') }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/favicons/favicon-16x16.png') }}">
+  <link rel="manifest" href="{{ asset('img/favicons/site.webmanifest') }}">
+  <link rel="mask-icon" href="{{ asset('img/favicons/safari-pinned-tab.svg') }}" color="#6B6BED">
+  <link rel="shortcut icon" href="{{ asset('img/favicons/favicon.ico') }}">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="{{ asset('img/favicons/mstile-144x144.png') }}">
+  <meta name="msapplication-config" content="{{ asset('img/favicons/browserconfig.xml') }}">
+  <meta name="theme-color" content="#ffffff">
+
+  {% block stylesheets %}{% endblock %}
+</head>
+<body class="{% block bodyClass %}{% endblock %}">
+
+<!-- Menu -->
+{% include('middle/common/menu.html.twig') %}
+<!-- Main  -->
+<div class="main-middle-wrap active">
+  <section class="contact-header-section">
+    <div class="contact-block">Vous avez une question ? <strong><a href="tel:{{ getParameter(constant('App\\Entity\\Parameter::CODE_PHONE'))|replace({' ':''}) }}">{{ getParameter(constant('App\\Entity\\Parameter::CODE_PHONE')) }}</a></strong></div>
+  </section>
+  <header class="header-middle-wrap">
+    <!-- Link Mobile -->
+    <a href="javascript:void(0)" class="link-menu-middle">
+        <span class="menu-title sr-only">Menu</span>
+        <div class="menu-logo">
+            <span></span>
+        </div>
+    </a>
+
+    <!-- Logo -->
+    <img src="{{ asset('img/plus_de_points.svg') }}" alt="PLUS DE POINTS" class="header-logo">
+
+    <!-- Logout Mobile -->
+    <a href="{{ path('middle_logout') }}" class="btn btn-primary btn-logout d-block d-sm-block d-md-block d-lg-none d-print-none">
+      <i class="icon-power"></i>
+      <span class="sr-only">{{ 'form.user.logout'|trans }}</span>
+    </a>
+
+    <!-- User -->
+    <div class="user-block">
+      {% if not is_granted('ROLE_CSSR') and app.user and app.request.attributes.get('_route') != 'dashboard' and app.request.attributes.get('_route') != 'middle_center_create' and app.request.attributes.get('_route') != 'middle_accounting_list' %}
+          <div class="user-id-info">
+            <div class="form-select form-select-role">
+              <select class="form-control" id="selectCssr">
+                <option value="" {% if not app.user.center %}selected{% endif %}>Tous les CSSR</option>
+                  {% for center in getCenters() %}
+                    <option value="{{ center.id }}" {{ center is same as (app.user.center) ? 'selected' : '' }}>{{ center.code }}</option>
+                  {% endfor %}
+              </select>
+            </div>
+          </div>
+      {% endif %}
+
+      <div class="user-id-info">
+        <div class="user-id-welcome">{{ 'info.home.hello'|trans }},</div>
+        <div class="dropdown">
+          <button class="btn btn-link" type="button" id="dropdownMenuMiddleUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {% if app.user.username is defined %} {{ app.user.username }} {% endif %}<i class="zmdi zmdi-chevron-down"></i>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuMiddleUser">
+            <a class="dropdown-item" href="{{ path('middle_logout') }}">
+              <i class="icon-power"></i>
+                {{ 'form.user.logout'|trans }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Middle Content -->
+  <div class="middle-content-wrap">
+    {% include('middle/common/flashMessage.html.twig') %}
+    {% block body %}{% endblock %}
+  </div>
+</div>
+
+{% if app.user is not null %}
+  <!-- Modal Confirmation -->
+  {% include 'middle/modal/register.html.twig' %}
+
+  <!-- Modal Tranferred -->
+  {% include 'middle/modal/transfer.html.twig' %}
+
+  <!-- Modal Confirmed -->
+  {% include 'middle/modal/confirm.html.twig' %}
+
+  <!-- Modal Cancel -->
+  {% include 'middle/modal/cancel.html.twig' %}
+
+  <!-- Modal Waiting -->
+  {% include 'middle/modal/wait.html.twig' %}
+
+  <!-- Modal Refunded -->
+  {% include 'middle/modal/refund.html.twig' %}
+
+  <!-- Modal CGU -->
+  {% if is_granted('ROLE_CSSR') and app.user.center.validatedCGU == 0 %}
+    {% set condition = getLatestCondition() %}
+    {% if condition %}
+      {% include 'middle/modal/cgu.html.twig' with { condition: condition } %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+
+{% if app.user %}
+  <script>
+    window.user = {
+      role: '{{ app.user.role }}'
+    };
+    {% if app.user.center and is_granted('ROLE_CSSR') %}
+       window.user.center = {{ app.user.center.id }};
+       window.user.validatedCGU = {{ app.user.center.validatedCGU ?: 0 }};
+    {% endif %}
+  </script>
+{% endif %}
+<script src="{{ asset('js/middle/main.min.js') }}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ api_google_key }}&libraries=places&callback=loadGoogleApi" async defer></script>
+
+{% block javascripts %}{% endblock %}
+</body>
+</html>

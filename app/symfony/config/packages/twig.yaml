@@ -1,0 +1,18 @@
+twig:
+    paths: ['%kernel.project_dir%/templates']
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    form_themes:
+        - "common/bootstrap_4_layout.html.twig"
+        - 'form/type_course.html.twig'
+        - 'form/send_letter.html.twig'
+        - 'form/license_format.html.twig'
+        - 'form/tarif.html.twig'
+        - "form/tarif.html.twig"
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+    globals:
+        api_google_key: '%env(API_GOOGLE_KEY)%'
+        google_analytics_id: '%env(GOOGLE_ANALYTICS_ID)%'
+        google_conversion_id: '%env(GOOGLE_CONVERSION_ID)%'
+        bing_analytics_id: '%env(BING_ANALYTICS_ID)%'
+        ogone_url: '%env(OGONE_URL)%'

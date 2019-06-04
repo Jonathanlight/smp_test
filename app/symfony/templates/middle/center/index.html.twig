@@ -1,0 +1,193 @@
+{% extends 'middle/base.html.twig' %}
+
+{% block body %}
+
+<div class="detail-stage-wrap  ">
+  <div class="middle-title-section">
+    <h1 class="middle-default-title"> {{ 'info.default.titleAccount'|trans }} </h1>
+    <div class="head-action-block">
+      <a href="{{ path('middle_center_edit', { id: center.id }) }}" class="btn btn-secondary btn-sm float-right">
+        <span>{{ 'form.action.edit'|trans }}</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="detail-profil-section">
+    <div class="row">
+      <div class="col-sm-7">
+        <!-- Coordonnees  -->
+        <div class="detail-default-block">
+          <h3 class="detail-default-title">{{ 'info.default.coordonneeCenter'|trans }} </h3>
+          <ul class="list-info-default list-xl list-unstyled">
+            <li>
+              <div class="info-label">{{ 'info.default.nomSociale'|trans }}  :</div>
+              <div class="info-detail">{{ center.name }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.default.code'|trans }}  :</div>
+              <div class="info-detail">{{ center.code }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.default.adresse'|trans }}  :</div>
+              <div class="info-detail">{{ center.address }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.default.codePostal'|trans }}  :</div>
+              <div class="info-detail">{{ center.postalCode }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.default.ville'|trans }}  :</div>
+              <div class="info-detail">{{ center.city }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.default.agrement'|trans }}  :</div>
+              <div class="info-detail">{{ center.approvalNumber }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.default.delivrePrefecture'|trans }}  :</div>
+              <div class="info-detail">{{ center.prefecture }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.default.siret'|trans }}  :</div>
+              <div class="info-detail">{{ center.siret }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.default.villeRCS'|trans }}  :</div>
+              <div class="info-detail">{{ center.rcs }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.default.intracommunautaireTVA'|trans }} :</div>
+              <div class="info-detail">{{ center.vatNumber }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.default.codeAPE'|trans }} :</div>
+              <div class="info-detail">{{ center.apeCode }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.center.capital'|trans }} :</div>
+              <div class="info-detail">{{ center.capital }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.center.juridiqueForm'|trans }} :</div>
+              <div class="info-detail">{{ center.juridiqueForme }}</div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Tarif -->
+        {% if center.tarif %}
+          <div class="detail-default-block">
+            <h3 class="detail-default-title">{{ 'info.default.tarifApplique'|trans }} </h3>
+            <ul class="list-info-default list-xl list-unstyled">
+              <li>
+                <div class="info-label">{{ 'info.default.commissionParStage'|trans }} : </div>
+                <div class="info-detail"> {{ center.tarif.commission }} €</div>
+              </li>
+              {% if center.tarif.type is same as(constant('App\\Entity\\Tarif::TYPE_COURSE')) and center.tarif.remainingCourse > 0 %}
+                <li>
+                  <div class="info-label">{{ 'info.default.commissionReduite'|trans }} :</div>
+                  <div class="info-detail">
+                    <div class="info-price"> {{ center.tarif.commissionByCourse }} €</div>
+                    <div class="info-word">{{ 'info.default.pour'|trans }}</div>
+                    <div class="info-text">{{ center.tarif.totalCourse }} {{ 'info.tarif.trainee'|transchoice(center.tarif.totalCourse) }} (il reste {{ center.tarif.remainingCourse }} {{ 'info.tarif.trainee'|transchoice(center.tarif.remainingCourse) }})</div>
+                  </div>
+                </li>
+              {% endif %}
+              {% if center.tarif.type is same as(constant('App\\Entity\\Tarif::TYPE_DATE')) and center.tarif.isDiscountDateActive %} 
+                <li>
+                  <div class="info-label">{{ 'info.default.commissionReduite'|trans }} :</div>
+                  <div class="info-detail">
+                    <div class="info-price"> {{ center.tarif.commissionByDate }} €</div>
+                    <div class="info-word">{{ 'info.default.du'|trans }}</div>
+                    <div class="info-text"> {{ center.tarif.startOn|date('d/m/Y') }} <strong>{{ 'info.default.au'|trans }}</strong> {{ center.tarif.endOn|date('d/m/Y') }} </div>
+                  </div>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="col-sm-5">
+        <!-- User -->
+        <div class="detail-default-block">
+          <h3 class="detail-default-title">{{ 'info.center.users'|trans }}</h3>
+          <ul class="list-info-default list-lg list-unstyled">
+            {% for user in center.users %}
+              {% if user.role is same as(constant('App\\Entity\\User::ROLE_CSSR')) %}
+                <li>
+                  <div class="info-label">{{ 'info.user.username'|trans }} :</div>
+                  <div class="info-detail info-break">{{ user.username }}</div>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+
+        <!-- Coordonnées bancaires -->
+        <div class="detail-default-block">
+          <h3 class="detail-default-title">{{ 'info.default.coordonneeBancaire'|trans }}</h3>
+          <ul class="list-info-default list-lg list-unstyled">
+            <li>
+              <div class="info-label">{{ 'info.default.titulaireCompte'|trans }} : </div>
+              <div class="info-detail">{{ center.bankOwner }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.default.nomBanque'|trans }} : </div>
+              <div class="info-detail">{{ center.bankName }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.default.iban'|trans }} :</div>
+              <div class="info-detail info-break">{{ center.iban }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.default.codeBic'|trans }} : </div>
+              <div class="info-detail">{{ center.bic }}</div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div class="detail-default-block">
+          <h3 class="detail-default-title">{{ 'info.default.contact'|trans }}</h3>
+          <ul class="list-info-default list-lg list-unstyled">
+            <li>
+              <div class="info-label">{{ 'info.default.nom'|trans }} : </div>
+              <div class="info-detail">{{ center.lastName }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.default.prenom'|trans }} : </div>
+              <div class="info-detail">{{ center.firstName }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.default.fix'|trans }} : </div>
+              <div class="info-detail">{{ center.phone }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.default.portable'|trans }} :</div>
+              <div class="info-detail">{{ center.mobile }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.default.fax'|trans }} :</div>
+              <div class="info-detail">{{ center.fax }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.default.email2'|trans }} :</div>
+              <div class="info-detail">{{ center.email }}</div>
+            </li>
+          </ul>
+        </div>
+
+        {% if (is_granted('ROLE_SMP') or is_granted('ROLE_CONSULTANT'))  and center.comment %}
+          <!-- Commentaires -->
+          <div class="detail-default-block">
+            <h3 class="detail-default-title">{{ 'info.default.comment'|trans }}</h3>
+            <div class="detail-comment-text">{{ center.comment }}</div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+<!-- Modal -->
+<div class="modal fade" id="modal-cancel" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitleCancelInscriptionLabel">Annulation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="zmdi zmdi-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-info">
+          Attention, vous allez perdre définitivement le stagiaire si vous confirmez cette annulation.
+        </div>
+        <form>
+          <div class="form-group">
+            <label class="control-label" for="reason">{{ 'info.order.reason'|trans }}</label>
+            <textarea id="reason" name="reason" class="form-control" required></textarea>
+          </div>
+          <div class="modal-actions">
+            <button type="submit" class="btn btn-secondary btn-sm" id="modal-order-cancel">
+              Confirmer
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

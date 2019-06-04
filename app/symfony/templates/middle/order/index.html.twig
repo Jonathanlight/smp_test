@@ -1,0 +1,149 @@
+{% extends 'middle/base.html.twig' %}
+
+{% block body %}
+<div class="intern-card-wrap d-print-block">
+  <div class="middle-title-section">
+    <h1 class="middle-default-title"> {{ 'info.order.titleIndex'|trans }} </h1>
+    <div class="head-action-block d-print-none">
+      <ul class="list-middle-link list-inline float-left">
+        <li class="list-inline-item"><a href="javascript:void(0)" onclick="window.print();">{{ 'info.order.imprimer'|trans }}</a></li>
+        <li class="list-inline-item"><a href="{{ path('middle_order_convocation', { 'id': order.id }) }}" target="_blank">{{ 'info.order.voirConvocation'|trans }}</a></li>
+        {% if is_granted(constant('App\\Security\\Voter\\TraineeVoter::TRAINEE_EDIT'), order.trainee) %}
+          <li class="list-inline-item"><a href="{{ path('middle_trainee_edit', { id: order.trainee.id }) }}">{{ 'form.action.edit'|trans }}</a></li>
+        {% endif %}
+       </ul>
+    </div>
+  </div>
+
+  <div class="detail-intern-wrap">
+    <div class="row">
+      <!-- Coordonnees -->
+      <div class="col-sm-4">
+        <div class="detail-default-block">
+          <h3 class="detail-default-title">{{ 'info.order.coordonnee'|trans }} </h3>
+          <ul class="list-info-default list-xs list-unstyled">
+            <li>
+              <div class="info-label">{{ 'info.order.ref'|trans }} :</div>
+              <div class="info-detail info-mail">{{ order.trainee.reference }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.order.nom'|trans }}  :</div>
+              <div class="info-detail info-mail">{{ order.trainee.lastName }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.order.prenom'|trans }}  :</div>
+              <div class="info-detail info-mail">{{ order.trainee.firstName }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.order.adresse'|trans }}  :</div>
+              <div class="info-detail">{{ order.trainee.address }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.order.codePostal'|trans }} :</div>
+              <div class="info-detail">{{ order.trainee.postalCode }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.order.ville'|trans }}  :</div>
+              <div class="info-detail">{{ order.trainee.city }}</div>
+            </li>
+            {% if order.trainee.email is not same as(constant('App\\Entity\\Parameter::EMAIL_DEFAULT')) %}
+              <li>
+                <div class="info-label">{{ 'info.order.email'|trans }}  :</div>
+                <div class="info-detail info-mail">{{ order.trainee.email }}</div>
+              </li>
+            {% endif %}
+            <li>
+              <div class="info-label">{{ 'info.trainee.phone'|trans }}  :</div>
+              <div class="info-detail info-mail">{{ order.trainee.phone }}</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Commande -->
+      <div class="col-sm-4">
+        <div class="detail-default-block">
+          <h3 class="detail-default-title">{{ 'info.order.commande'|trans }}</h3>
+          <ul class="list-info-default list-unstyled">
+            <li>
+              <div class="info-label">{{ 'info.order.status'|trans }} :</div>
+              <div class="info-detail">{{ ('info.order.state.' ~ order.status)|trans }}</div>
+            </li>
+            {% if order.trainee.reference %}
+              <li>
+                <div class="info-label">{{ 'info.order.numeroFacture'|trans }} :</div>
+                <div class="info-detail">{{ order.reference }}</div>
+              </li>
+              <li>
+                <div class="info-label">{{ 'info.order.montantPaye'|trans }} :</div>
+                <div class="info-detail">{{ order.course.amount }} &euro; </div>
+              </li>
+              <li>
+                <div class="info-label">{{ 'info.order.dateAchat'|trans }} :</div>
+                <div class="info-detail">{{ order.paidAt|localizeddate('none', 'none', 'fr_FR', null, "cccc dd/MM/yyyy")|capitalize }}</div>
+              </li>
+            {% endif %}
+            <li>
+              <div class="info-label">{{ 'info.order.dateConfirmationStage'|trans }} : </div>
+              <div class="info-detail">{{ order.confirmedAt|localizeddate('none', 'none', 'fr_FR', null, "cccc dd/MM/yyyy")|capitalize }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.order.nomCSSR'|trans }} : </div>
+              <div class="info-detail">{{ order.course.center.name }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.order.jourStage'|trans }} : </div>
+              <div class="info-detail">{{ order.course.startOn|localizeddate('none', 'none', 'fr_FR', null, "cccc dd/MM/yyyy")|capitalize }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.order.lieuStage'|trans }} :  </div>
+              <div class="info-detail">{{ order.course.place.city }} {{ order.course.place.address }}</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <!-- Permis -->
+        <div class="detail-default-block">
+          <h3 class="detail-default-title">{{ 'info.order.permis'|trans }}</h3>
+          <ul class="list-info-default list-unstyled">
+            <li>
+              <div class="info-label">{{ 'info.order.numeroPermis'|trans }} :</div>
+              <div class="info-detail">{{ order.trainee.driverLicense }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.order.deliveredOn'|trans }} :</div>
+              <div class="info-detail">{{ order.trainee.deliveredOn|localizeddate('none', 'none', 'fr_FR', null, "cccc dd/MM/yyyy")|capitalize }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.order.deliveredAt'|trans }} :</div>
+              <div class="info-detail">{{ order.trainee.deliveredAt }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.order.obtainedOn'|trans }} :</div>
+              <div class="info-detail">{{ order.trainee.obtainedOn|localizeddate('none', 'none', 'fr_FR', null, "cccc dd/MM/yyyy")|capitalize }}</div>
+            </li>
+            <li>
+              <div class="info-label">{{ 'info.order.typeStage'|trans }} :</div>
+              <div class="info-detail">{{ ('info.trainee.type.' ~ order.trainee.courseType)|trans }}</div>
+            </li>
+          </ul>
+        </div>
+        {% if order.trainee.comment is not null %}
+          <div class="detail-default-block">
+            <h3 class="detail-default-title">{{ 'info.order.commentaire'|trans }}</h3>
+            <div class="detail-comment-text">{{ order.trainee.comment }}</div>
+          </div>
+        {% endif %}
+        {% if order.reason is not null %}
+          <div class="detail-default-block">
+            <h3 class="detail-default-title">{{ 'info.order.reason'|trans }}</h3>
+            <div class="detail-comment-text">{{ order.reason }}</div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

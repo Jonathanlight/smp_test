@@ -1,0 +1,57 @@
+App\Entity\Snippet:
+    snippet1:
+        title: 'Comment récupérer des points'
+        content: <fr_FR:paragraph(100)>
+        url: '#'
+        code: <(App\Entity\Snippet::CODE_RECOVERY_STAGE)>
+    snippet2:
+        title: 'Dans quel cas effectuer un stage'
+        content: <fr_FR:paragraph(100)>
+        url: '#'
+        code: <(App\Entity\Snippet::CODE_WICH_CASE_STAGE)>
+    snippet3:
+        title: 'Le déroulement d''un stage'
+        content: <fr_FR:paragraph(100)>
+        url: '#'
+        code: <(App\Entity\Snippet::CODE_PROGRESS_STAGE)>
+    snippet4:
+        title: 'Témoignages des stagiaires'
+        content: <fr_FR:paragraph(30)>
+        url: '/testimonials'
+        code: <(App\Entity\Snippet::CODE_TEMOIGNAGE)>
+    snippet5:
+        title: 'Sasissez votre contenu pour le form de contact ...'
+        content: <fr_FR:paragraph(5)>
+        code: <(App\Entity\Snippet::CODE_FORM_CONTACT)>
+    snippet6:
+        title: 'Stage à proximité'
+        content: <fr_FR:paragraph(5)>
+        code: <(App\Entity\Snippet::CODE_COURSE_PROXIMITY)>
+    snippet7:
+        title: 'Paiments sécurisé'
+        content: <fr_FR:paragraph(5)>
+        code: <(App\Entity\Snippet::CODE_SECURE_PAYMENT)>
+    snippet8:
+        title: 'Centres agréés'
+        content: <fr_FR:paragraph(5)>
+        code: <(App\Entity\Snippet::CODE_CENTER_APPROVED)>
+    snippet9:
+        title: 'Meilleur prix'
+        content: <fr_FR:paragraph(5)>
+        code: <(App\Entity\Snippet::CODE_BEST_PRICE)>
+    snippet10:
+        title: 'Marseille'
+        content: <fr_FR:paragraph(5)>
+        code: <(App\Entity\Snippet::CODE_CITY_1)>
+    snippet11:
+        title: 'Toulouse'
+        content: <fr_FR:paragraph(5)>
+        code: <(App\Entity\Snippet::CODE_CITY_2)>
+    snippet12:
+        title: 'Nantes'
+        content: <fr_FR:paragraph(5)>
+        code: <(App\Entity\Snippet::CODE_CITY_3)>
+    snippet13:
+        title: 'Paris'
+        content: <fr_FR:paragraph(5)>
+        code: <(App\Entity\Snippet::CODE_CITY_4)>

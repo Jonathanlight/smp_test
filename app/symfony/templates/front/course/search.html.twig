@@ -1,0 +1,194 @@
+{% extends 'front/base.html.twig' %}
+
+{% set page = constant('App\\Entity\\Page::CODE_SEARCH')|getPage %}
+{% block title %} {{ page.title|bind(app.request.query.all) }} {% endblock %}
+{% block description %} {{ page.description|bind(app.request.query.all) }} {% endblock %}
+
+{% block bodyClass %}page-search{% endblock %}
+
+{% block body %}
+
+<!-- Search Form  -->
+{{ form_start(form, {'action' : path('course_search'), 'attr' : {'class' : 'search-block'} }) }}
+  <div class="search-wrap">
+    <section class="search-section" style="background-image:url('{{ asset('img/icons/home-search-bg.jpg') }}')">
+      <div class="rellax search-icon"></div>
+      <div class="container">
+        <h1 class="search-title" data-aos="fade-up" data-aos-delay="300">Trouvez des stages de <span>récupération de points</span>, et récupérez vos points !</h1>
+        <div class="search-block" data-aos="fade-up" data-aos-delay="600">
+          <button type="button" class="btn btn-localisation geoloc" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Trouver ma position">
+            <i class="icon-pin"></i>
+            <span class="sr-only">Trouver ma localisation</span>
+          </button>
+          {{ form_widget(form.address, {'attr' : {'class' : 'autocomplete'}}) }}
+          <button type="submit" class="btn btn-primary">
+            <i class="icon-search"></i>
+            <span class="search-text">Rechercher</span>
+          </button>
+        </div>
+      </div>
+      <a href="javascript:void(0)" class="btn btn-white btn-next d-block d-sm-none">
+        <i class="zmdi zmdi-long-arrow-down"></i>
+      </a>
+    </section>
+  </div>
+
+  <div class="default-wrap search-main-wrap">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 col-content">
+          <div class="default-content">
+            <div class="search-title-block">
+              <div class="row">
+                <div class="col-md-6">
+                  <h1 class="search-title">
+                    Autour de
+                    {{ app.request.query.get("address") }}
+                  </h1>
+                </div>
+                <div class="col-md-6">
+                  <!-- Nav Filter Sorts mobile -->
+                  <ul class="list-form-search list-inline">
+                    <li class="list-inline-item"><a href="javascript:void(0)" class="link-sorts">Trier par <i class="zmdi zmdi-long-arrow-down"></i></a></li>
+                    <li class="list-inline-item"><a href="javascript:void(0)" class="link-filter"><i class="icon-filter"></i>Filtres</a></li>
+                  </ul>
+
+                    <!-- Form sorts -->
+                    <div class="form-sorts">
+                      <div class="form-sorts-title">
+                        Trier par:
+                      </div>
+                      <div class="form-radio-alt">
+                        <div class="form-radio">
+                            {{ form_row(form.sort) }}
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Form filter mobile -->
+                    <div class="aside-block aside-form">
+                        <h3 class="aside-b-title">Filtres</h3>
+                        <div class="form-group">
+                            <label>Distance</label>
+                            <input type="number" class="slider-distance" name="distance" />
+                            <div class="slider-detail">
+                               <div class="slider-init" id="slider-min">0</div>
+                               <div class="slider-end" id="slider-max">{{ constant('\\App\\Manager\\CourseManager::MAX_DISTANCE') }}</div>
+                            </div>
+                        </div>
+                        <div class="form-group form-date-days-group">
+                          <div class="form-group">
+                            <label class="control-label">Jours</label>
+                            <div class="form-checkbox">
+                              <input type="checkbox" id="dayWeek_mobile_0" name="dayWeek[]" value="0" />
+                              <label for=dayWeek_mobile_0>
+                                <span class="icon"></span>
+                                <span class="label-align">{{ 'form.day_week.monday'|trans }}</span>
+                              </label>
+                            </div>
+                            <div class="form-checkbox">
+                              <input type="checkbox" id="dayWeek_mobile_1" name="dayWeek[]" value="1" />
+                              <label for=dayWeek_mobile_1>
+                                <span class="icon"></span>
+                                <span class="label-align">{{ 'form.day_week.tuesday'|trans }}</span>
+                              </label>
+                            </div>
+                            <div class="form-checkbox">
+                              <input type="checkbox" id="dayWeek_mobile_2" name="dayWeek[]" value="2" />
+                              <label for=dayWeek_mobile_2>
+                                <span class="icon"></span>
+                                <span class="label-align">{{ 'form.day_week.wednesday'|trans }}</span>
+                              </label>
+                            </div>
+                            <div class="form-checkbox">
+                              <input type="checkbox" id="dayWeek_mobile_3" name="dayWeek[]" value="3" />
+                              <label for=dayWeek_mobile_3>
+                                <span class="icon"></span>
+                                <span class="label-align">{{ 'form.day_week.thrusday'|trans }}</span>
+                              </label>
+                            </div>
+                            <div class="form-checkbox">
+                              <input type="checkbox" id="dayWeek_mobile_4" name="dayWeek[]" value="4" />
+                              <label for=dayWeek_mobile_4>
+                                <span class="icon"></span>
+                                <span class="label-align">{{ 'form.day_week.friday'|trans }}</span>
+                              </label>
+                            </div>
+                          </div>
+                        </div>                     
+                        <div class="form-group form-icon-calendar">
+                          <input type="text" name="date" class="jsdatepicker form-control" placeholder="{{ 'form.search.filter_date'|trans }}">
+                        </div>
+                        <div class="form-group form-icon-label">
+                          <input type="text" name="maxPrice" placeholder="{{ 'form.search.filter_prix_max'|trans }}" class="form-control">
+                        </div>
+                        <div class="form-group">
+                          <button type="submit" class="btn btn-secondary btn-full">
+                            {{ 'form.action.filtrer'|trans }}
+                          </button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Search Result -->
+            <div class="search-all-block">
+              {% if courses|length %}
+                {% for course in courses %}
+                  {% include 'front/course/_view.html.twig' with { course: course } %}
+                {% endfor %}
+              {% else %}
+                <p>Aucun stage ne correspond à vos critères de recherche</p>
+              {% endif %}
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Aside -->
+        <div class="col-md-4 col-aside">
+          <div class="default-aside search-aside">
+            <!-- Form filter -->
+            <div class="aside-block aside-form">
+              <h3 class="aside-b-title">Filtres</h3>
+              <div class="form-group">
+                {{ form_label(form.distance) }}
+                {{ form_widget(form.distance) }}
+                <div class="slider-detail">
+                  <div class="slider-init" id="slider-min">0</div>
+                  <div class="slider-end" id="slider-max">{{ constant('\\App\\Manager\\CourseManager::MAX_DISTANCE') }}</div>
+                </div>
+              </div>
+              <div class="form-group form-date-days-group">
+                {{ form_row(form.dayWeek) }}
+              </div>
+              <div class="form-group form-icon-calendar">
+                {{ form_widget(form.date) }}  
+              </div>
+              <div class="form-group form-icon-label">
+                {{ form_widget(form.maxPrice) }}
+              </div>
+              <div class="form-group">
+                {{ form_widget(form.submit, { attr: { class: 'btn-secondary btn-full' } }) }}
+              </div>
+            </div>
+            <!-- / -->
+            <!-- Commitments -->
+            {% include 'front/common/aside_commitments.html.twig' %}
+            <!-- / -->
+
+            <!-- Payment -->
+            {% include 'front/common/aside_payments.html.twig' %}
+            <!-- / -->
+
+            <!-- Contact -->
+            {% include 'front/common/aside_contact.html.twig' %}
+            <!-- / -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{ form_end(form) }}
+{% endblock %}

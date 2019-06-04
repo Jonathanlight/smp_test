@@ -1,0 +1,15 @@
+<!-- Head Order -->
+<div class="order-head-block">
+  <div class="order-title-block">
+    <h2 class="order-title">
+        {{ order.course.place.addressWithoutStreetNumber }}
+    </h2>
+    <div class="order-text">Stage agréé par la préfecture de {{ order.course.center.prefecture }} sous le numéro {{ order.course.center.approvalNumber }}</div>
+  </div>
+  <div class="order-aggregation-block">
+    <div class="order-agg-text">
+      Tous les stages proposés sont agréés par la préfecture
+    </div>
+    <img src="{{ asset('img/icons/icon-france.svg') }}" alt="PLUS DE POINTS">
+  </div>
+</div>

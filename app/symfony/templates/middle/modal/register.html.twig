@@ -1,0 +1,36 @@
+<!-- Modal -->
+<div class="modal fade" id="modal-register" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-confirmation" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitleConfirmationInscriptionLabel">Confirmer l’inscription à un stage :</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="zmdi zmdi-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="table-responsive">
+            <table class="table table-inscription" id="registered-list">
+              <thead>
+                <tr>
+                  <th>{{ 'message.modal.transfer.trainee'|trans }}</th>
+                  <th>{{ 'message.modal.transfer.preRegistered'|trans }}</th>
+                  <th>{{ 'message.modal.transfer.confirmed'|trans }}</th>
+                  <th>{{ 'message.modal.transfer.transfer'|trans }}</th>
+                  {% if not is_granted('ROLE_CSSR') %}
+                    <th>{{ 'message.modal.transfer.wait'|trans }}</th>
+                    <th>{{ 'message.modal.transfer.refund'|trans }}</th>
+                  {% endif %}
+                  <th>{{ 'message.modal.transfer.delete'|trans }}</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

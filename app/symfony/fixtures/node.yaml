@@ -1,0 +1,25 @@
+App\Entity\Node:
+    node1:
+        tree: '@tree1'
+        title: 'Qui sommes-nous ?'
+        page: '@page1'
+    node2:
+        tree: '@tree1'
+        title: 'Infraction et législation'
+        page: '@page3'
+    node3:
+        tree: '@tree1'
+        title: 'Stage de récupération de points'
+        page: '@page2'
+    node4:
+        tree: '@tree2'
+        title: 'Qui sommes-nous ?'
+        page: '@page1'
+    node5:
+        tree: '@tree2'
+        title: 'Mentions légales'
+        page: '@page4'
+    node6:
+        tree: '@tree2'
+        title: 'Conditions générales'
+        page: '@page6'

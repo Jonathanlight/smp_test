@@ -1,0 +1,27 @@
+{% extends 'admin/base.html.twig' %}
+
+
+{% block bodyClass %}page-authentification{% endblock %}
+
+{% block body %}
+    <div class="authentification-wrap">
+        <div class="authentification-form login-form"  data-aos="fade-up" data-aos-delay="300">
+
+            <img src="{{ asset('img/plus_de_points.svg') }}" alt="PLUS DE POINTS" class="authentification-logo">
+
+            <div class="authentification-text">Connectez-vous au back office en tant qu'admin</div>
+
+            {{ form_start(form, { attr: { class: 'form-login form-auth' } }) }}
+              <div class="form-group form-icon-mail {% if error %}has-error{% endif %} ">
+                  {{ form_widget(form._username) }}
+              </div>
+              <div class="form-group form-icon-password">
+                  {{ form_widget(form._password) }}
+              </div>
+
+              {{ form_widget(form.submit, { 'attr': { 'class': 'btn btn-secondary btn-full'}}) }}
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

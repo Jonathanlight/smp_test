@@ -1,0 +1,5 @@
+App\Entity\Tree:
+    tree1:
+        code: <(App\Entity\Tree::CODE_HEADER)>
+    tree2:
+        code: <(App\Entity\Tree::CODE_FOOTER)>

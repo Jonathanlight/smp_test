@@ -1,0 +1,124 @@
+{% extends 'pdf.html.twig' %}
+
+{% block body %}
+  <page>
+    <header>
+
+      <address contenteditable>
+        <p> {{ order.trainee.lastName }} {{ order.trainee.firstName }} </p>
+        <p> {{ order.trainee.shortAddress }} </p>
+        <p> {{ order.trainee.postalCode }} {{ order.trainee.city }} </p>
+      </address>
+
+      <div class="double">
+        <div class="left">
+          <br />
+          Référence stagiaire : {{ order.trainee.reference }}
+        </div>
+        <div class="right">
+        </div>
+      </div>
+    </header>
+    <div class="content">
+      <div class="purple p-bot-0">
+        <div class="double">
+          <div class="left">
+            <b>Facture n° {{ order.reference }}</b>
+          </div>
+          <div class="right">
+            <b>Date d'émission : {{ order.paidAt|date('d/m/Y') }}</b>
+          </div>
+        </div>
+      </div>
+
+      <div class="white">
+        <div class="table-custom">
+          <div class="row">
+            <div class="col-1">
+              Description
+            </div>
+            <div class="col-2">
+              Quantité
+            </div>
+            <div class="col-3">
+              Montant TTC
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="purple-number_format">
+        <div class="table-custom">
+          <div class="row">
+            <div class="col-1">
+              <h3>Stage de Sensibilisation à la Sécurité Routière</h3>
+              {% if order.trainee.courseType is same as(constant('App\\Entity\\Trainee::TYPE_REQUIRED')) %}
+                <span>Stage obligatoire des permis probatoires : <b>(cas n°2)</b></<span>
+              {% else %}
+                <span>Stage volontaire de récupération de points : <b>(cas n°1)</b></span>
+              {% endif %}
+              <br />
+              <span>{{ order.course.startOn|localizeddate('none', 'none', 'fr_FR', null, "cccc dd/MM/yyyy") | capitalize }} de {{ order.course.startMorningStartAt|date("H:i") }} à {{ order.course.startMorningEndAt|date("H:i") }} et de {{ order.course.startAfternoonStartAt|date("H:i") }} à {{ order.course.startAfternoonEndAt|date("H:i") }}</span>
+              <span>Et {{ order.course.endOn|localizeddate('none', 'none', 'fr_FR', null, "cccc dd/MM/yyyy") | capitalize }} de {{ order.course.endMorningStartAt|date("H:i") }} à {{ order.course.endMorningEndAt|date("H:i") }} et de {{ order.course.endAfternoonStartAt|date("H:i") }} à {{ order.course.endAfternoonEndAt|date("H:i") }}</span>
+              <span>{{ order.course.place.name|capitalize }}, {{ order.course.place.addressWithoutStreetNumber|capitalize }}</span>
+              <span>Agréement préfectoral n°{{ order.course.center.approvalNumber }}</span>
+            </div>
+            <div class="col-2">
+              1
+            </div>
+            <div class="col-3">
+              {{ order.course.amount|number_format(2) }} €
+            </div>
+          </div>
+        </div>
+        {% for option in order.options %}
+          <div class="table-custom">
+            <div class="row">
+              <div class="col-1">
+                {{ option.name }}
+              </div>
+              <div class="col-2">
+                1
+              </div>
+              <div class="col-3">
+                {{ option.amount|number_format(2) }} €
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="total">
+        <div class="double">
+          <div class="left">
+            <b>Total TTC</b>
+          </div>
+          <div class="right">
+            <b>{{ order.amount|number_format(2) }} €</b>
+	    </div>
+        </div>
+        <div class="double">
+          <div class="left">
+            TVA (20%)
+          </div>
+          <div class="right">
+            {{ (order.amount - order.amount / 1.2)|round(2, 'floor')|number_format(2) }} €
+          </div>
+        </div>
+        <div class="double">
+          <div class="left">
+            Total HT
+          </div>
+          <div class="right">
+            {{ (order.amount / 1.2)|round(2, 'ceil')|number_format(2) }} €
+          </div>
+        </div>
+      </div>
+      <br style="clear:both;" />
+      <p class="mentions">
+        <br />
+        Montant payé par carte bancaire au jour d'émission de la facture.
+      </p>
+    </div>
+  </page>
+{% endblock %}

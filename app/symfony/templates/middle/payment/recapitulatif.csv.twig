@@ -1,0 +1,6 @@
+"Date du stage";"Nom du stage";"Stagiaires";"Prix de vente";"Commission";"Somme perçu"
+{% for course in payment.courses %}
+  {% for order in course.confirmedOrders %}
+    {{ course.startOn|date('d/m/Y') }};"{{ course.place|encodeXls }}";"{{ order.trainee.lastName|encodeXls }} {{ order.trainee.firstName|encodeXls }}";{{ order.amountWithoutOptions }};{{ order.commission + order.commission * (20/100) }};{{ order.amountWithoutOptions - (order.commission + order.commission * (20/100)) }}
+  {% endfor %}
+{% endfor %}

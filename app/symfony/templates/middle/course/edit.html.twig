@@ -1,0 +1,144 @@
+{% extends 'middle/base.html.twig' %}
+
+{% block body %}
+<div class="detail-stage-wrap  ">
+  <div class="middle-title-section">
+    <h1 class="middle-default-title">
+        {% if course.id != null %}
+            {{ 'info.stage.titleEdit'|trans }}
+        {% else %}
+            {{ 'info.stage.titleAdd'|trans }}
+        {% endif %}
+    </h1>
+  </div>
+  {{ form_start(form) }}
+    <div class="add-stage-block">
+      <h2 class="middle-default-alt-title">{{ 'info.stage.edit.info'|trans }}</h2>
+      <div class="row">
+        <div class="col-sm-4">
+          {{ form_row(form.place) }}
+        </div>
+        <div class="col-sm-4">
+          {{ form_row(form.psychologist) }}
+        </div>
+        <div class="col-sm-4">
+          {{ form_row(form.former) }}
+        </div>
+      </div>
+    </div>
+
+    <div class="add-stage-block">
+      <h2 class="middle-default-alt-title">{{ 'info.stage.edit.dateHoraire'|trans }}</h2>
+      <div class="row">
+        <div class="col-sm-4">
+          {{ form_row(form.startOn) }}
+        </div>
+        <div class="col-sm-4 col-hour">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                {{ form_row(form.startMorningStartAt) }}
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                {{ form_row(form.startMorningEndAt) }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4 col-hour">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                {{ form_row(form.startAfternoonStartAt) }}
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                {{ form_row(form.startAfternoonEndAt) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          {{ form_row(form.endOn) }}
+        </div>
+        <div class="col-sm-4 col-hour">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                {{ form_row(form.endMorningStartAt) }}
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                {{ form_row(form.endMorningEndAt) }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4 col-hour">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                {{ form_row(form.endAfternoonStartAt) }}
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                {{ form_row(form.endAfternoonEndAt) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="add-stage-block add-stage-sp-block">
+      <div class="row">
+        <div class="col-sm-2">
+          <div class="form-group ">
+            <label class="control-label">{{ 'info.stage.edit.stageSpecifique'|trans }}:</label>
+            {{ form_row(form.special) }}
+          </div>
+        </div>
+        <div class="col col-quantity">
+          {{ form_row(form.quantity) }}
+        </div>
+        <div class="col">
+          <div class="form-group-price">
+            {{ form_row(form.amount) }}
+          </div>
+        </div>
+        {% if course.place.department is defined %}
+          {% set minPrice = getMinPriceByDepartment(course.place.department) %}
+        {% endif %}
+        <div class="col">
+          <div class="form-group-price" id="min-price" {% if minPrice is not defined %}style="display: none;"{% endif %}>
+            <div class="form-group">
+              <label for="">{{ 'info.stage.edit.prix'|trans }}:</label>
+              <input type="number" class="form-control" value="{% if minPrice is defined %}{{ minPrice }}{% endif %}" readonly>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if is_granted('ROLE_SMP') or is_granted('ROLE_CONSULTANT') %}
+        <br> <div class="participants-comment-block">
+            <div class="form-group">
+                <label class="middle-default-alt-title">Commentaire :</label>
+                <div class="detail-comment-text">{{ form_widget(form.comment) }}</div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="add-stage-action-block">
+      {{ form_row(form.submit) }}
+    </div>
+  {{ form_end(form) }}
+</div>
+{% endblock %}

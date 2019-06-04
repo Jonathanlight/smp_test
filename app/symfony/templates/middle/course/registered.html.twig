@@ -1,0 +1,48 @@
+{% for order in orders %}
+    <tr data-order-id="{{ order.id }}">
+        <td>{{ order.trainee.lastName }} {{ order.trainee.firstName }}</td>
+        <td>
+            <div class="icon-dot sub-pre-order-id" data-url-order-id="{{ order.id }}"></div>
+        </td>
+        {% if is_granted(constant('\\App\\Security\\Voter\\OrderVoter::ORDER_CONFIRM'), order) %}
+            <td>
+                <button type="button" class="btn btn-primary btn-full" data-url-confirm="{{ path('api_order_confirm', {'id': order.id }) }}">
+                    <i class="icon-check"></i>
+                    <span class="sr-only">Accepter</span>
+                </button>
+            </td>
+        {% endif %}
+        {% if is_granted(constant('\\App\\Security\\Voter\\OrderVoter::ORDER_TRANSFER'), order) %}
+            <td>
+                <button type="button" class="btn btn-primary btn-full" data-url-transfer="{{ path('api_order_transfer', {'id': order.id }) }}">
+                    <i class="icon-d-arrow"></i>
+                    <span class="sr-only">Transférer</span>
+                </button>
+            </td>
+        {% endif %}
+        {% if is_granted(constant('\\App\\Security\\Voter\\OrderVoter::ORDER_WAIT'), order) %}
+            <td>
+                <button type="button" class="btn btn-primary btn-full" data-url-wait="{{ path('api_order_wait', {'id': order.id }) }}">
+                    <i class="icon-time"></i>
+                    <span class="sr-only">En attente</span>
+                </button>
+            </td>
+        {% endif %}
+        {% if is_granted(constant('\\App\\Security\\Voter\\OrderVoter::ORDER_REFUND'), order) %}
+            <td>
+                <button type="button" class="btn btn-primary btn-full" data-url-order="{{ path('api_order_view', { 'id': order.id }) }}" data-url-refund="{{ path('api_order_refund', {'id': order.id }) }}">
+                    <i class="icon-m-rem"></i>
+                    <span class="sr-only">Remboursement</span>
+                </button>
+            </td>
+        {% endif %}
+        {% if is_granted(constant('\\App\\Security\\Voter\\OrderVoter::ORDER_CANCEL'), order) %}
+            <td>
+                <button type="button" class="btn btn-primary btn-full" data-url-cancel="{{ path('api_order_cancel', {'id': order.id }) }}">
+                    <i class="icon-close"></i>
+                    <span class="sr-only">Annuler</span>
+                </button>
+            </td>
+        {% endif %}
+    </tr>
+{% endfor %}

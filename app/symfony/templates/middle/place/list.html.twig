@@ -1,0 +1,72 @@
+{% extends 'middle/base.html.twig' %}
+
+{% block body %}
+<div class="list-stage-wrap  ">
+  <div class="middle-title-section">
+    <h1 class="middle-default-title">{{ 'info.place.listLieu'|trans }}</h1>
+    <div class="head-action-block">
+      <ul class="head-list-action list-inline">
+        <li class="list-inline-item">
+          <a href="{{ path('middle_place_create') }}" class="btn btn-secondary">{{ 'info.place.addLieu'|trans }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <p> {{ places.getTotalItemCount }}
+  {{ 'list.results'|transchoice(places|length) }}</p>
+
+  <div class="content-listing">
+    <table class="table table-listing">
+      <thead>
+        <tr>
+          <th>{{ 'info.place.nameLieu'|trans }}</th>
+          <th>{{ knp_pagination_sortable(places, ('info.place.adresse'|trans), 'city') }}</th>
+          <th>{{ 'info.place.equipement'|trans }}</th>
+          <th><span class="sr-only">{{ 'info.place.action'|trans }}</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if places|length %}
+          {% for place in places %}
+            <tr>
+              <td>{{ place.name }}</td>
+              <td>{{ place.address }}</td>
+              <td>
+                <ul class="list-default">
+                  {% for equipment in place.equipments %}
+                    <li>{{ ('equipment.type.' ~ equipment)|trans }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+              <td>
+                <ul class="list-action list-inline">
+                  <li class="list-inline-item">
+                    <a href="{{ path('middle_place_edit', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Editer">
+                      <i class="icon-pen"></i>
+                      <span class="sr-only">{{ 'form.action.edit'|trans }}</span>
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a data-delete-url="{{ path('middle_place_delete', { 'id': place.id }) }}" data-toggle="tooltip" data-placement="top" title="Supprimer">
+                      <i class="icon-trash"></i>
+                      <span class="sr-only">{{ 'form.action.delete'|trans }}</span>
+                    </a>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="4">{{ 'list.no.results'|trans }}</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+    <div class="navigation">
+      {{ knp_pagination_render(places) }}
+    </div>
+  </div>
+</div>
+{% endblock %}

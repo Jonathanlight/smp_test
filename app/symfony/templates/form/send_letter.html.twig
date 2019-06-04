@@ -1,0 +1,5 @@
+{% block _order_sendLetter_widget %}
+    {% spaceless %}
+        {{ form_widget(form.parent.sendLetter, { label: 'form.step1.send_letter'|trans ({'%price%': getOption(constant('App\\Entity\\Option::CODE_SEND_LETTER'))|number_format(2) }) }) }}
+    {% endspaceless %}
+{% endblock %}

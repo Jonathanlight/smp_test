@@ -1,0 +1,120 @@
+{% extends 'front/base.html.twig' %}
+
+{% set page = constant('App\\Entity\\Page::CODE_CONTACT')|getPage %}
+{% block title %} {{ page.title }} {% endblock %}
+{% block description %} {{ page.description }} {% endblock %}
+
+{% block bodyClass %}page-default page-cms{% endblock %}
+
+{% block body %}
+
+<div class="search-wrap">
+  <section class="search-section" style="background-image:url('{{ asset('img/icons/home-search-bg.jpg') }}')">
+    <div class="rellax search-icon"></div>
+    <div class="container">
+      <form class="search-block">
+        <h1 class="search-title" data-aos="fade-up" data-aos-delay="300">Contact</h1>
+      </form>
+    </div>
+  </section>
+</div>
+<div class="default-wrap cms-wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-content">
+        <!-- <div class="rellax default-icon"></div> -->
+
+        <div class="default-content">
+          <h2>Contactez-nous</h2>
+
+          {% include('middle/common/flashMessage.html.twig') %}
+
+          <p>
+              {% set content_form = constant('App\\Entity\\Snippet::CODE_FORM_CONTACT')|getSnippet %}
+              {{ content_form.content }}
+          </p>
+
+
+            {% if not form.vars.valid %}
+                <p class="alert alert-danger"> {{ 'form.submission.error'|trans }} </p>
+            {% endif %}
+
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            {{ form_start(form) }}
+
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  {{ form_label(form.lastName) }}
+                  {{ form_widget(form.lastName) }}
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  {{ form_label(form.firstName) }}
+                  {{ form_widget(form.firstName) }}
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  {{ form_label(form.traineeReference) }}
+                  {{ form_widget(form.traineeReference) }}
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  {{ form_label(form.invoiceReference) }}
+                  {{ form_widget(form.invoiceReference) }}
+                </div>
+              </div>
+              <div class="col-sm-6">
+                  <div class="form-group">
+                      {{ form_label(form.email) }}
+                      {{ form_widget(form.email) }}
+                      {{ form_errors(form.email) }}
+                  </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group">
+                    {{ form_label(form.message) }}
+                    {{ form_widget(form.message) }}
+                    {{ form_errors(form.message) }}
+                </div>
+              </div>
+
+              <div id="recaptcha-container"></div>
+
+              <div class="col-sm-12">
+                  <div class="form-group">
+                      {{ form_widget(form.recaptcha) }}
+                      {{ form_errors(form.recaptcha) }}
+                  </div>
+              </div>
+            </div>
+            <div class="actions-block">
+                {{ form_widget(form.submit, { 'attr': {'class':'btn btn-secondary'} }) }}
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+
+      </div>
+
+      <!-- Aside -->
+      <div class="col-md-4 col-aside">
+        <div class="default-aside">
+          <!-- Contact -->
+          {% include 'front/common/aside_contact.html.twig' %}
+          <!-- / -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

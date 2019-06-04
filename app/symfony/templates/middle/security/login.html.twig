@@ -1,0 +1,36 @@
+{% extends 'middle/base.html.twig' %}
+
+{% block bodyClass %}page-authentification{% endblock %}
+
+{% block body %}
+    <div class="authentification-wrap">
+        <div class="authentification-form" data-aos="fade-up" data-aos-delay="300">
+
+            <img src="{{ asset('img/plus_de_points.svg') }}" alt="PLUS DE POINTS" class="authentification-logo">
+
+            <div class="authentification-text">
+                Un problème ? <br> Appelez-nous au <a href="tel:{{ getParameter(constant('App\\Entity\\Parameter::CODE_PHONE'))|replace({' ':''}) }}">{{ getParameter(constant('App\\Entity\\Parameter::CODE_PHONE')) }}</a>
+            </div>
+
+            {{ form_start(form, { attr: { class: 'form-login form-auth' } }) }}
+            <div class="form-group form-icon-mail {% if error %}has-error{% endif %} ">
+                {{ form_widget(form._username) }}
+            </div>
+            <div class="form-group form-icon-password">
+                {{ form_widget(form._password) }}
+            </div>
+            {% if error %}
+                <div class="alert alert-primary">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+
+            <div class="auth-actions">
+                {{ form_widget(form.submit, { 'attr': { 'class': 'btn btn-secondary'}}) }}
+                <div class="clearfix"></div>
+                <a href="{{ path('user_request') }}" class="link-auth">Mot de passe oublié</a>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

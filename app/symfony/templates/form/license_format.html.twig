@@ -1,0 +1,37 @@
+{% block _order_formatDriverLicense_widget %}
+    {% spaceless %}
+        <div class="permis-nav">
+            <ul class="list-inline">
+            {% if expanded %}
+                {% for child in form %}
+                    {% if loop.index == 1 %}
+                        <li class="list-inline-item">
+                          <div class="form-radio">
+                              {{ form_widget(child, {'id' : 'form_radio_permis_0', 'attr' : {'class' : 'tunel_reservation', 'checked' :  form.vars.value is same as (constant('App\\Entity\\Trainee::OLD_FORMAT_DRIVER_LICENCE')) } }) }}
+                            <label for="form_radio_permis_0">
+                              <span class="icon"></span>
+                              <img src="{{ asset('img/icons/img-old-permis.svg') }}" alt="PLUS DE POINTS">
+                              <span class="label-align">{{ 'form.step2.format_licence_old'|trans }}</span>
+                            </label>
+                          </div>
+                        </li>
+                    {% elseif loop.index == 2 %}
+                        <li class="list-inline-item">
+                            <div class="form-radio">
+                                {{ form_widget(child, {'id' : 'form_radio_permis_1', 'attr' : {'class' : 'tunel_reservation', 'checked' :  form.vars.value is same as (constant('App\\Entity\\Trainee::NEW_FORMAT_DRIVER_LICENCE')) } }) }}
+                                <label for="form_radio_permis_1">
+                                    <span class="icon"></span>
+                                    <img src="{{ asset('img/icons/img-new-permis.svg') }}" alt="PLUS DE POINTS">
+                                    <span class="label-align">{{ 'form.step2.format_licence_new'|trans }}</span>
+                                </label>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {{ block('choice_widget') }}
+            {% endif %}
+            </ul>
+        </div>
+    {% endspaceless %}
+{% endblock %}

@@ -1,0 +1,133 @@
+{% extends 'front/base.html.twig' %}
+
+{% block bodyClass %}page-default page-order{% endblock %}
+
+{% block body %}
+
+<div class="search-wrap">
+    <section class="search-section" style="background-image:url('{{ asset('img/icons/home-search-bg.jpg') }}')">
+        <div class="rellax search-icon"></div>
+        <div class="container">
+            <form class="search-block">
+                <h1 class="search-title" data-aos="fade-up" data-aos-delay="300">
+                    {{ 'form.order.title'|trans }}
+                </h1>
+            </form>
+        </div>
+    </section>
+</div>
+
+<div class="default-wrap search-main-wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-content">
+        <div class="rellax default-icon"></div>
+        <div class="default-content">
+          <!-- Order Info -->
+          {% include 'front/common/order_info_head.html.twig' %}
+          {% include 'front/common/order_info_item.html.twig' %}
+          <!-- / -->
+
+          <!-- Nav Order -->
+            {% include 'front/common/nav_order.html.twig' %}
+          <!-- Form Order -->
+
+          {{ form_start(form, {'attr' : {'class' : 'form-order form-order-step-one'} }) }}
+            <h3 class="form-order-title"><strong>01</strong> - {{ 'form.order.menu.contact'|trans }}</h3>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                    {{ form_label(form.civility) }}
+                  <div class="clearfix"></div>
+                  <div class="form-radio"> {{ form_widget(form.civility) }} </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6"></div>
+
+              <div class="col-sm-6">
+                <div class="form-group"> {{ form_row(form.lastName) }} </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group"> {{ form_row(form.firstName) }} </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-date-group">
+                  {{ form_row(form.dateBirth) }}
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group"> {{ form_row(form.placeBirth) }} </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group"> {{ form_row(form.address) }} </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group"> {{ form_row(form.phone) }} </div>
+              </div>
+
+              <div class="col-sm-6">
+                  <div class="form-group"> {{ form_row(form.email.first) }} </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group"> {{ form_row(form.email.second) }} </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-9">
+                {% if canSendLetter %}
+                  {{ form_row(form.sendLetter) }}
+                {% endif %}
+              </div>
+              <div class="col-sm-3">
+                  <button type="submit" class="btn btn-secondary btn-next-order" id="btn-step-2"> {{ 'form.step1.submit'|trans }} </button>
+              </div>
+            </div>
+            <div class="reglement-text">
+              Règlement Général sur la Protection des Données (depuis le 25 mai 2018) :<br>
+
+              Les informations portées sur ce formulaire sont obligatoires. Elles sont traitées par SMP en tant que responsable du traitement. Elles font l’objet d’un traitement informatisé destiné à la prise de rendez-vous pour les stages de récupération de points du permis de conduire. Les destinataires des données sont les Centres de Sensibilisation à la Sécurité Routière ainsi que les bureaux des Permis de Conduire des Préfectures. Pour plus d’informations, consulter notre <a target="_blank" href="{{ asset('files/protection_donnees.pdf') }}">Politique de Protection des Données Personnelles</a>.<br>
+
+              Conformément à l'article 32 de la loi du 6 janvier 1978 modifiée, relative à l'informatique, aux fichiers et aux libertés, vous disposez d'un droit d'accès, de modification, de rectification ou de suppression des données qui vous concernent. Pour exercer ce droit, il vous suffit d’en faire la demande via le formulaire de contact de ce site internet.<br>
+            </div>
+          {{ form_end(form) }}
+        </div>
+      </div>
+
+      <!-- Aside -->
+      <div class="col-md-4 col-aside">
+        <div class="default-aside">
+          <!-- Commitments -->
+          {% include 'front/common/aside_commitments.html.twig' %}
+          <!-- / -->
+
+          <!-- Payment -->
+          {% include 'front/common/aside_payments.html.twig' %}
+          <!-- / -->
+
+          <!-- Contact -->
+          {% include 'front/common/aside_contact.html.twig' %}
+          <!-- / -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        window.trainee = {
+            address: "{{ order.trainee.address }}"
+        };
+        window.onunload = function(){};
+    </script>
+{% endblock %}

@@ -1,0 +1,25 @@
+###> symfony/framework-bundle ###
+/.env
+/public/bundles/
+/public/uploads/
+/var/
+/vendor/
+/public/busters.json
+/public/css
+!/public/css/pdf.css
+/public/js
+/public/vendor
+###< symfony/framework-bundle ###
+
+.php_cs.cache
+ngrok
+
+###> squizlabs/php_codesniffer ###
+/.phpcs-cache
+/phpcs.xml
+###< squizlabs/php_codesniffer ###
+
+###> friendsofphp/php-cs-fixer ###
+/.php_cs
+/.php_cs.cache
+###< friendsofphp/php-cs-fixer ###

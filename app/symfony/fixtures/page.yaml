@@ -1,0 +1,49 @@
+App\Entity\Page:
+    page1:
+        title: 'Qui sommes-nous'
+        description: 'Présentation de la société'
+        code: <(App\Entity\Page::CODE_ABOUT)>
+    page2:
+        title: 'Stage récupération de point'
+        description: 'Listing des différents stages'
+        code: <(App\Entity\Page::CODE_COURSE)>
+    page3:
+        title: 'Infraction et législation'
+        description: 'Description de cette page ...'
+        code: <(App\Entity\Page::CODE_LEGISLATION)>
+    page4:
+        title: 'Mentions légales'
+        description: 'Description de cette page ...'
+        code: <(App\Entity\Page::CODE_LEGAL_NOTICE)>
+    page5:
+        title: 'Condition general d''utilisation'
+        description: 'Description de cette page ...'
+        code: <(App\Entity\Page::CODE_CGU)>
+    page6:
+        title: 'Condition général de vente'
+        description: 'Description de cette page ...'
+        code: <(App\Entity\Page::CODE_CGV)>
+    page7:
+        title: 'Comment récupérer des points'
+        description: 'Description de cette page ...'
+        code: <(App\Entity\Page::CODE_GET_POINT)>
+    page8:
+        title: 'Dans quel cas effetuer un stage'
+        description: 'Description de cette page ...'
+        code: <(App\Entity\Page::CODE_WHEN_COURSE)>
+    page9:
+        title: 'Le déroulement d''un stage'
+        description: 'Description de cette page ...'
+        code: <(App\Entity\Page::CODE_FLOW_COURSE)>
+    page10:
+        title: 'PLUS DE POINTS'
+        description: 'Description de cette page ...'
+        code: <(App\Entity\Page::CODE_HOME)>
+    page11:
+        title: 'PLUS DE POINTS'
+        description: 'Description de cette page ...'
+        code: <(App\Entity\Page::CODE_FAQ)>
+    page12:
+        title: 'PLUS DE POINTS'
+        description: 'Description de cette page ...'
+        code: <(App\Entity\Page::CODE_CONTACT)>

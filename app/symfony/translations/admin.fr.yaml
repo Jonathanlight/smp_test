@@ -1,0 +1,21 @@
+admin:
+    menu:
+        core: 'Système'
+        cms: 'Contenu'
+        shop: 'Boutique'
+        community: 'Communauté'
+        app: 'Application'
+
+label:
+    form:
+        empty_value: 'Choisir ...'
+
+action:
+    edit: 'Editer'
+    delete: 'Supprimer'
+    search: 'Rechercher ...'
+    new: 'Ajouter'
+    list: 'Retour à la liste'
+    save: 'Enregistrer'
+    cancel: 'Annuler'
+    show: 'Visualiser'

@@ -1,0 +1,122 @@
+{% extends 'pdf.html.twig' %}
+
+{% block body %}
+  <page>
+    <br><br>
+    <header>
+      <address class="green" contenteditable>
+        <p>Plusdepoints.fr</p>
+        <p>
+        <p>SMP</p>
+        <p>43, rue d'Amsterdam</p>
+        <p>75008 Paris</p>
+      </address>
+    </header>
+
+    <div class="content">
+      <div class="green p-bot-0">
+        <div class="double">
+          <div class="left">
+            Facture N°{{ payment.reference }}
+          </div>
+          <div class="right">
+            <b>Date d'émission: {{ payment.generatedAt|date('d/m/Y') }}</b>
+          </div>
+        </div>
+      </div>
+
+      <div class="green-number_format">
+        <div class="table-custom">
+          <div class="row">
+            <div class="col-xs-1-5">
+              Description
+            </div>
+            <div class="col-xs-2">&nbsp;</div>
+            <div class="col-xs-3">
+              Quantité
+            </div>
+            <div class="col-xs-3">
+              PU
+            </div>
+            <div class="col-xs-3">
+              Montant TTC
+            </div>
+          </div>
+        </div>
+        <div class="table-custom">
+          <h3>Stage vendus</h3>
+          <br>
+
+          {% set total = 0 %}
+          {% for course in payment.courses %}
+          <div class="row">
+              <div class="col-xs-2-5">
+                <div class="col-left-xs small">
+                  Stage du {{ course.startOn|localizeddate('none', 'none', 'fr_FR', null, "cccc dd") | capitalize }} et {{ course.endOn|localizeddate('none', 'none', 'fr_FR', null, "cccc dd MMMM") | capitalize }} à {{ course.place.name|capitalize }}
+                  <br><br>
+                </div>
+              </div>
+              <div class="col-xs-2">
+                {{ course.confirmedOrdersWithTrainee|length }}
+              </div>
+              <div class="col-xs-3">
+                &nbsp;
+              </div>
+              <div class="col-xs-3">
+                {{ (course.confirmedOrdersWithTrainee|sum('amountWithoutOptions') - (course.confirmedOrdersWithTrainee|sum('commission') + (course.confirmedOrdersWithTrainee|sum('commission') * (20/100))))|number_format(2) }} €
+              </div>
+          </div>
+        
+              {% for order in course.confirmedOrdersWithTrainee %}
+                <div class="row small ">
+                    <div class="col-xs-2-5">
+                      <div class="col-left-init">
+                          <p class="small">{{ order.trainee.lastName }} {{ order.trainee.firstName }} </p>
+                      </div>
+                    </div>
+                  <div class="col-xs-3">
+                    &nbsp;
+                  </div>
+                  <div class="col-xs-3">
+                    {{ (order.amountWithoutOptions - (order.commission + (order.commission * (20/100))))|number_format(2) }} €
+                  </div>
+                </div>
+              {% endfor %}
+            {% endfor %}
+          </div>
+        </div>
+
+      <div class="total total-green">
+        <div class="double">
+          <div class="left">
+            <b>Total TTC</b>
+          </div>
+          <div class="right">
+            <b>{{ payment.amount|number_format(2) }} €</b>
+          </div>
+        </div>
+        <div class="double">
+          <div class="left">
+            TVA (20%)
+          </div>
+          <div class="right">
+            {{ (payment.amount - payment.amount / 1.2)|round(2, 'floor')|number_format(2) }} €
+          </div>
+        </div>
+        <div class="double">
+          <div class="left">
+            Total HT
+          </div>
+          <div class="right">
+            {{ (payment.amount / 1.2)|round(2, 'ceil')|number_format(2) }} €
+          </div>
+        </div>
+      </div>
+      <br style="clear:both;" />
+      <br style="clear:both;" />
+      <div class="mentions">
+        <h3>Facture Acquittée</h3>
+        Montant payé par virement bancaire au jour de l'émission de la facture.
+      </div>
+  </page>
+{% endblock %}
