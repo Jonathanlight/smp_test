@@ -1,4 +1,10 @@
 App\Entity\Admin:
-    admin:
+    admin1:
         username: 'admin'
-        password: 'kernix'
+        password: 'move123'
+    admin2:
+        username: 'john'
+        password: '654321'
+    admin3:
+        username: 'jerome'
+        password: '123456'

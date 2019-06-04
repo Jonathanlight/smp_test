@@ -22,7 +22,8 @@ class ConditionController extends EasyAdminController
     }
 
     /**
-     * @param mixed $entity
+     * @param $entity
+     * @throws \Exception
      */
     public function persistEntity($entity)
     {
@@ -41,7 +42,8 @@ class ConditionController extends EasyAdminController
     }
 
     /**
-     * @param mixed $entity
+     * @param $entity
+     * @throws \Exception
      */
     public function updateEntity($entity)
     {
