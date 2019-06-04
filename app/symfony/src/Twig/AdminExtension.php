@@ -15,6 +15,7 @@ class AdminExtension extends AbstractExtension
     {
         return [
             new TwigFilter('filter_admin_actions', [$this, 'filterActions']),
+            new TwigFilter('filter_admin_edit', [$this, 'filterEdit']),
         ];
     }
 
@@ -31,5 +32,20 @@ class AdminExtension extends AbstractExtension
         }
 
         return $actions;
+    }
+
+    /**
+     * @param array $actions
+     * @param mixed $item
+     *
+     * @return string
+     */
+    public function filterEdit(array $actions, $item): string
+    {
+        if ($item instanceof Center && $item->getCourses()->count() > 10) {
+            return "first run ...";
+        }
+
+        return "second run ...";
     }
 }
